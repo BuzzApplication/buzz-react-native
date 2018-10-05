@@ -1,2 +1,2 @@
-# buzz-react-native
-Buzz React Native
+# Buzz React Native
+
