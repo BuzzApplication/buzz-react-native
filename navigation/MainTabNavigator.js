@@ -1,17 +1,23 @@
 import React from 'react';
 import { Platform } from 'react-native';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
+
+import CardNavigator from '../navigation/CardNavigator'
+
 import { colors } from '../constants/Colors'
 
 import TabBarIcon from '../components/TabBarIcon';
-import HomeScreen from '../screens/HomeScreen';
+
 import SearchScreen from '../screens/SearchScreen';
 import NotificationScreen from '../screens/NotificationScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import CommunityScreen from '../screens/CommunityScreen';
+import CardDetailScreen from '../screens/CardDetailScreen';
+// import CommunityScreen from '../screens/CommunityScreen';
+
 
 const HomeStack = createStackNavigator({
-  Home: CommunityScreen,
+  Home: CardNavigator,
 });
 
 HomeStack.navigationOptions = {
@@ -76,7 +82,7 @@ export default createBottomTabNavigator({
   tabBarOptions: {
     showLabel: false,
     style: {
-      backgroundColor: colors.lightPink
+      backgroundColor: colors.lightPink,
     }
-  }
+  },
 });
