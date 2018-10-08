@@ -15,12 +15,12 @@ import { MonoText } from '../components/StyledText';
 export default class EveryoneScreen extends React.Component {
   static navigationOptions = {
     header: null,
+    title: 'Details',
   };
 
   render() {
     return (
       <View style={styles.container}>
-
             <Text style={styles.getStartedText}>
               HUN
             </Text>

@@ -22,31 +22,19 @@ export default StyleSheet.create({
     width: 70,
     height: 70,
   },
-
-  // Community Header Tab
-  communityHeaderStyle: {
-    width: 375,
-    height: 87,
+  header: {
     backgroundColor: colors.paleSalmon,
+    height: 0,
+    borderColor: colors.paleSalmon,
   },
-  communityHeaderTextStyle: {
-    width: 87,
-    height: 57,
-    fontFamily: 'open-sans',
-    fontSize: 14,
-    fontWeight: "bold",
-    fontStyle: "normal",
-    letterSpacing: 0,
-    textAlign: "center",
-    color: colors.dark
-  },
-  communityHeaderTextUnderlineStyle: {
-    backgroundColor: colors.paleSalmon
-  },
-
-
   button: {
     // backgroundColor: colors.paleSalmon,
+    borderRadius: 20,
+    padding: 10,
+    shadowOffset: { width: 0, height: 5 },
+    shadowRadius: 10,
+  },
+  Touchbutton: {
     borderRadius: 20,
     padding: 10,
     shadowOffset: { width: 0, height: 5 },
