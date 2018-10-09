@@ -1,14 +1,20 @@
 import React from 'react';
-import { StyleSheet, View, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Image, TouchableOpacity, Share } from 'react-native';
 
 import baseStyles from '../constants/Styles'
 
 
 export class ShareButton extends React.Component {
+  _shareMessage=()=> {
+    Share.share(
+    {
+      message: 'Love mahun!'
+    }).then(result => console.log(result)).catch(errorMsg => console.log(errorMsg));
+  }
   render() {
     return (
       <View style={styles.engagementButtonContainer}>
-        <TouchableOpacity style={baseStyles.button} onPress={()=>{alert("you clicked share")}}>
+        <TouchableOpacity style={baseStyles.button} onPress={ this._shareMessage }>
           <Image source={require('../assets/images/share.png')} style={[styles.engagementButtonImage, this.props.styles]} />
         </TouchableOpacity>
       </View>

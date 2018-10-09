@@ -5,12 +5,14 @@ import { colors } from '../constants/Colors'
 
 import CommunityScreen from '../screens/CommunityScreen';
 import CardDetailScreen from '../screens/CardDetailScreen';
+import BuzzScreen from '../screens/BuzzScreen';
 
 
 const CardNavigator = createStackNavigator(
   {
     Community: { screen: CommunityScreen },
-    CardDetail: { screen: CardDetailScreen }
+    CardDetail: { screen: CardDetailScreen },
+    Buzz: { screen: BuzzScreen },
   },
   {
     initialRouteName: 'Community',

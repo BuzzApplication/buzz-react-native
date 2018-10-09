@@ -12,7 +12,7 @@ import {
 import { WebBrowser } from 'expo';
 
 import { OpenSansText } from '../components/StyledText';
-import { BuzzButton } from '../components/BuzzButton';
+import { BuzzPlusButton } from '../components/BuzzPlusButton';
 
 export default class HomeScreen extends React.Component {
   render() {
