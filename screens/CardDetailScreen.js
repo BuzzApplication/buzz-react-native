@@ -1,9 +1,10 @@
 import React from 'react';
-import { StyleSheet, View, Text, Button, ScrollView } from 'react-native';
+import { StyleSheet, View, Text, Button, ScrollView , Share} from 'react-native';
 import { HeaderBackButton } from 'react-navigation';
 
 import baseStyles from '../constants/Styles';
 import { colors } from '../constants/Colors';
+
 
 import Card from '../components/Card';
 import CardDetail from '../components/CardDetail';
@@ -30,12 +31,8 @@ export class CardDetailScreen extends React.Component {
   }
 }
 
-
-
-
 const styles = StyleSheet.create({
   screenContainer: {
-    bottom: 0,
     flexDirection: 'column',
     flex: 1,
   },

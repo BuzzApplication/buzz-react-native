@@ -1,14 +1,20 @@
 import React from 'react';
-import { StyleSheet, View, Image, TouchableOpacity } from 'react-native';
-import styles from '../constants/Styles';
+import { Ionicons } from '@expo/vector-icons';
+import { StyleSheet, View, TouchableOpacity, Alert, Button } from 'react-native';
 
-export class BuzzButton extends React.Component {
+import baseStyles from '../constants/Styles';
+import { colors } from '../constants/Colors'
+
+class BuzzButton extends React.Component {
   render() {
     return (
-      <TouchableOpacity activeOpacity={0.5} style={styles.TouchableOpacityStyle} >
-          <Image source={{uri : 'https://reactnativecode.com/wp-content/uploads/2017/11/Floating_Button.png'}} style={styles.FloatingButtonStyle} />
-          <View style={styles.FloatingButtonStyle} />
-      </TouchableOpacity>
+      <Button onPress={Alert('POSTED')} title="Buzz" color={colors.appleBlue} />
     );
   }
 }
+
+const styles = StyleSheet.create({
+
+});
+
+export default BuzzButton;

@@ -10,7 +10,8 @@ export const colors = {
   dark: "#0d1321",
   brownGrey: "#a9a9a9",
   lightPeriwinkle: "#d8dadd",
-  cloudyBlue: "#bbc2ca"
+  cloudyBlue: "#bbc2ca",
+  appleBlue: '#007AFF',
 };
 
 export default {
