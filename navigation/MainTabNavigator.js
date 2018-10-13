@@ -17,6 +17,9 @@ import CardDetailScreen from '../screens/CardDetailScreen';
 
 const HomeStack = createStackNavigator({
   Home: CardNavigator,
+},
+{
+  headerMode: 'none',
 });
 
 HomeStack.navigationOptions = {
@@ -84,4 +87,5 @@ export default createBottomTabNavigator({
       backgroundColor: colors.lightPink,
     }
   },
+  headerMode: 'none',
 });

@@ -16,9 +16,6 @@ const CardNavigator = createStackNavigator(
   },
   {
     initialRouteName: 'Community',
-    navigationOptions: {
-      headerMode: 'screen',
-    },
   }
 );
 

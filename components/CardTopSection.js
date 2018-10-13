@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, View, Image } from 'react-native';
 
 import Time from '../components/Time';
-import BookmarkButton from '../components/BookmarkButton';
+import FavoriteButton from '../components/FavoriteButton';
 
 
 class CardTopSection extends React.Component {
@@ -10,7 +10,7 @@ class CardTopSection extends React.Component {
     return (
       <View style={styles.topContainer}>
         <Time />
-        <BookmarkButton />
+        <FavoriteButton />
       </View>
     );
   }

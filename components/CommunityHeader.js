@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
+import { getStatusBarHeight } from 'react-native-status-bar-height';
 
 import { colors } from '../constants/Colors'
 import baseStyles from '../constants/Styles'
@@ -18,7 +19,7 @@ class CommunityHeader extends React.Component {
 const styles = StyleSheet.create({
   communityHeader: {
     backgroundColor: colors.paleSalmon,
-    height: 20,
+    height: getStatusBarHeight(),
     borderColor: colors.paleSalmon,
   }
 });
