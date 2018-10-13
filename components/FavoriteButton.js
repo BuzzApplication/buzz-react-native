@@ -4,12 +4,12 @@ import { StyleSheet, View, Image, TouchableOpacity } from 'react-native';
 import baseStyles from '../constants/Styles'
 
 
-class BookmarkButton extends React.Component {
+class FavoriteButton extends React.Component {
   render() {
     return (
-      <View style={styles.bookmarkButtonContainer}>
+      <View style={styles.favoriteButtonContainer}>
         <TouchableOpacity style={baseStyles.button} onPress={()=>{alert("you clicked me")}}>
-          <Image source={require('../assets/images/bookmark.png')} style={styles.bookmarkButtonImage} />
+          <Image source={require('../assets/images/star.png')} style={styles.favoriteButtonImage} />
         </TouchableOpacity>
       </View>
     );
@@ -17,15 +17,16 @@ class BookmarkButton extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  bookmarkButtonContainer: {
+  favoriteButtonContainer: {
+
     // backgroundColor: colors.lightPeriwinkle,
   },
-  bookmarkButtonImage: {
+  favoriteButtonImage: {
     // backgroundColor: colors.paleTurquoise,
     // position: 'absolute',
-    width: 25,
-    height: 25,
+    width: 20,
+    height: 20,
   },
 });
 
-export default BookmarkButton;
+export default FavoriteButton;

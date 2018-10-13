@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Text, Button, ScrollView, TouchableOpacity, TouchableHighlight } from 'react-native';
+import { StyleSheet, View, Text, Button, ScrollView, FlatList, TouchableOpacity, TouchableHighlight, Dimensions } from 'react-native';
 import { ScrollableTabView, DefaultTabBar, ScrollableTabBar, } from '@valdio/react-native-scrollable-tabview';
 import { Constants } from 'expo';
 
@@ -27,15 +27,20 @@ class CommunityScreen extends React.Component {
     return (
       <View style={{ flex: 1 }}>
         <ScrollableTabView
-          renderTabBar={() => <ScrollableTabBar
-            activeTextColor={colors.dark}
-            underlineStyle={styles.communityHeaderUnderline}
-            tabsContainerStyle={styles.communityHeaderTabsContainer}
-            style={{ borderWidth: 0 }}
+          renderTabBar={() =>
+            <ScrollableTabBar
+              activeTextColor={colors.dark}
+              underlineStyle={styles.communityHeaderUnderline}
+              tabsContainerStyle={styles.communityHeaderTabsContainer}
+              style={{ borderWidth: 0 }}
             />}
-          style={{borderWidth: 0}}
+          style={{ borderWidth: 0 }}
           showsHorizontalScrollIndicator={false}
         >
+          // <FlatList
+          //   tabLabel="Everyone" style={{backgroundColor:'white'}} showsVerticalScrollIndicator={false}
+          //   data={[{key: 'a'}, {key: 'b'}]}
+          //   renderItem={({item}) => <Card text='Bagaimana cara menabung yg benar?' navigation={this.props.navigation} />} />
           <ScrollView tabLabel="Everyone" style={{backgroundColor:'white'}} showsVerticalScrollIndicator={false}>
             <Card text='Bagaimana cara menabung yg benar?' navigation={this.props.navigation} />
             <Card text='Brp sih gaji di Gojek?'/>
@@ -76,6 +81,7 @@ const styles = StyleSheet.create({
   },
   communityHeaderUnderline: {
     height: 3,
+    // width: Dimensions.get('window').width / 2,
     backgroundColor: colors.grapefruit50,
   },
   communityHeaderTabsContainer: {

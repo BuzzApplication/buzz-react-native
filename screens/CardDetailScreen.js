@@ -8,13 +8,13 @@ import { colors } from '../constants/Colors';
 
 import Card from '../components/Card';
 import CardDetail from '../components/CardDetail';
-import TextBarInput from '../components/TextBarInput';
+import Keyboard from '../components/Keyboard';
 
 export class CardDetailScreen extends React.Component {
   static navigationOptions = ({navigation}) => ({ //don't forget parentheses around the object notation
     title: 'Buzz',
     headerLeft: <HeaderBackButton onPress={() => navigation.goBack()} />,
-    tabBarVisible: false,
+    // tabBarVisible: false,
   })
   render() {
     return (
@@ -25,7 +25,7 @@ export class CardDetailScreen extends React.Component {
           <CardDetail text='CARD DETAIL \n haloo smua. love you mahuni mahuni mahuni. mahuni paling bau tapi.'/>
           <CardDetail text='CARD DETAIL \n haloo smua'/>
         </ScrollView>
-        <TextBarInput />
+        <Keyboard />
       </View>
     );
   }
