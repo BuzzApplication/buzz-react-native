@@ -37,10 +37,6 @@ class CommunityScreen extends React.Component {
           style={{ borderWidth: 0 }}
           showsHorizontalScrollIndicator={false}
         >
-          // <FlatList
-          //   tabLabel="Everyone" style={{backgroundColor:'white'}} showsVerticalScrollIndicator={false}
-          //   data={[{key: 'a'}, {key: 'b'}]}
-          //   renderItem={({item}) => <Card text='Bagaimana cara menabung yg benar?' navigation={this.props.navigation} />} />
           <ScrollView tabLabel="Everyone" style={{backgroundColor:'white'}} showsVerticalScrollIndicator={false}>
             <Card text='Bagaimana cara menabung yg benar?' navigation={this.props.navigation} />
             <Card text='Brp sih gaji di Gojek?'/>
@@ -81,7 +77,6 @@ const styles = StyleSheet.create({
   },
   communityHeaderUnderline: {
     height: 3,
-    // width: Dimensions.get('window').width / 2,
     backgroundColor: colors.grapefruit50,
   },
   communityHeaderTabsContainer: {
