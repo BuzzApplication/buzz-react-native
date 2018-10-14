@@ -11,7 +11,7 @@ class CloseButton extends React.Component {
     return (
       <View>
         <TouchableOpacity style={baseStyles.button} >
-          <Ionicons name="ios-close" size={70} color={colors.paleSalmon} />
+          <Ionicons name="ios-close" size={70} color={colors.skyBlue} />
         </TouchableOpacity>
         </View>
     );

@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
       borderStyle: "solid",
       borderWidth: 0,
       borderBottomWidth: 0.2,
-      borderColor: "#979797",
+      borderColor: baseStyles.grey,
       flexDirection: 'column',
     },
 });
