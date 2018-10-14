@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   textInputContainer: {
-    backgroundColor: colors.lightPink,
+    backgroundColor: colors.lightBlue,
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
@@ -69,6 +69,7 @@ const styles = StyleSheet.create({
   },
   button: {
     padding: 10,
+    color: colors.skyBlue,
     // backgroundColor: "purple",
   }
 });

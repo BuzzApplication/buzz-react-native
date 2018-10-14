@@ -33,6 +33,7 @@ export default class App extends React.Component {
         require('./assets/images/robot-dev.png'),
         require('./assets/images/robot-prod.png'),
       ]),
+      await Font.loadAsync({ 'Material Icons': require('@expo/vector-icons/fonts/MaterialIcons.ttf') }),
       Font.loadAsync({
         // This is the font that we are using for our tab bar
         ...Icon.Ionicons.font,
@@ -43,6 +44,8 @@ export default class App extends React.Component {
         'open-sans-italic': require('./assets/fonts/OpenSans-Italic.ttf'),
         'open-sans-light': require('./assets/fonts/OpenSans-Light.ttf'),
         'open-sans-light-italic': require('./assets/fonts/OpenSans-LightItalic.ttf'),
+        'open-sans-bold': require('./assets/fonts/OpenSans-Bold.ttf'),
+        'open-sans-extra-bold': require('./assets/fonts/OpenSans-ExtraBold.ttf'),
       }),
     ]);
   };

@@ -84,7 +84,7 @@ export default createBottomTabNavigator({
   tabBarOptions: {
     showLabel: false,
     style: {
-      backgroundColor: colors.lightPink,
+      backgroundColor: colors.lightBlue,
     }
   },
   headerMode: 'none',

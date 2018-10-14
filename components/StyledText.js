@@ -24,3 +24,15 @@ export class OpenSansLightItalicText extends React.Component {
     return <Text {...this.props} style={[this.props.style, { fontFamily: 'open-sans-light-italic' }]} />;
   }
 }
+
+export class OpenSansBoldText extends React.Component {
+  render() {
+    return <Text {...this.props} style={[this.props.style, { fontFamily: 'open-sans-bold' }]} />;
+  }
+}
+
+export class OpenSansExtraBoldText extends React.Component {
+  render() {
+    return <Text {...this.props} style={[this.props.style, { fontFamily: 'open-sans-extra-bold' }]} />;
+  }
+}

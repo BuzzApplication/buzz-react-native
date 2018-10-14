@@ -10,9 +10,9 @@ export default StyleSheet.create({
   },
 
   header: {
-    backgroundColor: colors.paleSalmon,
+    backgroundColor: colors.skyBlue,
     height: 0,
-    borderColor: colors.paleSalmon,
+    borderColor: colors.skyBlue,
   },
   button: {
     // backgroundColor: 'green',
