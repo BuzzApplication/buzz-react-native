@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: colors.lightPeriwinkle,
+    backgroundColor: colors.lightBlue,
     borderRadius: 18,
     padding: 10,
     width: '100%',

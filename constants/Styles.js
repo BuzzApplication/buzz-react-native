@@ -8,11 +8,8 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-
   header: {
-    backgroundColor: colors.skyBlue,
-    height: 0,
-    borderColor: colors.skyBlue,
+    height: 92,
   },
   button: {
     // backgroundColor: 'green',
@@ -21,5 +18,18 @@ export default StyleSheet.create({
     shadowOffset: { width: 0, height: 5 },
     shadowRadius: 10,
   },
-
+  buttonShadow: {
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowColor: 'black',
+    shadowOpacity: 0.8,
+  },
+  bottomBorder: {
+    borderStyle: "solid",
+    borderWidth: 0,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderColor: colors.border,
+  },
 });

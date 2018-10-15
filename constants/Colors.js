@@ -18,6 +18,7 @@ export const colors = {
   appleBlue: '#007AFF',
   grey: '#979797',
   tabIconDefault: '#ccc',
+  border: '#bbb',
 };
 
 // export default {

@@ -18,7 +18,6 @@ class StatusBarHeader extends React.Component {
 
 const styles = StyleSheet.create({
   statusBarHeader: {
-    backgroundColor: 'blue',
     backgroundColor: colors.skyBlue,
     height: getStatusBarHeight(),
     borderColor: colors.skyBlue,

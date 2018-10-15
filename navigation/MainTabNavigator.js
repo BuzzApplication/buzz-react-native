@@ -3,12 +3,14 @@ import { Platform } from 'react-native';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
 
 import CardNavigator from '../navigation/CardNavigator'
+import NotificationNavigator from '../navigation/NotificationNavigator'
+import ProfileNavigator from '../navigation/ProfileNavigator'
+import SearchNavigator from '../navigation/SearchNavigator'
 
 import { colors } from '../constants/Colors'
 
 import TabBarIcon from '../components/TabBarIcon';
 
-import SearchScreen from '../screens/SearchScreen';
 import NotificationScreen from '../screens/NotificationScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import CommunityScreen from '../screens/CommunityScreen';
@@ -36,7 +38,10 @@ HomeStack.navigationOptions = {
 };
 
 const SearchStack = createStackNavigator({
-  Search: SearchScreen,
+  Search: SearchNavigator,
+},
+{
+  headerMode: 'none',
 });
 
 SearchStack.navigationOptions = {
@@ -49,7 +54,10 @@ SearchStack.navigationOptions = {
 };
 
 const NotificationStack = createStackNavigator({
-  Notification: NotificationScreen,
+  Notification: NotificationNavigator,
+},
+{
+  headerMode: 'none',
 });
 
 NotificationStack.navigationOptions = {
@@ -62,7 +70,10 @@ NotificationStack.navigationOptions = {
 };
 
 const ProfileStack = createStackNavigator({
-  Profile: ProfileScreen,
+  Profile: ProfileNavigator,
+},
+{
+  headerMode: 'none',
 });
 
 ProfileStack.navigationOptions = {

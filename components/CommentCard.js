@@ -14,7 +14,7 @@ import CommentCardBottomSection from '../components/CommentCardBottomSection'
 class CommentCard extends React.Component {
   render() {
     return (
-      <View style={styles.commentCardContainer}>
+      <View style={[styles.commentCardContainer, baseStyles.bottomBorder]}>
         <TouchableOpacity style={baseStyles.button} onPress={()=>{alert("change!")}}>
           <CommentCardTopSection />
           <CardTextField text={this.props.text} />
@@ -27,14 +27,9 @@ class CommentCard extends React.Component {
 
 const styles = StyleSheet.create({
     commentCardContainer: {
-      // backgroundColor: colors.grapefruit50,
       paddingLeft: 15,
       paddingRight: 15,
       paddingBottom: 0,
-      borderStyle: "solid",
-      borderWidth: 0,
-      borderBottomWidth: 0.2,
-      borderColor: "#979797",
       flexDirection: 'column',
     },
 });

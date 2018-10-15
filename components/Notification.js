@@ -1,6 +1,5 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
-import { EvilIcons } from '@expo/vector-icons';
+import { StyleSheet, View, TouchableOpacity, Image } from 'react-native';
 
 import { colors } from '../constants/Colors'
 import baseStyles from '../constants/Styles'
@@ -10,18 +9,24 @@ import { OpenSansText, OpenSansLightText, OpenSansItalicText, OpenSansLightItali
 
 class Notification extends React.Component {
   render() {
-    
+
     let notification;
     if (this.props.type == 'COMMENT') {
-      notification = <EvilIcons name="comment" size={25} />
+      notification = <Image source={require('../assets/images/liked.png')} style={styles.image} />
     } else if (this.props.type == 'LIKE'){
-      notification = <EvilIcons name="heart" size={25} />
+      notification = <Image source={require('../assets/images/commented.png')} style={styles.image} />
     }
 
     return (
       <View style={styles.notificationContainer}>
-        {notification}
-        <OpenSansText style={styles.text}>{this.props.text}</OpenSansText>
+        <View style={styles.notificationRoundedContainer}>
+          <TouchableOpacity style={baseStyles.button} onPress={()=>{this.props.navigation.navigate('CardNotificationDetail')}}>
+            <View style={styles.row}>
+              {notification}
+              <OpenSansText style={styles.text}>{this.props.text}</OpenSansText>
+            </View>
+          </TouchableOpacity>
+        </View>
       </View>
     );
   }
@@ -29,18 +34,35 @@ class Notification extends React.Component {
 
 const styles = StyleSheet.create({
   notificationContainer: {
-    padding: 15,
-    paddingRight: 30,
-    borderStyle: "solid",
-    borderWidth: 0,
-    borderBottomWidth: 0.2,
-    borderColor: baseStyles.grey,
-    flexDirection: 'row',
+    paddingLeft: 15,
+    paddingRight: 15,
+    paddingTop: 10,
+  },
+  notificationRoundedContainer: {
+    borderRadius: 15,
+    borderColor: 'white',
+    backgroundColor: 'white',
+    borderWidth: 1,
+    shadowOffset: {
+      width: 0,
+      height: 0.5,
+    },
+    shadowColor: colors.grey,
+    shadowOpacity: 0.5,
+  },
+  row: {
     flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  image: {
+    height: 25,
+    width: 25,
   },
   text: {
-    paddingLeft:5,
-    paddingRight: 5,
+    flex: 7,
+    paddingLeft: 10,
   },
 });
 

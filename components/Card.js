@@ -15,8 +15,8 @@ import { OpenSansText, OpenSansLightText, OpenSansItalicText, OpenSansLightItali
 class Card extends React.Component {
   render() {
     return (
-      <View style={styles.cardContainer}>
-        <TouchableOpacity style={baseStyles.Touchbutton} onPress={()=>{this.props.navigation.navigate('CardDetail')}}>
+      <View style={[styles.cardContainer, baseStyles.bottomBorder, this.props.style]}>
+        <TouchableOpacity style={baseStyles.button} onPress={()=>{this.props.navigation.navigate('CardDetail')}}>
           <CardTopSection />
           <CardTextField text={this.props.text} />
           <EngagementDataGroup />
@@ -29,17 +29,11 @@ class Card extends React.Component {
 
 const styles = StyleSheet.create({
     cardContainer: {
-      // backgroundColor: colors.grapefruit50,
       paddingLeft: 15,
       paddingRight: 15,
       paddingBottom: 5,
-      borderStyle: "solid",
-      borderWidth: 0,
-      borderBottomWidth: 0.2,
-      borderColor: baseStyles.grey,
       flexDirection: 'column',
     },
 });
-
 
 export default Card;

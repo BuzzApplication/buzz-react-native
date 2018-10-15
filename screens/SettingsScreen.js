@@ -1,0 +1,74 @@
+import React from 'react';
+import { StyleSheet, View, TouchableOpacity, Image, TextInput } from 'react-native';
+
+import { colors } from '../constants/Colors';
+import baseStyles from '../constants/Styles';
+
+import SettingsHeader from '../components/SettingsHeader';
+import BuzzPlusButton from '../components/BuzzPlusButton';
+
+import { OpenSansText, OpenSansLightText, OpenSansItalicText, OpenSansLightItalicText } from '../components/StyledText'
+
+class SettingsScreen extends React.Component {
+  static navigationOptions = ({navigation}) => ({
+    header: <SettingsHeader navigation={navigation} />
+  });
+  state = {username: ''};
+  render() {
+    return (
+      <View style={styles.container}>
+
+        <View style={[styles.settings, baseStyles.bottomBorder]}>
+          <TouchableOpacity style={baseStyles.button} onPress={()=>{this.props.navigation.navigate('PushNotificationSettings')}}>
+            <OpenSansText>
+              Push Notifications
+            </OpenSansText>
+          </TouchableOpacity>
+        </View>
+
+        <View style={[styles.settings, baseStyles.bottomBorder]}>
+          <TouchableOpacity style={baseStyles.button} onPress={()=>{this.props.navigation.navigate('Profile')}}>
+            <OpenSansText>
+              FAQ
+            </OpenSansText>
+          </TouchableOpacity>
+        </View>
+
+        <View style={[styles.settings, baseStyles.bottomBorder]}>
+          <TouchableOpacity style={baseStyles.button} onPress={()=>{this.props.navigation.navigate('Profile')}}>
+            <OpenSansText>
+              Send Feedback
+            </OpenSansText>
+          </TouchableOpacity>
+        </View>
+
+      </View>
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    borderColor: colors.skyBlue,
+    borderWidth: 0,
+    backgroundColor: 'white',
+  },
+  profileContainer: {
+    alignItems: 'center',
+    backgroundColor: colors.lightBlue,
+    padding: 10,
+    width: '100%',
+    // backgroundColor: "blue",
+
+  },
+  settings: {
+
+  },
+  favoriteImage: {
+    height: 13,
+    width: 13,
+  },
+});
+
+export default SettingsScreen;
