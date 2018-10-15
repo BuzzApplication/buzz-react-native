@@ -18,12 +18,14 @@ export class BuzzScreen extends React.Component {
   static navigationOptions = ({navigation}) => ({ //don't forget parentheses around the object notation
     header: <BuzzHeader navigation={navigation} />
   });
+
   constructor() {
    super();
    this.state = {
       toggled: false,
    }
   }
+
   render() {
     return (
       <View style={styles.screenContainer}>

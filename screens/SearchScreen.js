@@ -7,7 +7,7 @@ import { colors } from '../constants/Colors';
 
 import StatusBarHeader from '../components/StatusBarHeader';
 import BuzzPlusButton from '../components/BuzzPlusButton';
-import Card from '../components/Card';
+import CardTrending from '../components/CardTrending';
 
 import { OpenSansBoldText } from '../components/StyledText'
 
@@ -24,13 +24,12 @@ class SearchScreen extends React.Component {
           containerStyle={styles.searchContainer}
           inputStyle={styles.inputSearchContainer}
           placeholder='Search Buzz...' />
-          <BuzzPlusButton />
         <View style={styles.trendingHeader}>
           <Image source={require('../assets/images/fire.png')} style={styles.trendingImage} />
           <OpenSansBoldText style={styles.trendingText}>Trending Buzz</OpenSansBoldText>
         </View>
         <FlatList
-          style={{backgroundColor:'white'}}
+          style={{backgroundColor:colors.lightBlue}}
           showsVerticalScrollIndicator={false}
           keyboardDismissMode="interactive"
           data={[
@@ -40,9 +39,14 @@ class SearchScreen extends React.Component {
             {key: 'Keren jg nih... \n haloo smua', type: 'COMMENT'},
           ]}
           renderItem={({ item, index }) => (
-            <Card text={item.key} />
+            <View style={styles.cardCompactContainer}>
+              <View style={styles.cardCompactRoundedContainer}>
+                <CardTrending text={item.key} navigation={this.props.navigation}/>
+              </View>
+            </View>
           )}
         />
+        <BuzzPlusButton />
       </View>
     );
   }
@@ -75,6 +79,23 @@ const styles = StyleSheet.create({
   },
   trendingText: {
     paddingLeft: 5,
+  },
+  cardCompactContainer: {
+    paddingLeft: 15,
+    paddingRight: 15,
+    paddingBottom: 10,
+  },
+  cardCompactRoundedContainer: {
+    borderRadius: 15,
+    borderColor: 'white',
+    backgroundColor: 'white',
+    borderWidth: 1,
+    shadowOffset: {
+      width: 0,
+      height: 0.5,
+    },
+    shadowColor: colors.grey,
+    shadowOpacity: 0.5,
   },
 });
 

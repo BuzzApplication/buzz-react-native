@@ -71,7 +71,7 @@ class CommunityScreen extends React.Component {
 const styles = StyleSheet.create({
   scrollableTabViewContainer: {
     borderWidth: 0,
-    backgroundColor: colors.skyBlue
+    backgroundColor: colors.skyBlue,
   },
   defaultTabBarContainer: {
     borderWidth: 0,
