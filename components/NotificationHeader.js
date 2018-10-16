@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
+import { Ionicons } from '@expo/vector-icons';
 
 import { colors } from '../constants/Colors'
 import baseStyles from '../constants/Styles'
@@ -17,6 +18,9 @@ class NotificationHeader extends React.Component {
           <View style={styles.headerLeft} />
           <OpenSansBoldText style={styles.headerText}>Notifications</OpenSansBoldText>
           <View style={styles.headerRight}>
+            <TouchableOpacity style={baseStyles.button} >
+              <Ionicons name="ios-settings" size={25} color={colors.skyBlue} />
+            </TouchableOpacity>
           </View>
         </View>
       </View>

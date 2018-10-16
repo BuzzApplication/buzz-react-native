@@ -17,7 +17,7 @@ class ProfileHeader extends React.Component {
         <View style={styles.statusHeader} />
         <View style={styles.headerContainer}>
           <View style={styles.headerLeft} />
-          <OpenSansBoldText style={styles.headerText}>Profile</OpenSansBoldText>
+          <OpenSansBoldText style={styles.headerText}></OpenSansBoldText>
           <View style={styles.headerRight}>
             <TouchableOpacity style={baseStyles.button} onPress={()=>{this.props.navigation.navigate('Settings')}}>
               <Ionicons name="ios-settings" size={25} color='white' />
@@ -31,9 +31,9 @@ class ProfileHeader extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    borderStyle: "solid",
-    borderBottomWidth: 0.2,
-    borderColor: baseStyles.grey,
+    // borderStyle: "solid",
+    // borderBottomWidth: 0.2,
+    // borderColor: baseStyles.grey,
     backgroundColor: colors.skyBlue,
   },
   statusHeader: {

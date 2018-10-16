@@ -17,6 +17,8 @@ export const colors = {
   cloudyBlue: "#bbc2ca",
   appleBlue: '#007AFF',
   grey: '#979797',
+  yellow: '#fff3be',
+  pink: "#ffe3e7",
   tabIconDefault: '#ccc',
   border: '#bbb',
 };
