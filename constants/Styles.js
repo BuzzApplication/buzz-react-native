@@ -9,7 +9,6 @@ export default StyleSheet.create({
     alignItems: 'center',
   },
   header: {
-    height: 92,
   },
   button: {
     // backgroundColor: 'green',
