@@ -9,7 +9,7 @@ class FavoriteButton extends React.Component {
     return (
       <View style={styles.favoriteButtonContainer}>
         <TouchableOpacity style={baseStyles.button} onPress={()=>{alert("you clicked me")}}>
-          <Image source={require('../assets/images/star.png')} style={styles.favoriteButtonImage} />
+          <Image source={require('../assets/images/star.png')} style={[styles.favoriteButtonImage, this.props.imageStyle]} />
         </TouchableOpacity>
       </View>
     );

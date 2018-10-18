@@ -69,19 +69,23 @@ class ProfileScreen extends React.Component {
           // Cards
           <View style={styles.cardsSection}>
             <View style={styles.cardSection}>
-              <View style={[{backgroundColor: colors.yellow}, styles.cardContainer]}>
-                <View style={styles.cardImageContainer}>
-                  <Image source={require('../assets/images/favorite.png')} style={styles.cardImage} />
+              <TouchableOpacity onPress={()=>{this.props.navigation.navigate('Favorite')}}>
+                <View style={[{backgroundColor: colors.yellow}, styles.cardContainer]}>
+                  <View style={styles.cardImageContainer}>
+                    <Image source={require('../assets/images/favorite.png')} style={styles.cardImage} />
+                  </View>
+                  <OpenSansText style={styles.cardText}>Favorite Buzz</OpenSansText>
                 </View>
-                <OpenSansText style={styles.cardText}>Favorite Buzz</OpenSansText>
-              </View>
+              </TouchableOpacity>
             </View>
             <View style={styles.cardSection}>
               <View style={[{backgroundColor: colors.pink}, styles.cardContainer]}>
-                <View style={styles.cardImageContainer}>
-                  <Image source={require('../assets/images/pencil.png')} style={styles.cardImage} />
-                </View>
-                <OpenSansText style={styles.cardText}>Posted Buzz</OpenSansText>
+                <TouchableOpacity onPress={()=>{this.props.navigation.navigate('Posted')}}>
+                  <View style={styles.cardImageContainer}>
+                    <Image source={require('../assets/images/pencil.png')} style={styles.cardImage} />
+                  </View>
+                  <OpenSansText style={styles.cardText}>Posted Buzz</OpenSansText>
+                </TouchableOpacity>
               </View>
             </View>
           </View>

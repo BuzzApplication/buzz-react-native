@@ -30,7 +30,7 @@ class Card extends React.Component {
 const styles = StyleSheet.create({
     cardContainer: {
       paddingLeft: 15,
-      paddingRight: 15,
+      paddingRight: 5,
       paddingBottom: 5,
       flexDirection: 'column',
     },

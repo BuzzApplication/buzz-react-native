@@ -29,8 +29,8 @@ class PushNotificationSettingsScreen extends React.Component {
           style={{backgroundColor:'white'}}
           showsVerticalScrollIndicator={false}
           data={[
-            {key: 'Someone liked on your buzz', value: true},
-            {key: 'Someone commented on your buzz', value: false},
+            {key: 'Likes on your buzz', value: true},
+            {key: 'Comments on your buzz', value: false},
           ]}
           renderItem={({ item }) => (
             <View style={styles.notificationSettings}>

@@ -22,7 +22,7 @@ export class BuzzScreen extends React.Component {
   constructor() {
    super();
    this.state = {
-      toggled: false,
+      toggled: true,
    }
   }
 
@@ -34,7 +34,7 @@ export class BuzzScreen extends React.Component {
             style={styles.switchButton}
             onValueChange={(value) => this.setState({ toggled: value })}
             value={ this.state.toggled } />
-          <OpenSansLightText style={styles.switchText}>Post anonymously</OpenSansLightText>
+          <OpenSansLightText style={styles.switchText}>Post with alias</OpenSansLightText>
         </View>
         <TextInput
           placeholder={'What\'s Buzzing?'}

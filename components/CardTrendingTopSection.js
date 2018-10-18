@@ -2,15 +2,15 @@ import React from 'react';
 import { StyleSheet, View, Image } from 'react-native';
 
 import Time from '../components/Time';
-import FavoriteButton from '../components/FavoriteButton';
+import UserContainerRowAligned from '../components/UserContainerRowAligned';
 
 
-class CardTopSection extends React.Component {
+class CardTrendingTopSection extends React.Component {
   render() {
     return (
-      <View style={[styles.topContainer, this.props.style]}>
+      <View style={styles.topContainer}>
+        <UserContainerRowAligned />
         <Time />
-        <FavoriteButton />
       </View>
     );
   }
@@ -22,7 +22,8 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
+    paddingRight: 5,
   },
 });
 
-export default CardTopSection;
+export default CardTrendingTopSection;
