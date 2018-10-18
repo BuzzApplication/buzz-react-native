@@ -12,7 +12,7 @@ import CommentCard from '../components/CommentCard';
 import Keyboard from '../components/Keyboard';
 
 export class CardDetailScreen extends React.Component {
-  static navigationOptions = ({navigation}) => ({ //don't forget parentheses around the object notation
+  static navigationOptions = ({navigation}) => ({
     header: <CardDetailHeader navigation={navigation} />
     // tabBarVisible: false,
   })
@@ -24,7 +24,7 @@ export class CardDetailScreen extends React.Component {
           showsVerticalScrollIndicator={false}
           keyboardDismissMode="interactive"
           data={[
-            {key: 'CARD DETAIL \n haloo smua. love you mahuni mahuni mahuni. mahuni paling bau tapi.', type: 'MAIN'},
+            {key: 'Bagaimana cara menabung yg benar?', type: 'MAIN'},
             {key: 'Brp sih gaji di Gojek?', type: 'COMMENT'},
             {key: 'Ini app apa ya?', type: 'COMMENT'},
             {key: 'Keren jg nih... \n haloo smua', type: 'COMMENT'},

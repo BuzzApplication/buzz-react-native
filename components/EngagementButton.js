@@ -15,7 +15,7 @@ export class ShareButton extends React.Component {
     return (
       <View style={styles.engagementButtonContainer}>
         <TouchableOpacity style={baseStyles.button} onPress={ this._shareMessage }>
-          <Image source={require('../assets/images/share.png')} style={[styles.engagementButtonImage, this.props.styles]} />
+          <Image source={require('../assets/images/share.png')} style={[styles.engagementButtonImage, this.props.style]} />
         </TouchableOpacity>
       </View>
     );
@@ -27,7 +27,7 @@ export class CommentButton extends React.Component {
     return (
       <View style={styles.engagementButtonContainer}>
         <TouchableOpacity style={baseStyles.button} onPress={()=>{alert("you clicked comment")}}>
-          <Image source={require('../assets/images/comment.png')} style={[styles.engagementButtonImage, this.props.styles]} />
+          <Image source={require('../assets/images/comment.png')} style={[styles.engagementButtonImage, this.props.style]} />
         </TouchableOpacity>
       </View>
     );
@@ -39,7 +39,7 @@ export class LikeButton extends React.Component {
     return (
       <View style={styles.engagementButtonContainer}>
         <TouchableOpacity style={baseStyles.button} onPress={()=>{alert("you clicked like")}}>
-          <Image source={require('../assets/images/like.png')} style={[styles.engagementButtonImage, this.props.styles]} />
+          <Image source={require('../assets/images/like.png')} style={[styles.engagementButtonImage, this.props.style]} />
         </TouchableOpacity>
       </View>
     );

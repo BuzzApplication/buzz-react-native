@@ -14,8 +14,8 @@ class CommentCardBottomSection extends React.Component {
       <View style={styles.commentCardBottomSectionContainer}>
         <EngagementData type='likes' styles={styles.engagementData}/>
         <View style={styles.engagementButtonsContainer}>
-          <ShareButton styles={styles.button}/>
-          <LikeButton styles={styles.button}/>
+          <ShareButton style={styles.button}/>
+          <LikeButton style={styles.button}/>
         </View>
       </View>
     );

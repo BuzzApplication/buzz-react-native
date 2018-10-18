@@ -4,6 +4,8 @@ import { createStackNavigator } from 'react-navigation';
 import { colors } from '../constants/Colors'
 
 import ProfileScreen from '../screens/ProfileScreen';
+import FavoriteScreen from '../screens/FavoriteScreen';
+import PostedScreen from '../screens/PostedScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import PushNotificationSettingsScreen from '../screens/PushNotificationSettingsScreen';
 
@@ -11,6 +13,9 @@ import PushNotificationSettingsScreen from '../screens/PushNotificationSettingsS
 const ProfileNavigator = createStackNavigator(
   {
     Profile: { screen: ProfileScreen },
+    Favorite: { screen: FavoriteScreen },
+    Posted: { screen: PostedScreen },
+
     Settings: { screen: SettingsScreen },
     PushNotificationSettings: { screen: PushNotificationSettingsScreen },
   },

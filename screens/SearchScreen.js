@@ -33,10 +33,10 @@ class SearchScreen extends React.Component {
           showsVerticalScrollIndicator={false}
           keyboardDismissMode="interactive"
           data={[
-            {key: 'CARD DETAIL \n haloo smua. love you mahuni mahuni mahuni. mahuni paling bau tapi.', type: 'MAIN'},
-            {key: 'Brp sih gaji di Gojek?', type: 'COMMENT'},
-            {key: 'Ini app apa ya?', type: 'COMMENT'},
-            {key: 'Keren jg nih... \n haloo smua', type: 'COMMENT'},
+            {key: 'haloo smua. love you mahuni mahuni mahuni. mahuni paling bau tapi.'},
+            {key: 'Brp sih gaji di Gojek?'},
+            {key: 'Ini app apa ya?'},
+            {key: 'Keren jg nih... haloo smua'},
           ]}
           renderItem={({ item, index }) => (
             <View style={styles.cardCompactContainer}>
