@@ -99,7 +99,7 @@ class SignInScreen extends React.Component {
                 <View style={styles.iconContainer}>
                   <MaterialIcons name='mail' size={30} style={styles.icon}/>
                 </View>
-                <TextInput style={styles.textInput}/>
+                <TextInput style={styles.textInput} placeholder='email'/>
               </View>
 
             </View>
@@ -108,7 +108,7 @@ class SignInScreen extends React.Component {
                 <View style={styles.iconContainer}>
                   <FontAwesome name='lock' size={30} style={styles.icon}/>
                 </View>
-                <TextInput style={styles.textInput}/>
+                <TextInput style={styles.textInput} placeholder='password'/>
               </View>
             </View>
 
@@ -116,7 +116,7 @@ class SignInScreen extends React.Component {
               <OpenSansLightText style={styles.forgotPasswordText}>Forgot password</OpenSansLightText>
             </View>
             <Animated.View style={{opacity: this.newUserOpacity}}>
-              <Button onPress={""} title="I'm new!" color={colors.appleBlue} />
+              <Button title="I'm new!" color='white' onPress={() => this.props.navigation.navigate('SignUpDescription')}/>
             </Animated.View>
         </Animated.View>
       </Animated.View>

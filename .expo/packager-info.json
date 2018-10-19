@@ -1,9 +1,9 @@
 {
   "devToolsPort": 19002,
   "expoServerPort": 19000,
-  "packagerPort": 19003,
-  "packagerPid": 2898,
+  "packagerPort": 19001,
+  "packagerPid": 1066,
   "expoServerNgrokUrl": "https://ev-vkt.tsjahja.buzz-react-native.exp.direct",
   "packagerNgrokUrl": "https://packager.ev-vkt.tsjahja.buzz-react-native.exp.direct",
-  "ngrokPid": 2924
+  "ngrokPid": 1120
 }
