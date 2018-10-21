@@ -51,6 +51,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     backgroundColor: colors.paleTurquoise,
     flexDirection: 'row',
+    zIndex: 1,
   },
   buzzText: {
     fontSize: 26,
