@@ -1,7 +1,8 @@
 import React from 'react';
-import { StyleSheet, View, Button, Image } from 'react-native';
+import { StyleSheet, View, Button, Image, TouchableOpacity } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
+import { LinearGradient } from 'expo';
+
 
 import baseStyles from '../constants/Styles';
 import { colors } from '../constants/Colors';
@@ -25,42 +26,32 @@ export class SignUpDescriptionScreen extends React.Component {
     }
 
   render() {
-    const config = {
-      velocityThreshold: 0.3,
-      directionalOffsetThreshold: 20
-    };
     return (
-      <GestureRecognizer
-        onSwipeLeft={(state) => this.onSwipeLeft(state)}
-        config={config}
-        style={{
-          flex: 1,
-        }}
-        >
-        <View style={styles.container}>
-          <View style={styles.title}>
-            <OpenSansText style={styles.titleText}>Hey there!</OpenSansText>
+      <LinearGradient style={styles.container} colors={[colors.skyBlue, colors.turquoise]}>
+        <View style={styles.title}>
+          <OpenSansLightText style={styles.titleText}>Hey there!</OpenSansLightText>
+        </View>
+        <View style={styles.subtitle}>
+          <OpenSansLightText style={styles.substitleText}>Everything you say in</OpenSansLightText>
+          <View style={{flexDirection: 'row'}}>
+            <OpenSansBoldText style={styles.substitleText}>Buzz</OpenSansBoldText>
+            <OpenSansLightText style={styles.substitleText}> will be</OpenSansLightText>
           </View>
-          <View style={styles.subtitle}>
-            <OpenSansLightText style={styles.substitleText}>Everything you say in</OpenSansLightText>
-            <View style={{flexDirection: 'row'}}>
-              <OpenSansBoldText style={styles.substitleText}>Buzz</OpenSansBoldText>
-              <OpenSansLightText style={styles.substitleText}> will be</OpenSansLightText>
-            </View>
-            <OpenSansLightText style={styles.substitleText}>anonymous</OpenSansLightText>
-            <View style={{flexDirection: 'row', paddingTop: 30,}}>
-              <OpenSansLightText style={styles.substitleText}>We promise!!</OpenSansLightText>
-              <Image source={require('../assets/images/promise.png')} style={styles.substitleImage} />
-            </View>
-          </View>
-          <View style={styles.getStartedContainer}>
-            <OpenSansText style={styles.getStartedText}>Swipe right to get started</OpenSansText>
-          </View>
-          <View style={styles.imageContainer}>
-            <Image source={require('../assets/images/anonymous.png')} style={styles.image} />
+          <OpenSansLightText style={styles.substitleText}>anonymous</OpenSansLightText>
+          <View style={{flexDirection: 'row', paddingTop: 15,}}>
+            <OpenSansLightText style={styles.substitleText}>We promise!!</OpenSansLightText>
+            <Image source={require('../assets/images/promise.png')} style={styles.substitleImage} />
           </View>
         </View>
-      </GestureRecognizer>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity activeOpacity={0.5} style={[baseStyles.buttonShadow, styles.button]} onPress={()=>{this.props.navigation.navigate('SignUpEmail')}} >
+            <OpenSansText style={styles.buttonText}>Get Started</OpenSansText>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.imageContainer}>
+          <Image source={require('../assets/images/padlock.png')} style={styles.image} />
+        </View>
+      </LinearGradient>
     );
   }
 }
@@ -77,7 +68,7 @@ const styles = StyleSheet.create({
     height: '15%',
   },
   titleText: {
-    fontSize: 35,
+    fontSize: 28,
     color: 'white',
   },
   subtitle: {
@@ -92,11 +83,21 @@ const styles = StyleSheet.create({
     width: 30,
     alignItems: 'center',
   },
-  getStartedContainer: {
+  buttonContainer: {
+    paddingTop: 30,
+    alignItems: 'flex-start',
   },
-  getStartedText: {
-    fontSize: 16,
-    color: 'white',
+  button: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 170,
+    height: 50,
+    borderRadius: 8,
+    backgroundColor: colors.paleTurquoise,
+    flexDirection: 'row',
+  },
+  buttonText: {
+    fontSize: 24,
   },
   imageContainer: {
     position: 'absolute',

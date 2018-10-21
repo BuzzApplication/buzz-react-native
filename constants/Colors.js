@@ -5,6 +5,7 @@ export const colors = {
   grapefruit50: "rgba(254, 95, 85, 0.5)",
   pale: "#ffeddf",
   paleTurquoise: "#a9f0d1",
+  turquoise: '#22bcb5',
   paleSalmon: "#feafaa",
   // skyBlue: '#4db3e9',
   skyBlue: '#4cb5f5',

@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, Button, Image, TouchableOpacity, TextInput } from 'react-native';
+import { LinearGradient } from 'expo';
 import CodeInput from 'react-native-confirmation-code-input';
 
 import baseStyles from '../constants/Styles';
@@ -14,9 +15,14 @@ export class SignUpEmailVerificationScreen extends React.Component {
     header: <SignUpDescriptionHeader navigation={navigation} />
     // tabBarVisible: false,
   })
+
+  _onFinishCheckingCode = (isValid) => {
+    this.props.navigation.navigate('Welcome');
+  }
+
   render() {
     return (
-      <View style={styles.container}>
+      <LinearGradient style={styles.container} colors={[colors.skyBlue, colors.turquoise]}>
         <View style={styles.title}>
           <OpenSansText style={styles.titleText}>Verification email sent!</OpenSansText>
           <OpenSansLightText style={styles.subtitleText}>Please enter the verification code or click on the link sent to your email</OpenSansLightText>
@@ -34,7 +40,7 @@ export class SignUpEmailVerificationScreen extends React.Component {
             ignoreCase={true}
             inputPosition='center'
             size={55}
-            onFulfill={(isValid) => this._onFinishCheckingCode1(isValid)}
+            onFulfill={(isValid) => this._onFinishCheckingCode(isValid)}
             containerStyle={{ marginTop: 30 }}
             codeInputStyle={{ borderWidth: 1.5, fontSize: 20 }}
             />
@@ -42,7 +48,7 @@ export class SignUpEmailVerificationScreen extends React.Component {
         <View style={styles.imageContainer}>
           <Image source={require('../assets/images/sent.png')} style={styles.image} />
         </View>
-      </View>
+      </LinearGradient>
     );
   }
 }
