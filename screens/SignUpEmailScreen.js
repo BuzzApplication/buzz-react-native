@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, Button, Image, TouchableOpacity, TextInput } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
+import { LinearGradient } from 'expo';
 
 import baseStyles from '../constants/Styles';
 import { colors } from '../constants/Colors';
@@ -16,7 +17,7 @@ export class SignUpEmailScreen extends React.Component {
   })
   render() {
     return (
-      <View style={styles.container}>
+      <LinearGradient style={styles.container} colors={[colors.skyBlue, colors.turquoise]}>
         <View style={styles.title}>
           <OpenSansLightText style={styles.titleText}>Don't worry,</OpenSansLightText>
           <OpenSansLightText style={styles.titleText}>this is only for verification purposes.</OpenSansLightText>
@@ -41,7 +42,7 @@ export class SignUpEmailScreen extends React.Component {
         <View style={styles.imageContainer}>
           <Image source={require('../assets/images/email.png')} style={styles.image} />
         </View>
-      </View>
+      </LinearGradient>
     );
   }
 }
@@ -80,6 +81,12 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
     flex: 1,
+  },
+  icon: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    textAlign: 'center',
+    opacity: 0.7,
   },
   textInput: {
     flex: 5,

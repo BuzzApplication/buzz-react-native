@@ -18,7 +18,7 @@ class SignInScreen extends React.Component {
     super(props);
 
     this.keyboardHeight = new Animated.Value(0);
-    this.signContainerHeight = new Animated.Value(-150);
+    this.signContainerHeight = new Animated.Value(-250);
     this.tagLineOpacity = new Animated.Value(1);
     this.newUserOpacity = new Animated.Value(1);
   }
@@ -62,7 +62,7 @@ class SignInScreen extends React.Component {
       }),
       Animated.timing(this.signContainerHeight, {
         duration: event.duration,
-        toValue: -150,
+        toValue: -250,
       }),
       Animated.timing(this.tagLineOpacity, {
         duration: event.duration,
@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     textAlign: 'center',
-    opacity: 0.8,
+    opacity: 0.7,
   },
 });
 

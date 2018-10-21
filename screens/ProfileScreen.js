@@ -45,7 +45,7 @@ class ProfileScreen extends React.Component {
                   <Image source={require('../assets/images/location.png')} style={styles.communityImage} />
                 </View>
                 <OpenSansBoldText style={styles.communityLegendText}>My Communities</OpenSansBoldText>
-                <TouchableOpacity style={[styles.communityAddButton, baseStyles.button]} onPress={()=>{this.props.navigation.navigate('Settings')}}>
+                <TouchableOpacity style={[styles.communityAddButton, baseStyles.button]} onPress={()=>{this.props.navigation.navigate('SignUpEmail')}}>
                   <Entypo name="plus" size={25} color='black' />
                 </TouchableOpacity>
               </View>
