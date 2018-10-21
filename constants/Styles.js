@@ -16,6 +16,7 @@ export default StyleSheet.create({
     padding: 10,
     shadowOffset: { width: 0, height: 5 },
     shadowRadius: 10,
+    zIndex: 1,
   },
   buttonShadow: {
     shadowOffset: {
