@@ -8,7 +8,7 @@ class UserName extends React.Component {
   render() {
     return (
       <View style={styles.userNameContainer}>
-        <OpenSansLightItalicText style={styles.userNameText}>Toshiki</OpenSansLightItalicText>
+        <OpenSansLightItalicText style={styles.userNameText}>{this.props.alias}</OpenSansLightItalicText>
       </View>
     );
   }
@@ -16,8 +16,7 @@ class UserName extends React.Component {
 
 const styles = StyleSheet.create({
   userNameContainer: {
-    // backgroundColor: colors.lightPink,
-    padding: 0,
+    padding: 1,
   },
   userNameText: {
     // backgroundColor: colors.cloudyBlue,

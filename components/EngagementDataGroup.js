@@ -7,10 +7,13 @@ import EngagementData from '../components/EngagementData'
 
 class EngagementDataGroup extends React.Component {
   render() {
+    const likesCount = this.props.likesCount;
+    const commentsCount = this.props.commentsCount;
+
     return (
       <View style={styles.engagementDataGroupContainer}>
-        <EngagementData type='likes'/>
-        <EngagementData type='comments'/>
+        <EngagementData count={likesCount} type='likes'/>
+        <EngagementData count={commentsCount} type='comments'/>
       </View>
     );
   }

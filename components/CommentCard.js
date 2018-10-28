@@ -13,12 +13,14 @@ import CommentCardBottomSection from '../components/CommentCardBottomSection'
 
 class CommentCard extends React.Component {
   render() {
+    const data = this.props.data.item;
+
     return (
       <View style={[styles.commentCardContainer, baseStyles.bottomBorder]}>
         <TouchableOpacity style={baseStyles.button} onPress={()=>{alert("change!")}}>
-          <CommentCardTopSection />
-          <CardTextField text={this.props.text} />
-          <CommentCardBottomSection />
+          <CommentCardTopSection timePassed={data.timePassed} alias={data.alias} company={data.userCompany.name} />
+          <CardTextField text={data.text} />
+          <CommentCardBottomSection liked={data.liked} likesCount={data.likesCount} commentId={data.id} />
         </TouchableOpacity>
       </View>
     );

@@ -3,13 +3,28 @@ import { StyleSheet, View , Button} from 'react-native';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Dropdown } from 'react-native-material-dropdown';
+import _ from 'lodash';
 
 import { colors } from '../constants/Colors'
 import baseStyles from '../constants/Styles'
 
+import { postBuzz } from "../api/buzz.js";
+
 
 class BuzzHeader extends React.Component {
-  state = {text: 'Everyone'};
+  constructor(props) {
+    super(props);
+    this.state = {
+      community: 'Everyone',
+    };
+  };
+
+  _postBuzz() {
+    postBuzz(this.props.navigation.getParam('text'))
+      .then((response) => {}
+    )
+  }
+
   render() {
     let data = [{
       value: 'Everyone',
@@ -18,6 +33,10 @@ class BuzzHeader extends React.Component {
     }, {
       value: 'Universitas Indonesia',
     }];
+
+    const companyName = _.map(this.props.navigation.getParam('userEmails'), 'company.name');
+    console.log('companyName': companyName);
+
     return (
       <View style={[styles.container, baseStyles.header]}>
         <View style={styles.statusHeader} />
@@ -34,15 +53,15 @@ class BuzzHeader extends React.Component {
               dropdownPosition={0}
               dropdownOffset={{top: 10, left: 0}}
               data={data}
-              onChangeText={text => {
-                this.setState({text});
+              onChangeText={community => {
+                this.setState({community});
               }}
-              value={this.state.text}
+              value={this.state.community}
             />
           </View>
           <View style={styles.headerRight}>
             <View style={[styles.buzzButtonContainer, baseStyles.buttonShadow]}>
-              <Button title="Buzz" color='white' onPress={() => navigation.goBack()} />
+              <Button title="Buzz" color='white' onPress={() => this._postBuzz(this.props.text)} />
             </View>
           </View>
         </View>

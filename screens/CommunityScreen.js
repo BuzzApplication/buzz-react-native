@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, View, Text, Button, ScrollView, FlatList, TouchableOpacity, TouchableHighlight, Dimensions, List, ListItem } from 'react-native';
 import { ScrollableTabView, DefaultTabBar, ScrollableTabBar, } from '@valdio/react-native-scrollable-tabview';
 import { Constants } from 'expo';
+import _ from 'lodash';
 
 import CardNavigator from '../navigation/CardNavigator';
 
@@ -13,9 +14,53 @@ import StatusBarHeader from '../components/StatusBarHeader';
 import Card from '../components/Card';
 import BuzzPlusButton from '../components/BuzzPlusButton';
 
+import { getUserEmail } from "../api/user.js";
+import { getBuzzList } from "../api/buzz.js";
+
+
 class CommunityScreen extends React.Component {
   static navigationOptions = {
     header: <StatusBarHeader />,
+  }
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      userEmails: [],
+      buzzListByCompanyId: {},
+    }
+  }
+
+  componentDidMount() {
+    getUserEmail().then((response) => {
+      this.setState({ userEmails: response.userEmails });
+      const companyIds = response.userEmails.map((userEmail) => {
+        return userEmail.company.id
+      });
+      getBuzzList(companyIds).then((response) => {
+        var buzzListByCompanyId = _.keyBy(response, r => r.companyId);
+        this.setState({ buzzListByCompanyId: buzzListByCompanyId });
+      });
+    });
+  }
+
+  _getCommunities() {
+    return this.state.userEmails.map(userEmail => {
+      let buzzListAndCompanyId = this.state.buzzListByCompanyId[userEmail.company.id]
+      let buzzList = _.get(buzzListAndCompanyId, 'buzzList');
+
+      return (
+        <FlatList
+          tabLabel={userEmail.company.name}
+          style={{backgroundColor:'white'}}
+          showsVerticalScrollIndicator={false}
+          data={buzzList}
+          renderItem={({ item }) => (
+            <Card data={item} navigation={this.props.navigation} />
+          )}
+        />
+      );
+    })
   }
 
   render() {
@@ -26,41 +71,13 @@ class CommunityScreen extends React.Component {
             <DefaultTabBar
               activeTextColor={'white'}
               underlineStyle={styles.communityHeaderUnderline}
-              // tabsContainerStyle={styles.communityHeaderTabsContainer}
               style={styles.defaultTabBarContainer} />
             }
           style={styles.scrollableTabViewContainer}
           showsHorizontalScrollIndicator={false}
           tabBarInactiveTextColor={'white'}
         >
-          <FlatList
-            tabLabel="Everyone"
-            style={{backgroundColor:'white'}}
-            showsVerticalScrollIndicator={false}
-            data={[
-              {key: 'Bagaimana cara menabung yg benar?'},
-              {key: 'Brp sih gaji di Gojek?'},
-              {key: 'Ini app apa ya?'},
-              {key: 'Keren jg nih... \n haloo smua'},
-            ]}
-            renderItem={({ item }) => (
-              <Card text={item.key} navigation={this.props.navigation} />
-            )}
-          />
-          <FlatList
-            tabLabel="Bank Mandiri"
-            style={{backgroundColor:'white'}}
-            showsVerticalScrollIndicator={false}
-            data={[
-              {key: 'Bagaimana cara menabung yg benar?'},
-              {key: 'Brp sih gaji di Gojek?'},
-              {key: 'Ini app apa ya?'},
-              {key: 'Keren jg nih... \n haloo smua'},
-            ]}
-            renderItem={({ item }) => (
-              <Card text={item.key} navigation={this.props.navigation}/>
-            )}
-          />
+          {this._getCommunities()}
         </ScrollableTabView>
         <BuzzPlusButton navigation={this.props.navigation} />
       </View>
@@ -76,23 +93,10 @@ const styles = StyleSheet.create({
   defaultTabBarContainer: {
     borderWidth: 0,
   },
-  // communityHeaderTextStyle: {
-  //   fontFamily: 'open-sans',
-  //   fontSize: 14,
-  //   fontWeight: "bold",
-  //   fontStyle: "normal",
-  //   letterSpacing: 0,
-  //   textAlign: "center",
-  //   color: colors.dark,
-  // },
   communityHeaderUnderline: {
     height: 3,
     backgroundColor: colors.darkBlue,
   },
-  // communityHeaderTabsContainer: {
-  //   backgroundColor: colors.skyBlue,
-  //   // backgroundColor: 'red',
-  // },
 });
 
 

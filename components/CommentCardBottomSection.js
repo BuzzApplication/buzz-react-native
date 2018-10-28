@@ -10,12 +10,16 @@ import { ShareButton, LikeButton } from '../components/EngagementButton';
 
 class CommentCardBottomSection extends React.Component {
   render() {
+    const commentId = this.props.commentId;
+    const liked = this.props.liked;
+    const likesCount = this.props.likesCount;
+
     return (
       <View style={styles.commentCardBottomSectionContainer}>
-        <EngagementData type='likes' styles={styles.engagementData}/>
+        <EngagementData type='likes' styles={styles.engagementData} count={likesCount} />
         <View style={styles.engagementButtonsContainer}>
           <ShareButton style={styles.button}/>
-          <LikeButton style={styles.button}/>
+          <LikeButton style={styles.button} liked={liked} type='COMMENT' id={commentId} />
         </View>
       </View>
     );

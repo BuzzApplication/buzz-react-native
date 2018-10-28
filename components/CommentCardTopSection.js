@@ -7,10 +7,13 @@ import UserContainerRowAligned from '../components/UserContainerRowAligned';
 
 class CommentCardTopSection extends React.Component {
   render() {
+    const alias = this.props.alias;
+    const company = this.props.company;
+    const timePassed = this.props.timePassed;
     return (
       <View style={styles.topContainer}>
-        <UserContainerRowAligned />
-        <Time />
+        <UserContainerRowAligned alias={alias} company={company}/>
+        <Time timePassed={timePassed} />
       </View>
     );
   }

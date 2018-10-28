@@ -5,11 +5,11 @@ import { OpenSansText, OpenSansLightText } from '../components/StyledText'
 
 
 class EngagementData extends React.Component {
-  render() {
+  render() {    
     return (
       <View style={[styles.engagementDataContainer, this.props.styles]}>
         <View style={styles.engagementDataTextContainer}>
-          <OpenSansText style={styles.engagementDataText}>210</OpenSansText>
+          <OpenSansText style={styles.engagementDataText}>{this.props.count}</OpenSansText>
         </View>
         <View style={styles.engagementDataTextContainer}>
           <OpenSansLightText style={styles.engagementDataText}>{this.props.type}</OpenSansLightText>
