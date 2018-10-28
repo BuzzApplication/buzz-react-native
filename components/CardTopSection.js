@@ -7,9 +7,11 @@ import FavoriteButton from '../components/FavoriteButton';
 
 class CardTopSection extends React.Component {
   render() {
+    const timePassed = this.props.timePassed;
+
     return (
       <View style={[styles.topContainer, this.props.style]}>
-        <Time />
+        <Time timePassed={timePassed} />
         <FavoriteButton />
       </View>
     );

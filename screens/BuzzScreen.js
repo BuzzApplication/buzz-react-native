@@ -13,17 +13,40 @@ import BuzzButton from '../components/BuzzButton';
 import Card from '../components/Card';
 import BuzzHeader from '../components/BuzzHeader';
 
+import { getUserEmail } from "../api/user.js";
+import { postBuzz } from "../api/buzz.js";
+
 
 export class BuzzScreen extends React.Component {
-  static navigationOptions = ({navigation}) => ({ //don't forget parentheses around the object notation
+  static navigationOptions = ({navigation}) => ({
     header: <BuzzHeader navigation={navigation} />
   });
 
-  constructor() {
-   super();
+  constructor(props) {
+   super(props);
    this.state = {
-      toggled: true,
-   }
+      text: '',
+      postWithAlias: true,
+      userEmails: [],
+    };
+  };
+
+  componentDidMount() {
+    getUserEmail().then((response) => {
+      this.setState({ userEmails: response.userEmails });
+      this.props.navigation.setParams({
+        userEmails: response.userEmails,
+      });
+    });
+    console.log(this.props.navigation);
+  }
+
+  _onChangeText(text) {
+    this.setState({text: text});
+    this.props.navigation.setParams({
+      text: text,
+      anonymous: !postWithAlias,
+    });
   }
 
   render() {
@@ -32,13 +55,13 @@ export class BuzzScreen extends React.Component {
         <View style={styles.switchContainer}>
           <Switch
             style={styles.switchButton}
-            onValueChange={(value) => this.setState({ toggled: value })}
-            value={ this.state.toggled } />
+            onValueChange={(value) => this.setState({ postWithAlias: value })}
+            value={ this.state.postWithAlias } />
           <OpenSansLightText style={styles.switchText}>Post with alias</OpenSansLightText>
         </View>
         <TextInput
           placeholder={'What\'s Buzzing?'}
-          onChangeText={(text) => this.setState({text})}
+          onChangeText={(text) => this._onChangeText(text)}
           value={this.state.text}
           style={styles.textInput}
           multiline={true}

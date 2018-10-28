@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, View, Text, Button, ScrollView , Share, FlatList} from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { MenuProvider, Menu, MenuTrigger, MenuOptions, MenuOption } from 'react-native-popup-menu';
+import _ from 'lodash';
 
 import baseStyles from '../constants/Styles';
 import { colors } from '../constants/Colors';
@@ -11,33 +12,56 @@ import Card from '../components/Card';
 import CommentCard from '../components/CommentCard';
 import Keyboard from '../components/Keyboard';
 
+import { getCommentList } from "../api/comment.js";
+
+
 export class CardDetailScreen extends React.Component {
   static navigationOptions = ({navigation}) => ({
     header: <CardDetailHeader navigation={navigation} />
-    // tabBarVisible: false,
   })
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      buzz: {},
+      commentList: [],
+    }
+  }
+
+  componentDidMount() {
+    const buzzId = this.props.navigation.getParam('buzzId');
+    getCommentList(buzzId).then((response) => {
+      this.setState({
+        buzz: response.buzz,
+        commentList: response.commentList,
+      });
+    });
+  }
+
+  _getCards() {
+    return (
+      <FlatList
+        style={{backgroundColor:'white'}}
+        showsVerticalScrollIndicator={false}
+        keyboardDismissMode="interactive"
+        data={this.state.commentList}
+        renderItem={(item, index) => (
+          item.index == '0' ?
+            <View>
+              <Card data={this.state.buzz} />
+              <View style={[styles.lines, baseStyles.bottomBorder]} />
+              <CommentCard data={item} />
+            </View>
+          : <CommentCard data={item} />
+        )}
+      />
+    );
+  }
+
   render() {
     return (
       <View style={styles.screenContainer}>
-        <FlatList
-          style={{backgroundColor:'white'}}
-          showsVerticalScrollIndicator={false}
-          keyboardDismissMode="interactive"
-          data={[
-            {key: 'Bagaimana cara menabung yg benar?', type: 'MAIN'},
-            {key: 'Brp sih gaji di Gojek?', type: 'COMMENT'},
-            {key: 'Ini app apa ya?', type: 'COMMENT'},
-            {key: 'Keren jg nih... \n haloo smua', type: 'COMMENT'},
-          ]}
-          renderItem={({ item, index }) => (
-            item.type == 'MAIN' ? (
-              <View>
-                <Card text={item.key} />
-                <View style={[styles.lines, baseStyles.bottomBorder]} />
-              </View>
-            ) : <CommentCard text={item.key} />
-          )}
-        />
+        {this._getCards()}
         <Keyboard />
       </View>
     );

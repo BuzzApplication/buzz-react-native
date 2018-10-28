@@ -14,7 +14,7 @@ export default createSwitchNavigator({
   Main: MainTabNavigator,
   },
   {
-    initialRouteName: 'Registration',
+    initialRouteName: 'Main',
   },
   {
     navigationOptions: {

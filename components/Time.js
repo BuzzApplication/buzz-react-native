@@ -8,13 +8,15 @@ import { colors } from '../constants/Colors'
 
 class Time extends React.Component {
   render() {
+    const timePassed = this.props.timePassed;
+
     return (
       <View style={styles.timeContainer}>
         <View style={styles.timeImageContainer}>
           <Image source={require('../assets/images/time.png')} style={styles.timeImage} />
         </View>
         <View style={styles.timeTextContainer}>
-          <OpenSansLightText style={styles.timeText}>0 seconds ago</OpenSansLightText>
+          <OpenSansLightText style={styles.timeText}>{timePassed.duration} {timePassed.unit} ago</OpenSansLightText>
         </View>
       </View>
     );

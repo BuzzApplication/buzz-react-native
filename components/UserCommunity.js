@@ -8,7 +8,7 @@ class UserCommunity extends React.Component {
   render() {
     return (
       <View style={styles.userCommunityContainer}>
-        <OpenSansLightText style={styles.userCommunityText}>Yahoo!</OpenSansLightText>
+        <OpenSansLightText style={styles.userCommunityText}>{this.props.company}</OpenSansLightText>
       </View>
     );
   }

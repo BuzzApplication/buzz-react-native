@@ -16,6 +16,7 @@
     "@expo/samples": "2.1.1",
     "@valdio/react-native-scrollable-tabview": "^0.8.9",
     "expo": "^30.0.1",
+    "lodash": "^4.17.11",
     "react": "16.3.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-30.0.0.tar.gz",
     "react-native-app-intro-slider": "^1.0.1",
@@ -31,7 +32,8 @@
     "react-native-sticky-keyboard-accessory": "^0.1.1",
     "react-native-swipe-gestures": "^1.0.2",
     "react-native-vector-icons": "^6.0.2",
-    "react-navigation": "^2.16.0"
+    "react-navigation": "^2.16.0",
+    "url-search-params-polyfill": "^5.0.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

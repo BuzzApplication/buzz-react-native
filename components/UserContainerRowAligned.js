@@ -8,11 +8,13 @@ import UserName from '../components/UserName'
 
 class UserContainerRowAligned extends React.Component {
   render() {
+    const alias = this.props.alias;
+    const company = this.props.company;
     return (
       <View style={styles.userContainer}>
-        <UserCommunity />
+        <UserCommunity company={company} />
         <OpenSansLightItalicText> · </OpenSansLightItalicText>
-        <UserName />
+        <UserName alias={alias} />
       </View>
     );
   }

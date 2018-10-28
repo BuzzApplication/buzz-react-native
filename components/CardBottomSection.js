@@ -7,13 +7,18 @@ import { ShareButton, CommentButton, LikeButton } from '../components/Engagement
 
 class CardBottomSection extends React.Component {
   render() {
+    const buzzId = this.props.buzzId;
+    const alias = this.props.alias;
+    const company = this.props.company;
+    const liked = this.props.liked;
+
     return (
       <View style={styles.cardBottomSectionContainer}>
-        <UserContainerVerticalAligned />
+        <UserContainerVerticalAligned alias={alias} company={company} />
         <View style={styles.engagementButtonsContainer}>
           <ShareButton />
           <CommentButton />
-          <LikeButton />
+          <LikeButton liked={liked} type='BUZZ' id={buzzId}/>
         </View>
       </View>
     );
