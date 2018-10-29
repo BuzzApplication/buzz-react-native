@@ -32,7 +32,10 @@ export const post = (path, requestBody) => {
     },
     body: JSON.stringify(requestBody),
   })
-  .then((response) => response.json())
+  .then((response) => {
+    console.log('response: ', response);
+    return response.json()
+  })
   .then((responseJson) => {
     console.log(responseJson);
     return responseJson

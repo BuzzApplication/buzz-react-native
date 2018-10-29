@@ -19,30 +19,54 @@ class BuzzHeader extends React.Component {
     };
   };
 
-  _postBuzz() {
-    postBuzz(this.props.navigation.getParam('text'))
-      .then((response) => {}
-    )
+  _postBuzz(communitiesByCompanyId) {
+    postBuzz(this.props.navigation.getParam('text'),
+             this._getCompanyId(this.state.community, communitiesByCompanyId),
+             this._getUserEmailId(this.state.community, communitiesByCompanyId),
+             this.props.navigation.getParam('anonymous'))
+      .then((response) => {
+        this.props.navigation.goBack()
+      })
+  }
+
+  _toObject(arr) {
+    const data = [];
+    for (var i = 0; i < arr.length; ++i)
+      data.push({'value': arr[i]});
+    return data;
+  }
+
+  _getCompanyId(name, communitiesByCompanyId) {
+    return communitiesByCompanyId[name].company.id;
+  }
+
+  // pick the next userEmail if name is `Everyone`
+  // assuming everyone has other company then `Everyone`
+  _getUserEmailId(name, communitiesByCompanyId) {
+    if (name == 'Everyone') {
+      for(var companyName in communitiesByCompanyId) {
+        if(companyName !== name)
+          return communitiesByCompanyId[companyName].id;
+      }
+    }
+    return communitiesByCompanyId[name].id;
   }
 
   render() {
-    let data = [{
-      value: 'Everyone',
-    }, {
-      value: 'Bank Mandiri',
-    }, {
-      value: 'Universitas Indonesia',
-    }];
-
-    const companyName = _.map(this.props.navigation.getParam('userEmails'), 'company.name');
-    console.log('companyName': companyName);
+    const userEmails = this.props.navigation.getParam('userEmails');
+    const communities = _.map(userEmails, 'company.name')
+    const communitiesByCompanyId = _.keyBy(userEmails, 'company.name');
 
     return (
       <View style={[styles.container, baseStyles.header]}>
         <View style={styles.statusHeader} />
         <View style={styles.headerContainer}>
           <View style={styles.headerLeft} >
-            <MaterialCommunityIcons name="window-close" size={25} color={colors.skyBlue} onPress={() => this.props.navigation.goBack()} />
+            <MaterialCommunityIcons
+              name="window-close"
+              size={25}
+              color={colors.skyBlue}
+              onPress={() => this.props.navigation.goBack()} />
           </View>
           <View style={styles.headerCenter}>
             <Dropdown
@@ -52,7 +76,7 @@ class BuzzHeader extends React.Component {
               fontSize={16}
               dropdownPosition={0}
               dropdownOffset={{top: 10, left: 0}}
-              data={data}
+              data={this._toObject(communities)}
               onChangeText={community => {
                 this.setState({community});
               }}
@@ -61,7 +85,7 @@ class BuzzHeader extends React.Component {
           </View>
           <View style={styles.headerRight}>
             <View style={[styles.buzzButtonContainer, baseStyles.buttonShadow]}>
-              <Button title="Buzz" color='white' onPress={() => this._postBuzz(this.props.text)} />
+              <Button title="Buzz" color='white' onPress={() => this._postBuzz(communitiesByCompanyId)} />
             </View>
           </View>
         </View>
@@ -91,6 +115,8 @@ const styles = StyleSheet.create({
   headerLeft: {
     left: 10,
     flex: 2,
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
   },
   headerCenter: {
     flex: 3,
