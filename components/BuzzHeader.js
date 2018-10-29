@@ -19,10 +19,10 @@ class BuzzHeader extends React.Component {
     };
   };
 
-  _postBuzz(communitiesByCompanyId) {
+  _postBuzz(communitiesByCompanyName) {
     postBuzz(this.props.navigation.getParam('text'),
-             this._getCompanyId(this.state.community, communitiesByCompanyId),
-             this._getUserEmailId(this.state.community, communitiesByCompanyId),
+             this._getCompanyId(this.state.community, communitiesByCompanyName),
+             this._getUserEmailId(this.state.community, communitiesByCompanyName),
              this.props.navigation.getParam('anonymous'))
       .then((response) => {
         this.props.navigation.goBack()
@@ -36,26 +36,26 @@ class BuzzHeader extends React.Component {
     return data;
   }
 
-  _getCompanyId(name, communitiesByCompanyId) {
-    return communitiesByCompanyId[name].company.id;
+  _getCompanyId(name, communitiesByCompanyName) {
+    return communitiesByCompanyName[name].company.id;
   }
 
   // pick the next userEmail if name is `Everyone`
-  // assuming everyone has other company then `Everyone`
-  _getUserEmailId(name, communitiesByCompanyId) {
+  // assuming everyone has other company than `Everyone`
+  _getUserEmailId(name, communitiesByCompanyName) {
     if (name == 'Everyone') {
-      for(var companyName in communitiesByCompanyId) {
+      for(var companyName in communitiesByCompanyName) {
         if(companyName !== name)
-          return communitiesByCompanyId[companyName].id;
+          return communitiesByCompanyName[companyName].id;
       }
     }
-    return communitiesByCompanyId[name].id;
+    return communitiesByCompanyName[name].id;
   }
 
   render() {
     const userEmails = this.props.navigation.getParam('userEmails');
     const communities = _.map(userEmails, 'company.name')
-    const communitiesByCompanyId = _.keyBy(userEmails, 'company.name');
+    const communitiesByCompanyName = _.keyBy(userEmails, 'company.name');
 
     return (
       <View style={[styles.container, baseStyles.header]}>
@@ -85,7 +85,7 @@ class BuzzHeader extends React.Component {
           </View>
           <View style={styles.headerRight}>
             <View style={[styles.buzzButtonContainer, baseStyles.buttonShadow]}>
-              <Button title="Buzz" color='white' onPress={() => this._postBuzz(communitiesByCompanyId)} />
+              <Button title="Buzz" color='white' onPress={() => this._postBuzz(communitiesByCompanyName)} />
             </View>
           </View>
         </View>

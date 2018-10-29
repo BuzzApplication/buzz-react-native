@@ -44,9 +44,11 @@ class CommunityScreen extends React.Component {
         return userEmail.company.id
       });
       getBuzzList(companyIds).then((response) => {
-        var buzzListByCompanyId = _.keyBy(response, r => r.companyId);
-        this.setState({ buzzListByCompanyId: buzzListByCompanyId });
-        this.setState({ isFetching: false })
+        const buzzListByCompanyId = _.keyBy(response, r => r.companyId);
+        this.setState({
+          buzzListByCompanyId: buzzListByCompanyId,
+          isFetching: false,
+        });
       });
     });
   }
@@ -55,6 +57,7 @@ class CommunityScreen extends React.Component {
     return this.state.userEmails.map(userEmail => {
       let buzzListAndCompanyId = this.state.buzzListByCompanyId[userEmail.company.id]
       let buzzList = _.get(buzzListAndCompanyId, 'buzzList');
+      let companyId = _.get(buzzListAndCompanyId, 'companyId');
 
       return (
         <FlatList
@@ -64,9 +67,11 @@ class CommunityScreen extends React.Component {
           onRefresh={() => this._fetchAll()}
           refreshing={this.state.isFetching}
           data={buzzList}
-          renderItem={({item}) => (
-            <Card data={item} navigation={this.props.navigation} />
-          )}
+          keyExtractor={(item, index) => companyId + '#' + item.id.toString()}
+          key={(item) => companyId.toString() + '##' + item.id.toString()}
+          renderItem={(item) => {
+            return <Card data={item} userEmails={this.state.userEmails} navigation={this.props.navigation} />
+          }}
         />
       );
     })
