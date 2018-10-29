@@ -28,10 +28,16 @@ class CommunityScreen extends React.Component {
     this.state = {
       userEmails: [],
       buzzListByCompanyId: {},
+      isFetching: false,
     }
   }
 
   componentDidMount() {
+    this._fetchAll();
+  }
+
+  _fetchAll() {
+    this.setState({ isFetching: true });
     getUserEmail().then((response) => {
       this.setState({ userEmails: response.userEmails });
       const companyIds = response.userEmails.map((userEmail) => {
@@ -40,6 +46,7 @@ class CommunityScreen extends React.Component {
       getBuzzList(companyIds).then((response) => {
         var buzzListByCompanyId = _.keyBy(response, r => r.companyId);
         this.setState({ buzzListByCompanyId: buzzListByCompanyId });
+        this.setState({ isFetching: false })
       });
     });
   }
@@ -54,8 +61,10 @@ class CommunityScreen extends React.Component {
           tabLabel={userEmail.company.name}
           style={{backgroundColor:'white'}}
           showsVerticalScrollIndicator={false}
+          onRefresh={() => this._fetchAll()}
+          refreshing={this.state.isFetching}
           data={buzzList}
-          renderItem={({ item }) => (
+          renderItem={({item}) => (
             <Card data={item} navigation={this.props.navigation} />
           )}
         />

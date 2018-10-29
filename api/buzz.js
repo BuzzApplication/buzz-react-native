@@ -19,7 +19,7 @@ export const postBuzz = (text, companyId, userEmailId, anonymous) => {
     userEmailId: userEmailId,
     anonymous: anonymous,
   }
-  return post('/user/buzz', text);
+  return post('/user/buzz', requestBody);
 }
 
 export const likeBuzz = (buzzIds, liked) => {

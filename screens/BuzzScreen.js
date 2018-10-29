@@ -23,28 +23,30 @@ export class BuzzScreen extends React.Component {
   });
 
   constructor(props) {
-   super(props);
-   this.state = {
+    super(props);
+    this.state = {
       text: '',
-      postWithAlias: true,
-      userEmails: [],
     };
   };
 
   componentDidMount() {
     getUserEmail().then((response) => {
-      this.setState({ userEmails: response.userEmails });
       this.props.navigation.setParams({
         userEmails: response.userEmails,
+        text: '',
+        anonymous: false,
       });
     });
-    console.log(this.props.navigation);
   }
 
   _onChangeText(text) {
-    this.setState({text: text});
     this.props.navigation.setParams({
       text: text,
+    });
+  }
+
+  _onChangeSwitch(postWithAlias) {
+    this.props.navigation.setParams({
       anonymous: !postWithAlias,
     });
   }
@@ -55,14 +57,14 @@ export class BuzzScreen extends React.Component {
         <View style={styles.switchContainer}>
           <Switch
             style={styles.switchButton}
-            onValueChange={(value) => this.setState({ postWithAlias: value })}
-            value={ this.state.postWithAlias } />
+            onValueChange={(value) => this._onChangeSwitch(value)}
+            value={ !this.props.navigation.getParam('anonymous') } />
           <OpenSansLightText style={styles.switchText}>Post with alias</OpenSansLightText>
         </View>
         <TextInput
           placeholder={'What\'s Buzzing?'}
           onChangeText={(text) => this._onChangeText(text)}
-          value={this.state.text}
+          value={this.props.navigation.getParam('text')}
           style={styles.textInput}
           multiline={true}
           // only for android
