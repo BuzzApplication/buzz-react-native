@@ -17,3 +17,12 @@ export const likeComment = (commentId, liked) => {
   }
   return post('/user/comment/like', requestBody);
 }
+
+export const postComment = (text, buzzId, userEmailId) => {
+  const requestBody = {
+    text: text,
+    buzzId: buzzId,
+    userEmailId: userEmailId,
+  }
+  return post('/user/comment', requestBody);
+}

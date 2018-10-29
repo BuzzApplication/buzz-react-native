@@ -4,11 +4,35 @@ import { StyleSheet, InputAccessoryView, TextInput, View, Button, Dimensions } f
 import baseStyles from '../constants/Styles';
 import { colors } from '../constants/Colors';
 
+import { postComment } from "../api/comment.js";
+
 
 class Keyboard extends React.Component {
-  state = {text: ''};
+  constructor(props) {
+    super(props);
+    this.state = {
+      text: '',
+      buzzId: '',
+      userEmailId: '',
+    }
+  }
+
+  componentDidMount() {
+  }
+
+  _postComment(buzzId, userEmailId) {
+    postComment(this.state.text,
+                buzzId,
+                userEmailId)
+      .then((response) => {
+        this.setState({text: ''});
+      })
+  }
+
   render() {
     const {width} = Dimensions.get('window');
+    const buzzId = this.props.buzzId;
+    const userEmailId = this.props.userEmailId;
     return (
       <InputAccessoryView style={styles.inputAccessoryView}>
         <View style={styles.textInputContainer}>
@@ -25,7 +49,7 @@ class Keyboard extends React.Component {
             enablesReturnKeyAutomatically = {true}
           />
           <Button
-            onPress={() => this.setState({text: 'Placeholder Text'})}
+            onPress={() => this._postComment(buzzId, userEmailId)}
             title="Buzz"
             style={styles.button}
           />

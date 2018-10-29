@@ -25,32 +25,49 @@ export class CardDetailScreen extends React.Component {
     this.state = {
       buzz: {},
       commentList: [],
+      userEmailId: {},
+      isFetching: false,
     }
   }
 
   componentDidMount() {
+    this.setState(
+      {userEmailId: this.props.navigation.getParam('userEmailId')}
+    );
     const buzzId = this.props.navigation.getParam('buzzId');
+
+    this._getCommentList(buzzId);
+  }
+
+  _getCommentList(buzzId) {
     getCommentList(buzzId).then((response) => {
+      const commentList = [];
+      commentList.push(response.buzz);
       this.setState({
         buzz: response.buzz,
-        commentList: response.commentList,
+        commentList: commentList.concat(response.commentList),
+        isFetching: false,
       });
     });
   }
 
   _getCards() {
+    const buzzId = this.props.navigation.getParam('buzzId');
+
     return (
       <FlatList
         style={{backgroundColor:'white'}}
         showsVerticalScrollIndicator={false}
         keyboardDismissMode="interactive"
         data={this.state.commentList}
-        renderItem={(item, index) => (
+        onRefresh={() => this._getCommentList(buzzId)}
+        refreshing={this.state.isFetching}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={(item) => (
           item.index == '0' ?
-            <View>
-              <Card data={this.state.buzz} />
+            <View >
+              <Card data={item} />
               <View style={[styles.lines, baseStyles.bottomBorder]} />
-              <CommentCard data={item} />
             </View>
           : <CommentCard data={item} />
         )}
@@ -62,7 +79,7 @@ export class CardDetailScreen extends React.Component {
     return (
       <View style={styles.screenContainer}>
         {this._getCards()}
-        <Keyboard />
+        <Keyboard buzzId={_.get(this.state.buzz, 'id')} userEmailId={this.state.userEmailId} />
       </View>
     );
   }
