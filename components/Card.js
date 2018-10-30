@@ -18,21 +18,50 @@ import { OpenSansText, OpenSansLightText, OpenSansItalicText, OpenSansLightItali
 class Card extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      userEmailId: '',
+      buzz: {},
+    }
+    this._navigateToCardDetail = this._navigateToCardDetail.bind(this);
+  }
+
+  componentDidMount() {``
+    this._getUserEmailId(this.props.userEmails, this.props.data);
   }
 
   // pick the next userEmail if name is `Everyone`
   // assuming everyone has other company than `Everyone`
-  _getUserEmailId(userEmails, companyId) {
+  _getUserEmailId(userEmails, data) {
+    const companyId = data.item.companyId;
+    const buzz = data.item;
     const userEmailCandidate = _.keyBy(userEmails, userEmail => userEmail.company.id)[companyId];
 
-    if (_.get(userEmailCandidate, 'company.name') == 'Everyone') {
+    if (_.isEqual(_.get(userEmailCandidate, 'company.name'), 'Everyone')) {
       _.forEach(userEmails, (userEmail) => {
-        if(_.get(userEmail, 'company.name') !== 'Everyone')
-          return _.get(userEmail, 'id');
+        if(!_.isEqual(_.get(userEmail, 'company.name'), 'Everyone')) {
+          this.setState({
+            userEmailId: _.get(userEmail, 'id'),
+            buzz: buzz,
+          });
+        }
       })
+    } else {
+      this.setState({
+        userEmailId: _.get(userEmailCandidate, 'id'),
+        buzz: buzz,
+      });
     }
+  }
 
-    return _.get(userEmailCandidate, 'id');
+  handleClick() {
+    Alert.alert('This is awesome \n Double tap succeed');
+  }
+
+  _navigateToCardDetail() {
+    this.props.navigation.navigate('CardDetail', {
+          buzzId: this.state.buzz.id,
+          userEmailId: this.state.userEmailId,
+        });
   }
 
   render() {
@@ -41,15 +70,11 @@ class Card extends React.Component {
 
     return (
       <View style={[styles.cardContainer, baseStyles.bottomBorder, this.props.style]}>
-        <TouchableOpacity style={baseStyles.button} onPress={() => {this.props.navigation.navigate('CardDetail', {
-              buzzId: data.id,
-              userEmailId: this._getUserEmailId(userEmails, data.companyId),
-            })
-          }}>
+        <TouchableOpacity style={baseStyles.button} onPress={() => this._navigateToCardDetail()} >
           <CardTopSection timePassed={data.timePassed} />
           <CardTextField text={data.text} />
           <EngagementDataGroup likesCount={data.likesCount} commentsCount={data.commentsCount} />
-          <CardBottomSection alias={data.alias} company={data.userCompany.name} liked={data.liked} buzzId={data.id}/>
+          <CardBottomSection alias={data.alias} company={data.userCompany.name} liked={data.liked} buzzId={data.id} navigate={this._navigateToCardDetail} />
         </TouchableOpacity>
       </View>
     );

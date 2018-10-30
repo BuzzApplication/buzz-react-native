@@ -25,7 +25,8 @@ class BuzzHeader extends React.Component {
              this._getUserEmailId(this.state.community, communitiesByCompanyName),
              this.props.navigation.getParam('anonymous'))
       .then((response) => {
-        this.props.navigation.goBack()
+        this.props.navigation.navigate('Community', {posted: true});
+        this.props.refetch();
       })
   }
 
@@ -85,7 +86,11 @@ class BuzzHeader extends React.Component {
           </View>
           <View style={styles.headerRight}>
             <View style={[styles.buzzButtonContainer, baseStyles.buttonShadow]}>
-              <Button title="Buzz" color='white' onPress={() => this._postBuzz(communitiesByCompanyName)} />
+              <Button
+                title="Buzz"
+                color='white'
+                disabled={this.props.navigation.getParam('text') == ''}
+                onPress={() => this._postBuzz(communitiesByCompanyName)} />
             </View>
           </View>
         </View>
