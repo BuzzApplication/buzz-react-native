@@ -29,7 +29,7 @@ export class CommentButton extends React.Component {
   render() {
     return (
       <View style={styles.engagementButtonContainer}>
-        <TouchableOpacity style={baseStyles.button} onPress={() =>  {alert("you clicked like")}}>
+        <TouchableOpacity style={baseStyles.button} onPress={() =>  this.props.navigate()} >
           <Image source={require('../assets/images/comment.png')} style={[styles.engagementButtonImage, this.props.style]} />
         </TouchableOpacity>
       </View>

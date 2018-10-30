@@ -30,24 +30,25 @@ class CommunityScreen extends React.Component {
       buzzListByCompanyId: {},
       isFetching: false,
     }
+    this._getAllBuzz = this._getAllBuzz.bind(this);
   }
 
   componentDidMount() {
-    this._fetchAll();
+    this._getAllBuzz();
   }
 
-  _fetchAll() {
+  _getAllBuzz() {
     this.setState({ isFetching: true });
     getUserEmail().then((response) => {
-      this.setState({ userEmails: response.userEmails });
       const companyIds = response.userEmails.map((userEmail) => {
         return userEmail.company.id
       });
-      getBuzzList(companyIds).then((response) => {
-        const buzzListByCompanyId = _.keyBy(response, r => r.companyId);
+      getBuzzList(companyIds).then((responseBuzzList) => {
+        const buzzListByCompanyId = _.keyBy(responseBuzzList, r => r.companyId);
         this.setState({
           buzzListByCompanyId: buzzListByCompanyId,
           isFetching: false,
+          userEmails: response.userEmails,
         });
       });
     });
@@ -64,8 +65,16 @@ class CommunityScreen extends React.Component {
           tabLabel={userEmail.company.name}
           style={{backgroundColor:'white'}}
           showsVerticalScrollIndicator={false}
-          onRefresh={() => this._fetchAll()}
+          onRefresh={() => this._getAllBuzz()}
           refreshing={this.state.isFetching}
+          // scroll to top only after posted a comment
+          ref={ref => this.flatList = ref}
+          onContentSizeChange={() => {
+            if (this.props.navigation.getParam('posted')) this.flatList.scrollToIndex({ animated: true, index: 0 });
+          }}
+          onLayout={() => {
+            if (this.props.navigation.getParam('posted')) this.flatList.scrollToIndex({ animated: true, index: 0 });
+          }}
           data={buzzList}
           keyExtractor={(item, index) => companyId + '#' + item.id.toString()}
           key={(item) => companyId.toString() + '##' + item.id.toString()}
@@ -84,8 +93,10 @@ class CommunityScreen extends React.Component {
           renderTabBar={() =>
             <DefaultTabBar
               activeTextColor={'white'}
+              textStyle={{fontSize: 16}}
               underlineStyle={styles.communityHeaderUnderline}
-              style={styles.defaultTabBarContainer} />
+              style={styles.defaultTabBarContainer}
+              />
             }
           style={styles.scrollableTabViewContainer}
           showsHorizontalScrollIndicator={false}
@@ -93,7 +104,7 @@ class CommunityScreen extends React.Component {
         >
           {this._getCommunities()}
         </ScrollableTabView>
-        <BuzzPlusButton navigation={this.props.navigation} />
+        <BuzzPlusButton navigation={this.props.navigation} refetch={this._getAllBuzz}/>
       </View>
     );
   }

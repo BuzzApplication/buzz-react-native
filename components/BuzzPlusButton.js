@@ -9,7 +9,11 @@ class BuzzPlusButton extends React.Component {
   render() {
     return (
       <View style={[styles.buttonContainer, baseStyles.buttonShadow]}>
-        <TouchableOpacity activeOpacity={0.5} style={baseStyles.button} onPress={()=>{this.props.navigation.navigate('Buzz')}} >
+        <TouchableOpacity
+          activeOpacity={0.5}
+          style={baseStyles.button}
+          onPress={() => {
+            this.props.navigation.navigate('Buzz', {refetch: this.props.refetch})}} >
           <Ionicons name="ios-add" size={90} color='white' style={styles.plusToMakeItNotTransparent} />
           <Ionicons name="ios-add-circle" size={70} color={colors.skyBlue} />
         </TouchableOpacity>

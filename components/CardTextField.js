@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
   },
   cardTextFieldText: {
     // backgroundColor: colors.lightPeriwinkle,
-    fontSize: 14,
+    fontSize: 15,
   },
 });
 

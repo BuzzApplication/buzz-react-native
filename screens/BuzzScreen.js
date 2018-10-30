@@ -3,6 +3,7 @@ import { StyleSheet, View, Text, TextInput, Switch } from 'react-native';
 import { HeaderBackButton } from 'react-navigation';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import ModalDropdown from 'react-native-modal-dropdown';
+import KeyboardSpacer from 'react-native-keyboard-spacer';
 
 import baseStyles from '../constants/Styles';
 import { colors } from '../constants/Colors';
@@ -19,7 +20,7 @@ import { postBuzz } from "../api/buzz.js";
 
 export class BuzzScreen extends React.Component {
   static navigationOptions = ({navigation}) => ({
-    header: <BuzzHeader navigation={navigation} />
+    header: <BuzzHeader navigation={navigation} refetch={navigation.state.params.refetch}/>
   });
 
   constructor(props) {
@@ -72,6 +73,7 @@ export class BuzzScreen extends React.Component {
           maxLength={150}
           enablesReturnKeyAutomatically={true}
         />
+        <KeyboardSpacer topSpacing={-60} />
       </View>
     );
   }
