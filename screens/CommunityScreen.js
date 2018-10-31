@@ -30,6 +30,7 @@ class CommunityScreen extends React.Component {
       buzzListByCompanyId: {},
       isFetching: false,
     }
+
     this._getAllBuzz = this._getAllBuzz.bind(this);
   }
 
@@ -43,6 +44,7 @@ class CommunityScreen extends React.Component {
       const companyIds = response.userEmails.map((userEmail) => {
         return userEmail.company.id
       });
+      console.log('companyIds', companyIds);
       getBuzzList(companyIds).then((responseBuzzList) => {
         const buzzListByCompanyId = _.keyBy(responseBuzzList, r => r.companyId);
         this.setState({
