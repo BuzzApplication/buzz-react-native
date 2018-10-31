@@ -117,7 +117,7 @@ export class WelcomeScreen extends React.Component {
       return (
         <View style={{alignItems: 'center'}}>
           <Image source={props.image} style={props.imageStyle} />
-          <TouchableOpacity activeOpacity={0.5} style={[baseStyles.buttonShadow, styles.buttonContainer]} onPress={()=>{this.props.navigation.navigate('Main')}} >
+          <TouchableOpacity activeOpacity={0.8} style={[baseStyles.buttonShadow, styles.buttonContainer]} onPress={()=>{this.props.navigation.navigate('Main')}} >
             <View style={{flexDirection: 'row'}}>
               <OpenSansText style={styles.buzzText}>start </OpenSansText>
               <OpenSansBoldText style={styles.buzzText}>Buzz</OpenSansBoldText>

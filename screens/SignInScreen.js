@@ -1,11 +1,13 @@
 import React from 'react';
-import { StyleSheet, View, TouchableOpacity, Image, TextInput, Text, KeyboardAvoidingView, Animated, Keyboard, Button } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, Image, TextInput, Text, Animated, Keyboard, Button } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 
 import { colors } from '../constants/Colors';
 import baseStyles from '../constants/Styles';
 
+import { authenticate } from '../api/authentication';
+import { storeToken } from '../api/tokenHelper';
 
 import { OpenSansText, OpenSansLightText, OpenSansItalicText, OpenSansLightItalicText, OpenSansBoldText } from '../components/StyledText'
 
@@ -17,8 +19,14 @@ class SignInScreen extends React.Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      email: 'tsjahja@buzz.com',
+      password: '12345',
+      newUserButtonDisabled: false,
+    }
+
     this.keyboardHeight = new Animated.Value(0);
-    this.signContainerHeight = new Animated.Value(-200);
+    this.signContainerHeight = new Animated.Value(-150);
     this.tagLineOpacity = new Animated.Value(1);
     this.newUserOpacity = new Animated.Value(1);
   }
@@ -52,6 +60,7 @@ class SignInScreen extends React.Component {
         toValue: 0,
       }),
     ]).start();
+    this.setState({newUserButtonDisabled: true});
   };
 
   keyboardWillHide = (event) => {
@@ -62,7 +71,7 @@ class SignInScreen extends React.Component {
       }),
       Animated.timing(this.signContainerHeight, {
         duration: event.duration,
-        toValue: -200,
+        toValue: -150,
       }),
       Animated.timing(this.tagLineOpacity, {
         duration: event.duration,
@@ -73,7 +82,16 @@ class SignInScreen extends React.Component {
         toValue: 1,
       }),
     ]).start();
+    this.setState({newUserButtonDisabled: false});
   };
+
+  _signIn() {
+    authenticate(this.state.email, this.state.password)
+      .then((responseJson) => {
+        storeToken(responseJson.token);
+        this.props.navigation.navigate('Main');
+      })
+  }
 
   render() {
     return (
@@ -99,24 +117,55 @@ class SignInScreen extends React.Component {
                 <View style={styles.iconContainer}>
                   <MaterialIcons name='mail' size={30} style={styles.icon}/>
                 </View>
-                <TextInput style={styles.textInput} placeholder='email'/>
+                <TextInput
+                  style={styles.textInput}
+                  placeholder='email'
+                  onChangeText={text => {
+                    this.setState({email: text});
+                  }}
+                  value={this.state.email} />
               </View>
-
             </View>
+
             <View style={styles.textContainer}>
               <View style={styles.textBorderContainer}>
                 <View style={styles.iconContainer}>
                   <FontAwesome name='lock' size={30} style={styles.icon}/>
                 </View>
-                <TextInput style={styles.textInput} placeholder='password'/>
+                <TextInput
+                  style={styles.textInput}
+                  placeholder='password'
+                  secureTextEntry={true}
+                  onChangeText={text => {
+                    this.setState({password: text});
+                  }}
+                  value={this.state.password} />
               </View>
             </View>
 
             <View>
               <OpenSansLightText style={styles.forgotPasswordText}>Forgot password</OpenSansLightText>
             </View>
+
+            <View style={styles.textContainer}>
+              <TouchableOpacity
+                style={styles.signInButtonContainer}
+                activeOpacity={0.8}
+                disabled={this.state.email == '' || this.state.password == ''}
+                onPress={() => this._signIn()} >
+                <OpenSansText style={{fontSize: 18, color: 'white'}}>Sign in</OpenSansText>
+              </TouchableOpacity>
+            </View>
             <Animated.View style={{opacity: this.newUserOpacity}}>
-              <Button title="I'm new!" color='white' onPress={() => this.props.navigation.navigate('SignUpDescription')}/>
+
+              <View style={styles.signUpContainer}>
+                <TouchableOpacity
+                  activeOpacity={0.8}
+                  disabled={this.state.newUserButtonDisabled}
+                  onPress={() => { this.props.navigation.navigate('SignUpDescription') }} >
+                  <OpenSansLightText style={{fontSize: 16, color: 'white'}}>Sign up!</OpenSansLightText>
+                </TouchableOpacity>
+              </View>
             </Animated.View>
         </Animated.View>
       </Animated.View>
@@ -150,12 +199,6 @@ const styles = StyleSheet.create({
     color: 'white',
     textAlign: 'right',
   },
-  newUserText: {
-    fontSize: 20,
-    paddingTop: 10,
-    color: 'white',
-    textAlign: 'center',
-  },
   tagLine: {
     flexDirection: 'column',
     top: '20%',
@@ -174,6 +217,10 @@ const styles = StyleSheet.create({
   textContainer: {
     paddingTop: 15,
   },
+  signUpContainer: {
+    paddingTop: 15,
+    alignItems: 'center',
+  },
   textBorderContainer: {
     padding: 5,
     backgroundColor: 'white',
@@ -181,6 +228,15 @@ const styles = StyleSheet.create({
     borderWidth: 0,
     opacity: 0.7,
     flexDirection: 'row',
+  },
+  signInButtonContainer: {
+    padding: 10,
+    backgroundColor: colors.darkBlue,
+    opacity: 1,
+    borderRadius: 10,
+    borderWidth: 0,
+    flexDirection: 'row',
+    justifyContent: 'center',
   },
   iconContainer: {
     justifyContent: 'flex-start',

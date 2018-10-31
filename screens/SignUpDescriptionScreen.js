@@ -44,7 +44,7 @@ export class SignUpDescriptionScreen extends React.Component {
           </View>
         </View>
         <View style={styles.buttonContainer}>
-          <TouchableOpacity activeOpacity={0.5} style={[baseStyles.buttonShadow, styles.button]} onPress={()=>{this.props.navigation.navigate('SignUpEmail')}} >
+          <TouchableOpacity activeOpacity={0.8} style={[baseStyles.buttonShadow, styles.button]} onPress={()=>{this.props.navigation.navigate('SignUpEmail')}} >
             <OpenSansText style={styles.buttonText}>Get Started</OpenSansText>
           </TouchableOpacity>
         </View>

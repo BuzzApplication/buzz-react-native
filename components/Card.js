@@ -25,7 +25,7 @@ class Card extends React.Component {
     this._navigateToCardDetail = this._navigateToCardDetail.bind(this);
   }
 
-  componentDidMount() {``
+  componentDidMount() {
     this._getUserEmailId(this.props.userEmails, this.props.data);
   }
 

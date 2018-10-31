@@ -10,7 +10,7 @@ class BuzzPlusButton extends React.Component {
     return (
       <View style={[styles.buttonContainer, baseStyles.buttonShadow]}>
         <TouchableOpacity
-          activeOpacity={0.5}
+          activeOpacity={0.8}
           style={baseStyles.button}
           onPress={() => {
             this.props.navigation.navigate('Buzz', {refetch: this.props.refetch})}} >
