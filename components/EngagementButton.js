@@ -46,18 +46,20 @@ export class LikeButton extends React.Component {
   }
 
   _likeBuzz(buzzId, liked) {
+    this.setState(prevState => ({
+      liked: !prevState.liked
+    }));
     likeBuzz(buzzId, !liked).then((response) => {
-      this.setState(prevState => ({
-        liked: !prevState.liked
-      }));
+      console.log('Failed in liking buzzId=',buzzId)
     });
   }
 
   _likeComment(commentId, liked) {
+    this.setState(prevState => ({
+      liked: !prevState.liked
+    }));
     likeComment(commentId, !liked).then((response) => {
-      this.setState(prevState => ({
-        liked: !prevState.liked
-      }));
+      console.log('Failed in liking commentId',commentId)
     });
   }
 
