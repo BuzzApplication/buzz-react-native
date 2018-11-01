@@ -13,13 +13,32 @@ import { OpenSansText, OpenSansLightText, OpenSansItalicText, OpenSansLightItali
 
 
 class CardTrending extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  componentDidMount() {
+    this.setState({
+      buzzId: this.props.data.item.id,
+      userEmailId: this.props.data.item.userEmailId,
+    });
+  }
+
+  _navigateToCardDetail() {
+    this.props.navigation.navigate('CardDetailScreen', {
+      buzzId: this.state.buzzId,
+      userEmailId: this.state.userEmailId,
+    });
+  }
+
   render() {
+    const data = this.props.data.item;
     return (
       <View style={[styles.cardContainer, this.props.style]}>
-        <TouchableOpacity style={baseStyles.button} onPress={()=>{this.props.navigation.navigate('CardTrendingDetail')}}>
-          <CardTrendingTopSection />
-          <CardTextField text={this.props.text} />
-          <CardTrendingBottomSection />
+        <TouchableOpacity style={baseStyles.button} onPress={()=> this._navigateToCardDetail()}>
+          <CardTrendingTopSection timePassed={data.timePassed} alias={data.alias} company={data.userCompany.name} />
+          <CardTextField text={data.text} />
+          <CardTrendingBottomSection liked={data.liked} likesCount={data.likesCount} commentsCount={data.commentsCount} />
         </TouchableOpacity>
       </View>
     );

@@ -10,10 +10,51 @@ import BuzzPlusButton from '../components/BuzzPlusButton';
 
 import { OpenSansText, OpenSansLightText, OpenSansItalicText, OpenSansLightItalicText, OpenSansBoldText } from '../components/StyledText'
 
+import { getUserEmail, getUser } from '../api/user';
+
 class ProfileScreen extends React.Component {
   static navigationOptions = ({navigation}) => ({
     header: <ProfileHeader navigation={navigation} />
   });
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      user: {},
+      companyNames: [],
+    }
+  }
+
+  componentDidMount() {
+    this._getUserEmail();
+    this._getUser();
+  }
+
+  _getUser() {
+    getUser().then((response) => {
+      this.setState({user: response});
+    })
+  }
+
+  _getUserEmail() {
+    getUserEmail().then((response) => {
+      const companyNames = response.userEmails.map((userEmail) => userEmail.company.name);
+      this.setState({companyNames: companyNames});
+    });
+  };
+
+  _getCommunities() {
+    return this.state.companyNames.map((companyName) => {
+      return (
+        <View style={styles.communityCardContainer}>
+          <View style={styles.communityCard}>
+            <OpenSansText style={styles.communityText}>{companyName}</OpenSansText>
+          </View>
+        </View>
+      )
+    });
+  }
+
   render() {
     return (
       <ScrollView showsVerticalScrollIndicator={false} keyboardDismissMode="interactive" backgroundColor={colors.skyBlue}>
@@ -30,7 +71,7 @@ class ProfileScreen extends React.Component {
           // Alias
           <View style={styles.aliasSection}>
             <View style={styles.aliasName}>
-              <OpenSansText style={styles.aliasNameText}>mahun</OpenSansText>
+              <OpenSansText style={styles.aliasNameText}>{this.state.user.alias}</OpenSansText>
             </View>
             <View style={styles.aliasLegend}>
               <OpenSansLightItalicText style={styles.aliasLegendText}>alias</OpenSansLightItalicText>
@@ -51,16 +92,7 @@ class ProfileScreen extends React.Component {
               </View>
 
               <View style={styles.communityGroupContainer}>
-                <View style={styles.communityCardContainer}>
-                  <View style={styles.communityCard}>
-                    <OpenSansText style={styles.communityText}>Bank Mandiri</OpenSansText>
-                  </View>
-                </View>
-                <View style={styles.communityCardContainer}>
-                  <View style={styles.communityCard}>
-                    <OpenSansText style={styles.communityText}>Universitas Indonesia</OpenSansText>
-                  </View>
-                </View>
+                {this._getCommunities()}
               </View>
 
             </View>

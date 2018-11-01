@@ -11,17 +11,20 @@ import { ShareButton, CommentButton, LikeButton } from '../components/Engagement
 
 class CardTrendingBottomSection extends React.Component {
   render() {
+    const likesCount = this.props.likesCount;
+    const commentsCount = this.props.commentsCount;
+    const liked = this.props.liked;
     return (
       <View style={styles.cardTrendingBottomSectionContainer}>
         <View style={styles.engagementDataGroup}>
-          <EngagementData type='likes' styles={styles.engagementData}/>
-          <EngagementData type='comments' styles={styles.engagementData}/>
+          <EngagementData type='likes' count={likesCount} styles={styles.engagementData}/>
+          <EngagementData type='comments' count={commentsCount} styles={styles.engagementData}/>
         </View>
         <View style={styles.engagementButtonsContainer}>
           <FavoriteButton imageStyle={styles.favoriteButtonImage} />
           <ShareButton style={styles.button} />
           <CommentButton style={styles.button} />
-          <LikeButton style={styles.button} />
+          <LikeButton liked={liked} style={styles.button} />
         </View>
       </View>
     );

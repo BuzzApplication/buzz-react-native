@@ -112,7 +112,7 @@ export class CardDetailScreen extends React.Component {
               this.setState({text});
             }}
             value={this.state.text}
-            placeholder={'Type a message...'}
+            placeholder={'Type a comment...'}
             enablesReturnKeyAutomatically = {true}
             multiline={true}
             numberOfLines={4}
