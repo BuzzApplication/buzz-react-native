@@ -21,10 +21,10 @@ class FavoriteButton extends React.Component {
   }
 
   _favoriteBuzz(buzzId, favorited) {
-    this.setState(prevState => ({
-      favorited: !prevState.favorited
-    }));
     favoriteBuzz(buzzId, !favorited).then((response) => {
+      this.setState(prevState => ({
+        favorited: !prevState.favorited
+      }));
       console.log('Failed to favorite buzzId=',buzzId)
     });
   }
