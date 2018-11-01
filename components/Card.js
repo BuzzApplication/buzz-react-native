@@ -53,10 +53,6 @@ class Card extends React.Component {
     }
   }
 
-  handleClick() {
-    Alert.alert('This is awesome \n Double tap succeed');
-  }
-
   _navigateToCardDetail() {
     this.props.navigation.navigate('CardDetail', {
           buzzId: this.state.buzz.id,
@@ -71,10 +67,15 @@ class Card extends React.Component {
     return (
       <View style={[styles.cardContainer, baseStyles.bottomBorder, this.props.style]}>
         <TouchableOpacity style={baseStyles.button} onPress={() => this._navigateToCardDetail()} >
-          <CardTopSection timePassed={data.timePassed} />
+          <CardTopSection timePassed={data.timePassed} favorited={data.favorited} buzzId={data.id} />
           <CardTextField text={data.text} />
           <EngagementDataGroup likesCount={data.likesCount} commentsCount={data.commentsCount} />
-          <CardBottomSection alias={data.alias} company={data.userCompany.name} liked={data.liked} buzzId={data.id} navigate={this._navigateToCardDetail} />
+          <CardBottomSection
+            alias={data.alias}
+            company={data.userCompany.name}
+            liked={data.liked}
+            buzzId={data.id}
+            navigate={this._navigateToCardDetail} />
         </TouchableOpacity>
       </View>
     );

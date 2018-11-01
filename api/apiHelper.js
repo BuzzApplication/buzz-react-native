@@ -7,7 +7,6 @@ import { URL, tokenKey } from '../api/constants';
 export const get = (path) => {
   const url = URL + path;
   return AsyncStorage.getItem(tokenKey).then((token) => {
-    console.log('token inside constructor', token);
     return fetch(url, {
       headers: {
         Accept: 'application/json',
@@ -27,7 +26,6 @@ export const get = (path) => {
 export const post = (path, requestBody) => {
   const url = URL + path;
   return AsyncStorage.getItem(tokenKey).then((token) => {
-    console.log('token inside constructor', token);
     return fetch(url, {
       method: 'POST',
       headers: {
