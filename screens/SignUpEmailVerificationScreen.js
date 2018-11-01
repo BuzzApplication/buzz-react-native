@@ -9,15 +9,39 @@ import { colors } from '../constants/Colors';
 import SignUpDescriptionHeader from '../components/SignUpDescriptionHeader';
 import { OpenSansText, OpenSansLightText, OpenSansLightItalicText } from '../components/StyledText';
 
+import { createUser } from '../api/user';
+import { verify } from '../api/authentication';
+import { storeToken } from '../api/tokenHelper';
+
 
 export class SignUpEmailVerificationScreen extends React.Component {
   static navigationOptions = ({navigation}) => ({
     header: <SignUpDescriptionHeader navigation={navigation} />
-    // tabBarVisible: false,
   })
 
-  _onFinishCheckingCode = (isValid) => {
-    this.props.navigation.navigate('Welcome');
+  constructor(props) {
+    super(props);
+    this.state = {
+      email: '',
+      password: '',
+    };
+  };
+
+  componentDidMount() {
+    this.setState({
+      'email': this.props.navigation.getParam('email'),
+      'password': this.props.navigation.getParam('password'),
+    })
+  }
+
+  _onFinishCheckingCode = (code) => {
+    verify(this.state.email, this.state.password, code).then((responseJson) => {
+        storeToken(responseJson.token);
+        createUser().then((responseJson) => {
+          console.log('Succesfully create user');
+          this.props.navigation.navigate('Welcome');
+        })
+      })
   }
 
   render() {
@@ -30,9 +54,7 @@ export class SignUpEmailVerificationScreen extends React.Component {
         <View style={styles.textContainer}>
           <CodeInput
             ref="codeInputRef2"
-            secureTextEntry
             keyboardType="numeric"
-            compareWithCode='1234'
             codeLength={4}
             activeColor='white'
             inactiveColor='white'
@@ -40,7 +62,7 @@ export class SignUpEmailVerificationScreen extends React.Component {
             ignoreCase={true}
             inputPosition='center'
             size={55}
-            onFulfill={(isValid) => this._onFinishCheckingCode(isValid)}
+            onFulfill={(code) => this._onFinishCheckingCode(code)}
             containerStyle={{ marginTop: 30 }}
             codeInputStyle={{ borderWidth: 1.5, fontSize: 20 }}
             />

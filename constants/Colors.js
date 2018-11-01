@@ -7,7 +7,6 @@ export const colors = {
   paleTurquoise: "#a9f0d1",
   turquoise: '#22bcb5',
   paleSalmon: "#feafaa",
-  // skyBlue: '#4db3e9',
   skyBlue: '#4cb5f5',
   lightBlue: '#ecf5f8',
   darkBlue: '#254a8a',
@@ -22,6 +21,7 @@ export const colors = {
   pink: "#ffe3e7",
   tabIconDefault: '#ccc',
   border: '#bbb',
+  mblue: '#00274C',
 };
 
 // export default {

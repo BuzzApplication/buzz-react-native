@@ -20,8 +20,8 @@ class SignInScreen extends React.Component {
     super(props);
 
     this.state = {
-      email: 'tsjahja@buzz.com',
-      password: '12345',
+      email: 'hun@taberu.com',
+      password: 'qw',
       newUserButtonDisabled: false,
     }
 
@@ -231,7 +231,7 @@ const styles = StyleSheet.create({
   },
   signInButtonContainer: {
     padding: 10,
-    backgroundColor: colors.darkBlue,
+    backgroundColor: colors.mblue,
     opacity: 1,
     borderRadius: 10,
     borderWidth: 0,

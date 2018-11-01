@@ -13,8 +13,14 @@ import { OpenSansText, OpenSansLightText, OpenSansLightItalicText } from '../com
 export class SignUpEmailScreen extends React.Component {
   static navigationOptions = ({navigation}) => ({
     header: <SignUpDescriptionHeader navigation={navigation} />
-    // tabBarVisible: false,
   })
+
+  _onChangeText(text) {
+    this.props.navigation.setParams({
+      email: text,
+    });
+  }
+
   render() {
     return (
       <LinearGradient style={styles.container} colors={[colors.skyBlue, colors.turquoise]}>
@@ -33,8 +39,13 @@ export class SignUpEmailScreen extends React.Component {
             </View>
             <TextInput
               style={styles.textInput}
-              placeholder='enter work email'
-              onSubmitEditing={() => this.props.navigation.navigate('SignUpEmailVerification')}
+              placeholder='Enter work email'
+              enablesReturnKeyAutomatically={true}
+              value={this.props.navigation.getParam('email')}
+              onChangeText={(text) => this._onChangeText(text)}
+              onSubmitEditing={(text) => this.props.navigation.navigate('SignUpPassword',
+                {'email': this.props.navigation.getParam('email')}
+              )}
               />
           </View>
 

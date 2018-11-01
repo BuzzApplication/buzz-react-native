@@ -12,6 +12,10 @@ export const getBuzzList = (companyIds) => {
   return get('/user/buzz' + '?' + searchParams);
 }
 
+export const getPostedBuzz = () => {
+  return get('/user/buzz/posted');
+}
+
 export const postBuzz = (text, companyId, userEmailId, anonymous) => {
   const requestBody = {
     text: text,

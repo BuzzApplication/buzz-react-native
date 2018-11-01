@@ -7,10 +7,13 @@ import UserContainerRowAligned from '../components/UserContainerRowAligned';
 
 class CardTrendingTopSection extends React.Component {
   render() {
+    const timePassed = this.props.timePassed;
+    const alias = this.props.alias;
+    const company = this.props.company;
     return (
       <View style={styles.topContainer}>
-        <UserContainerRowAligned />
-        <Time />
+        <UserContainerRowAligned alias={alias} company={company} />
+        <Time timePassed={timePassed} />
       </View>
     );
   }
