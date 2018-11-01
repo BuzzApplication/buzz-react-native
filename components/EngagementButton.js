@@ -41,8 +41,14 @@ export class LikeButton extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      liked: this.props.liked,
+      liked: '',
     }
+  }
+
+  componentDidMount() {
+    this.setState({
+      liked: this.props.liked,
+    });
   }
 
   _likeBuzz(buzzId, liked) {

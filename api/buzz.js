@@ -33,3 +33,11 @@ export const likeBuzz = (buzzIds, liked) => {
   }
   return post('/user/buzz/like', requestBody);
 }
+
+export const favoriteBuzz = (buzzIds, favorited) => {
+  const requestBody = {
+    buzzId: buzzIds,
+    favorited: favorited,
+  }
+  return post('/user/buzz/favorite', requestBody);
+}

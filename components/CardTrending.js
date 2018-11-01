@@ -38,7 +38,12 @@ class CardTrending extends React.Component {
         <TouchableOpacity style={baseStyles.button} onPress={()=> this._navigateToCardDetail()}>
           <CardTrendingTopSection timePassed={data.timePassed} alias={data.alias} company={data.userCompany.name} />
           <CardTextField text={data.text} />
-          <CardTrendingBottomSection liked={data.liked} likesCount={data.likesCount} commentsCount={data.commentsCount} />
+          <CardTrendingBottomSection
+            liked={data.liked}
+            favorited={data.favorited}
+            buzzId={data.id}
+            likesCount={data.likesCount}
+            commentsCount={data.commentsCount} />
         </TouchableOpacity>
       </View>
     );

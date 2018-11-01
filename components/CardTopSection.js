@@ -7,12 +7,14 @@ import FavoriteButton from '../components/FavoriteButton';
 
 class CardTopSection extends React.Component {
   render() {
+    const buzzId = this.props.buzzId;
     const timePassed = this.props.timePassed;
+    const favorited = this.props.favorited;
 
     return (
       <View style={[styles.topContainer, this.props.style]}>
         <Time timePassed={timePassed} />
-        <FavoriteButton />
+        <FavoriteButton favorited={favorited} id={buzzId} />
       </View>
     );
   }
