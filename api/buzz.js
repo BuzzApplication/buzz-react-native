@@ -34,10 +34,17 @@ export const likeBuzz = (buzzIds, liked) => {
   return post('/user/buzz/like', requestBody);
 }
 
+export const getFavoriteBuzz = () => {
+  return get('/user/buzz/favorite');
+}
+
 export const favoriteBuzz = (buzzIds, favorited) => {
   const requestBody = {
     buzzId: buzzIds,
     favorited: favorited,
   }
   return post('/user/buzz/favorite', requestBody);
+}
+export const getTrendingBuzz = () => {
+  return get('/user/buzz/trending');
 }

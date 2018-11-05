@@ -38,46 +38,16 @@ export class CommentButton extends React.Component {
 }
 
 export class LikeButton extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      liked: '',
-    }
-  }
-
-  componentDidMount() {
-    this.setState({
-      liked: this.props.liked,
-    });
-  }
-
-  _likeBuzz(buzzId, liked) {
-    likeBuzz(buzzId, !liked).then((response) => {
-      this.setState(prevState => ({
-        liked: !prevState.liked
-      }));
-      console.log('Failed in liking buzzId=',buzzId)
-    });
-  }
-
-  _likeComment(commentId, liked) {
-    likeComment(commentId, !liked).then((response) => {
-      this.setState(prevState => ({
-        liked: !prevState.liked
-      }));
-      console.log('Failed in liking commentId',commentId)
-    });
-  }
-
   render() {
     const id = this.props.id;
-    const imageUrl = this.state.liked ? require('../assets/images/liked.png') : require('../assets/images/like.png');
+    const likeAction = this.props.likeAction;
+    const imageUrl = this.props.liked ? require('../assets/images/liked.png') : require('../assets/images/like.png');
 
     return (
       <View style={styles.engagementButtonContainer}>
         <TouchableOpacity
           style={baseStyles.button}
-          onPress={() => this.props.type === 'BUZZ' ? this._likeBuzz(id, this.state.liked) : this._likeComment(id, this.state.liked)} >
+          onPress={() => likeAction(id, this.props.liked)} >
           <Image source={imageUrl} style={[styles.engagementButtonImage, this.props.style]} />
         </TouchableOpacity>
       </View>

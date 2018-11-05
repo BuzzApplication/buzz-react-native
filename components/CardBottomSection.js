@@ -6,11 +6,13 @@ import { ShareButton, CommentButton, LikeButton } from '../components/Engagement
 
 
 class CardBottomSection extends React.Component {
+
   render() {
     const buzzId = this.props.buzzId;
     const alias = this.props.alias;
     const company = this.props.company;
     const liked = this.props.liked;
+    const likeAction = this.props.likeAction;
 
     return (
       <View style={styles.cardBottomSectionContainer}>
@@ -18,7 +20,7 @@ class CardBottomSection extends React.Component {
         <View style={styles.engagementButtonsContainer}>
           <ShareButton />
           <CommentButton navigate={this.props.navigate} />
-          <LikeButton liked={liked} type='BUZZ' id={buzzId}/>
+          <LikeButton liked={liked} id={buzzId} likeAction={likeAction} />
         </View>
       </View>
     );

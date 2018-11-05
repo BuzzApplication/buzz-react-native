@@ -9,11 +9,20 @@ import BuzzPlusButton from '../components/BuzzPlusButton';
 
 import { OpenSansText, OpenSansLightText, OpenSansItalicText, OpenSansLightItalicText } from '../components/StyledText'
 
+import { removeToken } from '../api/tokenHelper';
+
+
 class SettingsScreen extends React.Component {
   static navigationOptions = ({navigation}) => ({
     header: <SettingsHeader navigation={navigation} />
   });
-  state = {username: ''};
+
+  _signOut() {
+    removeToken().then(() => {
+      this.props.navigation.navigate('Registration');
+    });
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -38,6 +47,14 @@ class SettingsScreen extends React.Component {
           <TouchableOpacity style={baseStyles.button} onPress={()=>{this.props.navigation.navigate('Profile')}}>
             <OpenSansText>
               Send Feedback
+            </OpenSansText>
+          </TouchableOpacity>
+        </View>
+
+        <View style={[styles.settings, baseStyles.bottomBorder]}>
+          <TouchableOpacity style={baseStyles.button} onPress={() => this._signOut()}>
+            <OpenSansText>
+              Sign Out
             </OpenSansText>
           </TouchableOpacity>
         </View>

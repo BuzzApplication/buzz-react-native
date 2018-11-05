@@ -1,14 +1,31 @@
 import React from 'react';
-import { Platform, StatusBar, StyleSheet, View } from 'react-native';
+import { Platform, StatusBar, StyleSheet, View, AsyncStorage } from 'react-native';
 import { AppLoading, Asset, Font, Icon } from 'expo';
-import AppNavigator from './navigation/AppNavigator';
+import { createRootNavigator } from './navigation/AppNavigator';
+
+import { isSignedIn } from './auth';
+
 
 export default class App extends React.Component {
-  state = {
-    isLoadingComplete: false,
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      signedIn: false,
+      checkedSignIn: false,
+      isLoadingComplete: false,
+    };
+  }
+
+  componentDidMount() {
+    isSignedIn()
+      .then(res => this.setState({ signedIn: res, checkedSignIn: true }))
+      .catch(err => alert("An error occurred"));
+  }
 
   render() {
+    const { checkedSignIn, signedIn } = this.state;
+
     if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
       return (
         <AppLoading
@@ -18,14 +35,25 @@ export default class App extends React.Component {
         />
       );
     } else {
-      return (
-        <View style={styles.container}>
-          {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-          <AppNavigator />
-        </View>
-      );
+      // If we haven't checked AsyncStorage yet, don't render anything (better ways to do this)
+      if (!checkedSignIn) {
+        return null;
+      }
+
+      const Layout = createRootNavigator(signedIn);
+      return <Layout />;
     }
   }
+
+
+  //         <View style={styles.container}>
+  //           {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
+  //           {navigator}
+  //         </View>
+  //
+  //     });
+  //   }
+  // }
 
   _loadResourcesAsync = async () => {
     return Promise.all([

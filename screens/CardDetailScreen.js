@@ -13,7 +13,7 @@ import Card from '../components/Card';
 import CommentCard from '../components/CommentCard';
 // import Keyboard from '../components/Keyboard';
 
-import { getCommentList, postComment } from "../api/comment.js";
+import { getCommentList, postComment, likeComment } from "../api/comment.js";
 
 
 export class CardDetailScreen extends React.Component {
@@ -31,14 +31,46 @@ export class CardDetailScreen extends React.Component {
       isFetching: false,
       posted: false,
     }
+
+    this._likeBuzz = this._likeBuzz.bind(this);
+    this._favoriteBuzz = this._favoriteBuzz.bind(this);
+    this._likeComment = this._likeComment.bind(this);
+    this._updateComment = this._updateComment.bind(this);
   }
 
   componentDidMount() {
-    this.setState(
-      {userEmailId: this.props.navigation.getParam('userEmailId')}
-    );
+    this.setState({
+      userEmailId: this.props.navigation.getParam('userEmailId'),
+    });
     const buzzId = this.props.navigation.getParam('buzzId');
     this._getCommentList(buzzId);
+  }
+
+  _updateComment(updatedComment) {
+    const commentList = this.state.commentList;
+    const updatedCommentList = _.map(commentList, function(comment, index) {
+      return comment.id === updatedComment.id ? updatedComment : comment;
+    });
+
+    this.setState({commentList: updatedCommentList});
+  }
+
+  _likeBuzz(buzzId, liked) {
+    const likeAction = this.props.navigation.getParam('likeAction');
+    likeAction(buzzId, liked);
+    this._getCommentList(buzzId);
+  }
+
+  _favoriteBuzz(buzzId, favorited) {
+    const favoriteAction = this.props.navigation.getParam('favoriteAction');
+    favoriteAction(buzzId, favorited);
+    this._getCommentList(buzzId);
+  }
+
+  _likeComment(commentId, liked, _toggleLiked) {
+    likeComment(commentId, !liked).then((response) => {
+      this._updateComment(response);
+    }).catch((e) => console.log('ERROR', e));
   }
 
   _getCommentList(buzzId) {
@@ -79,7 +111,7 @@ export class CardDetailScreen extends React.Component {
         data={this.state.commentList}
         onRefresh={() => this._getCommentList(buzzId)}
         refreshing={this.state.isFetching}
-        keyExtractor={(item, index) => index.toString()}
+        keyExtractor={(item) => {item.id}}
         // scroll to end only after posted a comment
         ref={ref => this.flatList = ref}
         onContentSizeChange={() => {
@@ -92,10 +124,10 @@ export class CardDetailScreen extends React.Component {
         renderItem={(item) => (
           item.index == '0' ?
             <View >
-              <Card data={item} />
+              <Card data={item} likeAction={this._likeBuzz} favoriteAction={this._favoriteBuzz} />
               <View style={[styles.lines, baseStyles.bottomBorder]} />
             </View>
-          : <CommentCard data={item} />
+          : <CommentCard data={item} likeAction={this._likeComment} />
         )}
       />
     );

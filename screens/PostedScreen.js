@@ -27,14 +27,14 @@ class PostedScreen extends React.Component {
       isFetching: false,
     }
 
-    this._getAllBuzz = this._getAllBuzz.bind(this);
+    this._getPostedBuzz = this._getPostedBuzz.bind(this);
   }
 
   componentDidMount() {
-    this._getAllBuzz();
+    this._getPostedBuzz();
   }
 
-  _getAllBuzz() {
+  _getPostedBuzz() {
     this.setState({ isFetching: true });
     getPostedBuzz().then((response) => {
         this.setState({
@@ -50,10 +50,10 @@ class PostedScreen extends React.Component {
         <FlatList
           showsVerticalScrollIndicator={false}
           keyboardDismissMode="interactive"
-          onRefresh={() => this._getAllBuzz()}
+          onRefresh={() => this._getPostedBuzz()}
           refreshing={this.state.isFetching}
           data={this.state.buzzList}
-
+          keyExtractor={(item) => {item.id}}
           renderItem={(item) => (
               <CardTrending data={item} navigation={this.props.navigation} style={baseStyles.bottomBorder}/>
           )}

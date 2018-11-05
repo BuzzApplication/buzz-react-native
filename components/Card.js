@@ -57,6 +57,8 @@ class Card extends React.Component {
     this.props.navigation.navigate('CardDetail', {
           buzzId: this.state.buzz.id,
           userEmailId: this.state.userEmailId,
+          likeAction: this.props.likeAction,
+          favoriteAction: this.props.favoriteAction,
         });
   }
 
@@ -67,10 +69,11 @@ class Card extends React.Component {
     return (
       <View style={[styles.cardContainer, baseStyles.bottomBorder, this.props.style]}>
         <TouchableOpacity style={baseStyles.button} onPress={() => this._navigateToCardDetail()} >
-          <CardTopSection timePassed={data.timePassed} favorited={data.favorited} buzzId={data.id} />
+          <CardTopSection timePassed={data.timePassed} favorited={data.favorited} buzzId={data.id} favoriteAction={this.props.favoriteAction} />
           <CardTextField text={data.text} />
           <EngagementDataGroup likesCount={data.likesCount} commentsCount={data.commentsCount} />
           <CardBottomSection
+            likeAction={this.props.likeAction}
             alias={data.alias}
             company={data.userCompany.name}
             liked={data.liked}

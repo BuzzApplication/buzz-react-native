@@ -13,13 +13,14 @@ class CommentCardBottomSection extends React.Component {
     const commentId = this.props.commentId;
     const liked = this.props.liked;
     const likesCount = this.props.likesCount;
+    const likeAction = this.props.likeAction;
 
     return (
       <View style={styles.commentCardBottomSectionContainer}>
         <EngagementData type='likes' styles={styles.engagementData} count={likesCount} />
         <View style={styles.engagementButtonsContainer}>
           <ShareButton style={styles.button}/>
-          <LikeButton style={styles.button} liked={liked} type='COMMENT' id={commentId} />
+          <LikeButton style={styles.button} liked={liked} id={commentId} likeAction={likeAction} />
         </View>
       </View>
     );

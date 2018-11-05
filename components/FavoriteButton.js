@@ -7,37 +7,16 @@ import { favoriteBuzz } from "../api/buzz.js";
 
 
 class FavoriteButton extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      favorited: '',
-    }
-  }
-
-  componentDidMount() {
-    this.setState({
-      favorited: this.props.favorited,
-    });
-  }
-
-  _favoriteBuzz(buzzId, favorited) {
-    favoriteBuzz(buzzId, !favorited).then((response) => {
-      this.setState(prevState => ({
-        favorited: !prevState.favorited
-      }));
-      console.log('Failed to favorite buzzId=',buzzId)
-    });
-  }
-
   render() {
     const id = this.props.id;
-    const imageUrl = this.state.favorited ? require('../assets/images/starred.png') : require('../assets/images/star.png');
+    const favoriteAction = this.props.favoriteAction;
+    const imageUrl = this.props.favorited ? require('../assets/images/starred.png') : require('../assets/images/star.png');
 
     return (
       <View style={styles.favoriteButtonContainer} >
         <TouchableOpacity
           style={baseStyles.button}
-          onPress={() => this._favoriteBuzz(id, this.state.favorited)} >
+          onPress={() => favoriteAction(id, this.props.favorited)} >
           <Image source={imageUrl} style={[styles.favoriteButtonImage, this.props.imageStyle]} />
         </TouchableOpacity>
       </View>

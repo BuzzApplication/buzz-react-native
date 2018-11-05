@@ -10,11 +10,12 @@ class CardTopSection extends React.Component {
     const buzzId = this.props.buzzId;
     const timePassed = this.props.timePassed;
     const favorited = this.props.favorited;
+    const favoriteAction = this.props.favoriteAction;
 
     return (
       <View style={[styles.topContainer, this.props.style]}>
         <Time timePassed={timePassed} />
-        <FavoriteButton favorited={favorited} id={buzzId} />
+        <FavoriteButton favorited={favorited} id={buzzId} favoriteAction={favoriteAction} />
       </View>
     );
   }

@@ -6,18 +6,20 @@ import MainTabNavigator from './MainTabNavigator';
 
 import WelcomeScreen from '../screens/WelcomeScreen';
 
-export default createSwitchNavigator({
-  // You could add another route here for authentication.
-  // Read more at https://reactnavigation.org/docs/en/auth-flow.html
-  Registration: RegistrationNavigator,
-  Welcome: { screen: WelcomeScreen },
-  Main: MainTabNavigator,
-  },
-  {
-    initialRouteName: 'Registration',
-  },
-  {
-    navigationOptions: {
-      header: null,
-  },
-});
+export const createRootNavigator = (signedIn = false) => {
+  return createSwitchNavigator({
+    // You could add another route here for authentication.
+    // Read more at https://reactnavigation.org/docs/en/auth-flow.html
+    Registration: RegistrationNavigator,
+    Welcome: { screen: WelcomeScreen },
+    Main: MainTabNavigator,
+    },
+    {
+      initialRouteName: signedIn ? "Main" : "Registration",
+    },
+    {
+      navigationOptions: {
+        header: null,
+    },
+  });
+};

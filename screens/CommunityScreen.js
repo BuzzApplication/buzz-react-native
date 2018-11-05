@@ -16,7 +16,7 @@ import BuzzPlusButton from '../components/BuzzPlusButton';
 import EmptyFeed from '../components/EmptyFeed';
 
 import { getUserEmail } from "../api/user.js";
-import { getBuzzList } from "../api/buzz.js";
+import { getBuzzList, likeBuzz, favoriteBuzz } from "../api/buzz.js";
 
 
 class CommunityScreen extends React.Component {
@@ -28,15 +28,47 @@ class CommunityScreen extends React.Component {
     super(props);
     this.state = {
       userEmails: [],
-      buzzListByCompanyId: {},
+      buzzListByCompanyId: [],
       isFetching: false,
     }
 
     this._getAllBuzz = this._getAllBuzz.bind(this);
+    this._likeBuzz = this._likeBuzz.bind(this);
+    this._favoriteBuzz = this._favoriteBuzz.bind(this);
+    this._updateBuzz = this._updateBuzz.bind(this);
   }
 
   componentDidMount() {
     this._getAllBuzz();
+  }
+
+  _updateBuzz(updatedBuzz) {
+    const buzzList = this.state.buzzListByCompanyId[updatedBuzz.companyId].buzzList;
+    const updatedBuzzList = _.map(buzzList, function(buzz, index) {
+      return buzz.id === updatedBuzz.id ? updatedBuzz : buzz;
+    });
+
+    this.state.buzzListByCompanyId[updatedBuzz.companyId].buzzList = updatedBuzzList;
+    this.forceUpdate();
+    console.log('FORCE UPDATE');
+  }
+
+  _likeBuzz(buzzId, liked) {
+    console.log('LIKE BUZZ INSIDE COMMUNITY SCREEN IS CALLED!')
+    likeBuzz(buzzId, !liked).then((response) => {
+      console.log('response', response)
+
+      this._updateBuzz(response);
+    }).catch((e) => console.log('ERROR', e));
+  }
+
+  _favoriteBuzz(buzzId, favorited) {
+    console.log('FAVORITE BUZZ INSIDE COMMUNITY SCREEN IS CALLED!')
+    favoriteBuzz(buzzId, !favorited).then((response) => {
+      console.log('response', response)
+
+      this._updateBuzz(response);
+    }).catch((e) => console.log('ERROR', e));
   }
 
   _getAllBuzz() {
@@ -45,9 +77,9 @@ class CommunityScreen extends React.Component {
       const companyIds = response.userEmails.map((userEmail) => {
         return userEmail.company.id
       });
-      console.log('companyIds', companyIds);
       getBuzzList(companyIds).then((responseBuzzList) => {
         const buzzListByCompanyId = _.keyBy(responseBuzzList, r => r.companyId);
+
         this.setState({
           buzzListByCompanyId: buzzListByCompanyId,
           isFetching: false,
@@ -57,8 +89,12 @@ class CommunityScreen extends React.Component {
     });
   }
 
+  // const newArray = [...this.state.available];
+  // newArray[index].value = text;
+  // this.setState({ available: newArray });
+
   _getCommunities() {
-    return this.state.userEmails.map(userEmail => {
+    return this.state.userEmails.map((userEmail) => {
       let buzzListAndCompanyId = this.state.buzzListByCompanyId[userEmail.company.id]
       let buzzList = _.get(buzzListAndCompanyId, 'buzzList');
       let companyId = _.get(buzzListAndCompanyId, 'companyId');
@@ -66,6 +102,7 @@ class CommunityScreen extends React.Component {
       if (buzzList) {
         return (
           <FlatList
+            key={userEmail.id}
             tabLabel={userEmail.company.name}
             style={{backgroundColor:'white'}}
             showsVerticalScrollIndicator={false}
@@ -80,16 +117,21 @@ class CommunityScreen extends React.Component {
               if (this.props.navigation.getParam('posted')) this.flatList.scrollToIndex({ animated: true, index: 0 });
             }}
             data={buzzList}
-            keyExtractor={(item, index) => companyId + '#' + item.id.toString()}
-            key={(item) => companyId.toString() + '##' + item.id.toString()}
+            keyExtractor={(item) => {item.id}}
             renderItem={(item) => {
-              return <Card data={item} userEmails={this.state.userEmails} navigation={this.props.navigation} />
+              return <Card
+                data={item}
+                userEmails={this.state.userEmails}
+                navigation={this.props.navigation}
+                likeAction={this._likeBuzz}
+                favoriteAction={this._favoriteBuzz} />
             }}
           />
         );
       } else {
         return (
           <FlatList
+            key={userEmail.id+"EMPTY"}
             tabLabel={userEmail.company.name}
             style={{backgroundColor:'white'}}
             showsVerticalScrollIndicator={false}
@@ -102,15 +144,16 @@ class CommunityScreen extends React.Component {
           />
         );
       }
-    })
+    });
   }
 
   render() {
     return (
       <View style={{ flex: 1 }}>
         <ScrollableTabView
-          renderTabBar={() =>
+          renderTabBar={(index) =>
             <DefaultTabBar
+              key={index}
               activeTextColor={'white'}
               textStyle={{fontSize: 16}}
               underlineStyle={styles.communityHeaderUnderline}
