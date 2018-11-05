@@ -4,6 +4,7 @@ import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { SearchBar } from 'react-native-elements';
 
 import { colors } from '../constants/Colors';
+import baseStyles from '../constants/Styles';
 
 import StatusBarHeader from '../components/StatusBarHeader';
 import BuzzPlusButton from '../components/BuzzPlusButton';
@@ -11,10 +12,38 @@ import CardTrending from '../components/CardTrending';
 
 import { OpenSansBoldText } from '../components/StyledText'
 
+import { getTrendingBuzz } from "../api/buzz.js";
+
+
 class SearchScreen extends React.Component {
   static navigationOptions = {
     header: <StatusBarHeader />,
   };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      buzzList: [],
+      isFetching: false,
+    }
+
+    this._getTrendingBuzz = this._getTrendingBuzz.bind(this);
+  }
+
+  componentDidMount() {
+    this._getTrendingBuzz();
+  }
+
+  _getTrendingBuzz() {
+    this.setState({ isFetching: true });
+    getTrendingBuzz().then((response) => {
+        this.setState({
+          buzzList: response,
+          isFetching: false,
+        });
+      });
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -29,21 +58,14 @@ class SearchScreen extends React.Component {
           <OpenSansBoldText style={styles.trendingText}>Trending Buzz</OpenSansBoldText>
         </View>
         <FlatList
-          style={{backgroundColor:colors.lightBlue}}
           showsVerticalScrollIndicator={false}
           keyboardDismissMode="interactive"
-          data={[
-            {key: 'haloo smua. love you mahuni mahuni mahuni. mahuni paling bau tapi.'},
-            {key: 'Brp sih gaji di Gojek?'},
-            {key: 'Ini app apa ya?'},
-            {key: 'Keren jg nih... haloo smua'},
-          ]}
-          renderItem={({ item, index }) => (
-            <View style={styles.cardCompactContainer}>
-              <View style={styles.cardCompactRoundedContainer}>
-                <CardTrending text={item.key} navigation={this.props.navigation}/>
-              </View>
-            </View>
+          onRefresh={() => this._getTrendingBuzz()}
+          refreshing={this.state.isFetching}
+          data={this.state.buzzList}
+          keyExtractor={(item) => {item.id}}
+          renderItem={(item) => (
+              <CardTrending data={item} navigation={this.props.navigation} style={baseStyles.bottomBorder}/>
           )}
         />
         <BuzzPlusButton />

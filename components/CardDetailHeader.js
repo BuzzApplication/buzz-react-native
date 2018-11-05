@@ -18,7 +18,9 @@ class CardDetailHeader extends React.Component {
         <View style={styles.statusHeader} />
         <View style={styles.headerContainer}>
           <View style={styles.headerLeft} >
-            <HeaderBackButton tintColor={colors.skyBlue} onPress={() => this.props.navigation.goBack()} />,
+            <HeaderBackButton tintColor={colors.skyBlue} onPress={() => {
+              this.props.navigation.goBack();
+            }} />,
           </View>
           <OpenSansBoldText style={styles.headerText}>Buzz</OpenSansBoldText>
           <View style={styles.headerRight}>

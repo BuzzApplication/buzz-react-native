@@ -12,24 +12,50 @@ import CardTrending from '../components/CardTrending';
 
 import { OpenSansBoldText } from '../components/StyledText'
 
+import { getFavoriteBuzz } from "../api/buzz.js";
+
+
 class FavoriteScreen extends React.Component {
   static navigationOptions = ({navigation}) => ({
     header: <FavoriteHeader navigation={navigation} />,
   });
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      buzzList: [],
+      isFetching: false,
+    }
+
+    this._getFavoriteBuzz = this._getFavoriteBuzz.bind(this);
+  }
+
+  componentDidMount() {
+    this._getFavoriteBuzz();
+  }
+
+  _getFavoriteBuzz() {
+    this.setState({ isFetching: true });
+    getFavoriteBuzz().then((response) => {
+        this.setState({
+          buzzList: response,
+          isFetching: false,
+        });
+      });
+  }
+
   render() {
     return (
       <View style={styles.container}>
         <FlatList
           showsVerticalScrollIndicator={false}
           keyboardDismissMode="interactive"
-          data={[
-            {key: 'haloo smua. love you mahuni mahuni mahuni. mahuni paling bau tapi.'},
-            {key: 'Brp sih gaji di Gojek?'},
-            {key: 'Ini app apa ya?'},
-            {key: 'Keren jg nih... haloo smua'},
-          ]}
-          renderItem={({ item, index }) => (
-              <CardTrending text={item.key} navigation={this.props.navigation} style={baseStyles.bottomBorder}/>
+          onRefresh={() => this._getFavoriteBuzz()}
+          refreshing={this.state.isFetching}
+          data={this.state.buzzList}
+          keyExtractor={(item) => {item.id}}
+          renderItem={(item) => (
+              <CardTrending data={item} navigation={this.props.navigation} style={baseStyles.bottomBorder}/>
           )}
         />
         <BuzzPlusButton />

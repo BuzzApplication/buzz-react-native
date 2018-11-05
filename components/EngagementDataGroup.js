@@ -10,6 +10,8 @@ class EngagementDataGroup extends React.Component {
     const likesCount = this.props.likesCount;
     const commentsCount = this.props.commentsCount;
 
+    console.log('likesCount inside EngagementDataGroup: ', likesCount);
+
     return (
       <View style={styles.engagementDataGroupContainer}>
         <EngagementData count={likesCount} type='likes'/>

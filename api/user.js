@@ -15,3 +15,12 @@ export const getUser = () => {
 export const createUser = () => {
   return post('/user', null)
 }
+
+export const updateAlias = (alias) => {
+  const requestBody = {
+    alias: alias,
+  }
+  console.log('requestBody', requestBody)
+
+  return post('/user/alias', requestBody)
+}

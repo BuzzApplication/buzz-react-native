@@ -20,7 +20,7 @@ class CommentCard extends React.Component {
         <TouchableOpacity style={baseStyles.button} onPress={()=>{alert("change!")}}>
           <CommentCardTopSection timePassed={data.timePassed} alias={data.alias} company={data.userCompany.name} />
           <CardTextField text={data.text} />
-          <CommentCardBottomSection liked={data.liked} likesCount={data.likesCount} commentId={data.id} />
+          <CommentCardBottomSection liked={data.liked} likesCount={data.likesCount} commentId={data.id} likeAction={this.props.likeAction} />
         </TouchableOpacity>
       </View>
     );

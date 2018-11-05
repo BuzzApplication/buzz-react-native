@@ -12,3 +12,11 @@ export const storeToken = async (token) => {
     console.log('Error storing token ', error)
   }
 }
+
+export const removeToken = async () => {
+  try {
+    await AsyncStorage.removeItem(tokenKey);
+  } catch (error) {
+    console.log('Error removing token ', error)
+  }
+}
