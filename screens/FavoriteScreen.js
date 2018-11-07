@@ -25,6 +25,7 @@ class FavoriteScreen extends React.Component {
     this.state = {
       buzzList: [],
       isFetching: false,
+      startPagination: 0,
     }
 
     this._getFavoriteBuzz = this._getFavoriteBuzz.bind(this);
@@ -40,6 +41,16 @@ class FavoriteScreen extends React.Component {
         this.setState({
           buzzList: response,
           isFetching: false,
+          startPagination: 10,
+        });
+      });
+  }
+
+  _loadMoreBuzz() {
+    getFavoriteBuzz(this.state.startPagination).then((response) => {
+        this.setState({
+          buzzList: [...this.state.buzzList, ...response],
+          startPagination: this.state.startPagination + 10,
         });
       });
   }
@@ -53,6 +64,10 @@ class FavoriteScreen extends React.Component {
           onRefresh={() => this._getFavoriteBuzz()}
           refreshing={this.state.isFetching}
           data={this.state.buzzList}
+          onEndReached={({ distanceFromEnd }) => {
+            this._loadMoreBuzz();
+          }}
+          onEndReachedThreshold={1}
           keyExtractor={(item) => {item.id}}
           renderItem={(item) => (
               <CardTrending data={item} navigation={this.props.navigation} style={baseStyles.bottomBorder}/>

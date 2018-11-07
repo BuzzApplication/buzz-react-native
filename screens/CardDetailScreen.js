@@ -30,6 +30,7 @@ export class CardDetailScreen extends React.Component {
       userEmailId: {},
       isFetching: false,
       posted: false,
+      startPagination: 0,
     }
 
     this._likeBuzz = this._likeBuzz.bind(this);
@@ -81,7 +82,19 @@ export class CardDetailScreen extends React.Component {
         buzz: response.buzz,
         commentList: commentList.concat(response.commentList),
         isFetching: false,
+        startPagination: 10,
       });
+    });
+  }
+
+  _loadMoreComments(buzzId) {
+    getCommentList(buzzId).then((responseCommentList) => {
+      if (responseCommentList.length > 0) {
+        this.setState({
+          commentList: [...this.state.commentList, ...responseCommentList.commentList],
+          startPagination: this.state.startPagination + 10,
+        });
+      }
     });
   }
 
@@ -120,7 +133,10 @@ export class CardDetailScreen extends React.Component {
         onLayout={() => {
           if (this.state.posted) this.flatList.scrollToEnd({animated: true})
         }}
-        // ---
+        onEndReached={({ distanceFromEnd }) => {
+          this._loadMoreComments(buzzId);
+        }}
+        onEndReachedThreshold={1}
         renderItem={(item) => (
           item.index == '0' ?
             <View >

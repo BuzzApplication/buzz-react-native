@@ -4,9 +4,11 @@ import 'url-search-params-polyfill';
 import { get, post } from '../api/apiHelper';
 
 
-export const getCommentList = (buzzId) => {
+export const getCommentList = (buzzId, start=0, limit=10) => {
   var searchParams = new URLSearchParams();
   searchParams.append('buzzId', buzzId);
+  searchParams.append('start', start);
+  searchParams.append('limit', limit);
   return get('/user/comment' + '?' + searchParams);
 }
 
