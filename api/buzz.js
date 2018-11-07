@@ -4,16 +4,22 @@ import 'url-search-params-polyfill';
 import { get, post } from '../api/apiHelper';
 
 
-export const getBuzzList = (companyIds) => {
+export const getBuzzList = (companyIds, start=0, limit=10) => {
   var searchParams = new URLSearchParams();
   for (let companyId of companyIds) {
     searchParams.append('companyIds', companyId);
   }
+  searchParams.append('start', start);
+  searchParams.append('limit', limit);
+  console.log('searchParams', searchParams)
   return get('/user/buzz' + '?' + searchParams);
 }
 
-export const getPostedBuzz = () => {
-  return get('/user/buzz/posted');
+export const getPostedBuzz = (start=0, limit=10) => {
+  var searchParams = new URLSearchParams();
+  searchParams.append('start', start);
+  searchParams.append('limit', limit);
+  return get('/user/buzz/posted' + '?' + searchParams);
 }
 
 export const postBuzz = (text, companyId, userEmailId, anonymous) => {
@@ -34,8 +40,11 @@ export const likeBuzz = (buzzIds, liked) => {
   return post('/user/buzz/like', requestBody);
 }
 
-export const getFavoriteBuzz = () => {
-  return get('/user/buzz/favorite');
+export const getFavoriteBuzz = (start=0, limit=10) => {
+  var searchParams = new URLSearchParams();
+  searchParams.append('start', start);
+  searchParams.append('limit', limit);
+  return get('/user/buzz/favorite' + '?' + searchParams);
 }
 
 export const favoriteBuzz = (buzzIds, favorited) => {

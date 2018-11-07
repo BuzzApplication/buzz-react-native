@@ -30,6 +30,7 @@ class CommunityScreen extends React.Component {
       userEmails: [],
       buzzListByCompanyId: [],
       isFetching: false,
+      startPagination: 0,
     }
 
     this._getAllBuzz = this._getAllBuzz.bind(this);
@@ -84,8 +85,23 @@ class CommunityScreen extends React.Component {
           buzzListByCompanyId: buzzListByCompanyId,
           isFetching: false,
           userEmails: response.userEmails,
+          startPagination: 10,
         });
       });
+    });
+  }
+
+  _loadMoreBuzz(companyId) {
+    getBuzzList([companyId], this.state.startPagination).then((responseBuzzList) => {
+      if (responseBuzzList.length > 0) {
+        const buzzListByCompanyId = _.keyBy(responseBuzzList, r => r.companyId);
+        let buzzList = _.get(buzzListByCompanyId[companyId], 'buzzList');
+        this.state.buzzListByCompanyId[companyId].buzzList = [...this.state.buzzListByCompanyId[companyId].buzzList, ...buzzList];
+        this.setState({
+          isFetching: false,
+          startPagination: this.state.startPagination + 10,
+        });
+      }
     });
   }
 
@@ -116,6 +132,10 @@ class CommunityScreen extends React.Component {
             onLayout={() => {
               if (this.props.navigation.getParam('posted')) this.flatList.scrollToIndex({ animated: true, index: 0 });
             }}
+            onEndReached={({ distanceFromEnd }) => {
+              this._loadMoreBuzz(companyId);
+            }}
+            onEndReachedThreshold={1}
             data={buzzList}
             keyExtractor={(item) => {item.id}}
             renderItem={(item) => {
