@@ -105,10 +105,6 @@ class CommunityScreen extends React.Component {
     });
   }
 
-  // const newArray = [...this.state.available];
-  // newArray[index].value = text;
-  // this.setState({ available: newArray });
-
   _getCommunities() {
     return this.state.userEmails.map((userEmail) => {
       let buzzListAndCompanyId = this.state.buzzListByCompanyId[userEmail.company.id]

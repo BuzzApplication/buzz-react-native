@@ -62,6 +62,7 @@ export default class App extends React.Component {
         require('./assets/images/robot-prod.png'),
       ]),
       await Font.loadAsync({ 'Material Icons': require('@expo/vector-icons/fonts/MaterialIcons.ttf') }),
+      await Font.loadAsync({ 'Ionicons': require('@expo/vector-icons/fonts/Ionicons.ttf') }),
       Font.loadAsync({
         // This is the font that we are using for our tab bar
         ...Icon.Ionicons.font,

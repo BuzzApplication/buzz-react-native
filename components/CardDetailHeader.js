@@ -1,9 +1,8 @@
 import React from 'react';
-import { StyleSheet, View, Button, Dimensions } from 'react-native';
+import { StyleSheet, View, Button, Dimensions, TouchableOpacity } from 'react-native';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Feather } from '@expo/vector-icons';
 import { HeaderBackButton } from 'react-navigation';
-import { MenuProvider, Menu, MenuTrigger, MenuOptions, MenuOption } from 'react-native-popup-menu';
 
 import { colors } from '../constants/Colors'
 import baseStyles from '../constants/Styles'
@@ -24,16 +23,15 @@ class CardDetailHeader extends React.Component {
           </View>
           <OpenSansBoldText style={styles.headerText}>Buzz</OpenSansBoldText>
           <View style={styles.headerRight}>
-            <MenuProvider style={styles.menuProviderContainer}>
-              <Menu onSelect={value => alert(`Selected number: ${value}`)}>
-                <MenuTrigger>
-                  <MaterialCommunityIcons name="dots-horizontal" size={25} color={colors.skyBlue} />
-                </MenuTrigger>
-                <MenuOptions style={styles.menuOptionsContainer}>
-                  <MenuOption style={styles.menuOption} value={'report'} text='Report this post' />
-                </MenuOptions>
-              </Menu>
-            </MenuProvider>
+            <TouchableOpacity
+              style={[baseStyles.button]}
+              onPress={() => {
+                this.props.navigation.navigate('Report', {
+                  type: 'BUZZ',
+                  itemId: this.props.navigation.getParam('buzzId'),
+                })}} >
+              <Feather name="flag" size={18} color={colors.skyBlue} />
+            </TouchableOpacity>
           </View>
         </View>
       </View>
@@ -71,22 +69,10 @@ const styles = StyleSheet.create({
   headerRight: {
     flex: 2,
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
     alignItems: 'center',
     padding: 5,
     right: 10,
-  },
-  menuProviderContainer: {
-    alignItems: 'flex-end',
-    justifyContent: 'center',
-  },
-  menuOptionsContainer: {
-    borderWidth: 0.5,
-    borderColor: colors.border,
-  },
-  menuOption: {
-    alignItems: 'center',
-    right: 30,
   },
   buzzButtonContainer: {
     backgroundColor: colors.skyBlue,
