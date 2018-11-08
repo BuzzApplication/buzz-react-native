@@ -45,6 +45,7 @@ export class CardDetailScreen extends React.Component {
     });
     const buzzId = this.props.navigation.getParam('buzzId');
     this._getCommentList(buzzId);
+    this.props.navigation.setParams({buzzId: buzzId});
   }
 
   _updateComment(updatedComment) {
