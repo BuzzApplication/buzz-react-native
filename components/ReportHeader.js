@@ -17,9 +17,6 @@ class ReportHeader extends React.Component {
   };
 
   _submitReport() {
-    console.log('type', this.props.navigation.getParam('type'));
-    console.log('reportCategoryId', this.props.navigation.getParam('reportCategoryId'));
-    console.log('itemId', this.props.navigation.getParam('itemId'));
     submitReport(this.props.navigation.getParam('type'),
                  this.props.navigation.getParam('reportCategoryId'),
                  this.props.navigation.getParam('itemId'))

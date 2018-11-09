@@ -7,6 +7,26 @@ import { likeBuzz } from "../api/buzz.js";
 import { likeComment } from "../api/comment.js";
 
 
+export class ReportButton extends React.Component {
+  _submitReport(commentId) {
+    this.props.navigation.navigate('Report', {
+      type: 'COMMENT',
+      itemId: commentId,
+    });
+  }
+
+  render() {
+    const commentId = this.props.commentId;
+    return (
+      <View style={styles.engagementButtonContainer}>
+        <TouchableOpacity style={baseStyles.button} onPress={() =>  this._submitReport(commentId)} >
+          <Image source={require('../assets/images/flag.png')} style={[styles.engagementButtonImage, this.props.style]} />
+        </TouchableOpacity>
+      </View>
+    );
+  }
+}
+
 export class ShareButton extends React.Component {
   _shareMessage=()=> {
     Share.share(

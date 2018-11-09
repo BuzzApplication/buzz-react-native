@@ -11,7 +11,6 @@ export default StyleSheet.create({
   header: {
   },
   button: {
-    // backgroundColor: 'green',
     borderRadius: 20,
     padding: 10,
     shadowOffset: { width: 0, height: 5 },

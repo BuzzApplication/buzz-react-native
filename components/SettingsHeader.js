@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
   container: {
     borderStyle: "solid",
     borderBottomWidth: 0.2,
-    borderColor: baseStyles.grey,
+    borderColor: colors.skyBlue,
     backgroundColor: colors.skyBlue,
   },
   statusHeader: {

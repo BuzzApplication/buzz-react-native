@@ -27,6 +27,7 @@ class PostedScreen extends React.Component {
       isFetching: false,
       startPagination: 0,
     }
+
     this._getPostedBuzz = this._getPostedBuzz.bind(this);
   }
 

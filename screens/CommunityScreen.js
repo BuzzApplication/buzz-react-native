@@ -51,11 +51,9 @@ class CommunityScreen extends React.Component {
 
     this.state.buzzListByCompanyId[updatedBuzz.companyId].buzzList = updatedBuzzList;
     this.forceUpdate();
-    console.log('FORCE UPDATE');
   }
 
   _likeBuzz(buzzId, liked) {
-    console.log('LIKE BUZZ INSIDE COMMUNITY SCREEN IS CALLED!')
     likeBuzz(buzzId, !liked).then((response) => {
       console.log('response', response)
 
@@ -64,7 +62,6 @@ class CommunityScreen extends React.Component {
   }
 
   _favoriteBuzz(buzzId, favorited) {
-    console.log('FAVORITE BUZZ INSIDE COMMUNITY SCREEN IS CALLED!')
     favoriteBuzz(buzzId, !favorited).then((response) => {
       console.log('response', response)
 
@@ -137,6 +134,7 @@ class CommunityScreen extends React.Component {
             renderItem={(item) => {
               return <Card
                 data={item}
+                clickable={true}
                 userEmails={this.state.userEmails}
                 navigation={this.props.navigation}
                 likeAction={this._likeBuzz}

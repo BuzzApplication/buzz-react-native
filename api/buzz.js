@@ -11,7 +11,6 @@ export const getBuzzList = (companyIds, start=0, limit=10) => {
   }
   searchParams.append('start', start);
   searchParams.append('limit', limit);
-  console.log('searchParams', searchParams)
   return get('/user/buzz' + '?' + searchParams);
 }
 
@@ -20,6 +19,14 @@ export const getPostedBuzz = (start=0, limit=10) => {
   searchParams.append('start', start);
   searchParams.append('limit', limit);
   return get('/user/buzz/posted' + '?' + searchParams);
+}
+
+export const getSearchedBuzz = (text, start=0, limit=10) => {
+  var searchParams = new URLSearchParams();
+  searchParams.append('text', text);
+  searchParams.append('start', start);
+  searchParams.append('limit', limit);
+  return get('/user/buzz/search' + '?' + searchParams);
 }
 
 export const postBuzz = (text, companyId, userEmailId, anonymous) => {

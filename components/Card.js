@@ -53,7 +53,8 @@ class Card extends React.Component {
     }
   }
 
-  _navigateToCardDetail() {
+  _navigateToCardDetail(clickable) {
+    if (!clickable) return;
     this.props.navigation.navigate('CardDetail', {
           buzzId: this.state.buzz.id,
           userEmailId: this.state.userEmailId,
@@ -65,10 +66,11 @@ class Card extends React.Component {
   render() {
     const data = this.props.data.item;
     const userEmails = this.props.userEmails;
+    const clickable = this.props.clickable == undefined ? true : this.props.clickable;
 
     return (
       <View style={[styles.cardContainer, baseStyles.bottomBorder, this.props.style]}>
-        <TouchableOpacity style={baseStyles.button} onPress={() => this._navigateToCardDetail()} >
+        <TouchableOpacity style={baseStyles.button} activeOpacity={1} onPress={() => this._navigateToCardDetail(clickable)} >
           <CardTopSection timePassed={data.timePassed} favorited={data.favorited} buzzId={data.id} favoriteAction={this.props.favoriteAction} />
           <CardTextField text={data.text} />
           <EngagementDataGroup likesCount={data.likesCount} commentsCount={data.commentsCount} />
@@ -86,12 +88,12 @@ class Card extends React.Component {
 }
 
 const styles = StyleSheet.create({
-    cardContainer: {
-      paddingLeft: 15,
-      paddingRight: 5,
-      paddingBottom: 5,
-      flexDirection: 'column',
-    },
+  cardContainer: {
+    paddingLeft: 15,
+    paddingRight: 5,
+    paddingBottom: 5,
+    flexDirection: 'column',
+  },
 });
 
 export default Card;

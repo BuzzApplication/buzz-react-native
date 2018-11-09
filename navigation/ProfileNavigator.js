@@ -16,7 +16,7 @@ const ProfileNavigator = createStackNavigator(
     Profile: { screen: ProfileScreen },
     Favorite: { screen: FavoriteScreen },
     Posted: { screen: PostedScreen },
-    CardDetailScreen: { screen: CardDetailScreen },
+    CardDetail: { screen: CardDetailScreen },
     Settings: { screen: SettingsScreen },
     PushNotificationSettings: { screen: PushNotificationSettingsScreen },
   },

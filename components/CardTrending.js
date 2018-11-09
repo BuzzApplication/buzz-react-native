@@ -25,7 +25,7 @@ class CardTrending extends React.Component {
   }
 
   _navigateToCardDetail() {
-    this.props.navigation.navigate('CardDetailScreen', {
+    this.props.navigation.navigate('CardDetail', {
       buzzId: this.state.buzzId,
       userEmailId: this.state.userEmailId,
     });
@@ -35,7 +35,7 @@ class CardTrending extends React.Component {
     const data = this.props.data.item;
     return (
       <View style={[styles.cardContainer, this.props.style]}>
-        <TouchableOpacity style={baseStyles.button} onPress={()=> this._navigateToCardDetail()}>
+        <TouchableOpacity style={baseStyles.button} activeOpacity={1} onPress={()=> this._navigateToCardDetail()}>
           <CardTrendingTopSection timePassed={data.timePassed} alias={data.alias} company={data.userCompany.name} />
           <CardTextField text={data.text} />
           <CardTrendingBottomSection

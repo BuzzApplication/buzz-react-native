@@ -8,7 +8,7 @@ import Notification from '../components/Notification';
 import BuzzPlusButton from '../components/BuzzPlusButton';
 
 class NotificationScreen extends React.Component {
-  static navigationOptions = ({navigation}) => ({ //don't forget parentheses around the object notation
+  static navigationOptions = ({navigation}) => ({
     header: <NotificationHeader navigation={navigation}/>,
   })
 
@@ -16,7 +16,7 @@ class NotificationScreen extends React.Component {
     return (
       <View style={styles.container}>
         <FlatList
-          style={{backgroundColor:colors.lightBlue}}
+          style={{backgroundColor:'white'}}
           showsVerticalScrollIndicator={false}
           data={[
             {key: '7 people commented on your Buzz \"Ini app apa ya?\"', type: 'COMMENT'},
@@ -36,7 +36,6 @@ class NotificationScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    borderColor: colors.skyBlue,
     borderWidth: 0,
   },
 });

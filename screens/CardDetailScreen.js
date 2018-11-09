@@ -45,7 +45,6 @@ export class CardDetailScreen extends React.Component {
     });
     const buzzId = this.props.navigation.getParam('buzzId');
     this._getCommentList(buzzId);
-    this.props.navigation.setParams({buzzId: buzzId});
   }
 
   _updateComment(updatedComment) {
@@ -141,10 +140,10 @@ export class CardDetailScreen extends React.Component {
         renderItem={(item) => (
           item.index == '0' ?
             <View >
-              <Card data={item} likeAction={this._likeBuzz} favoriteAction={this._favoriteBuzz} />
+              <Card data={item} likeAction={this._likeBuzz} favoriteAction={this._favoriteBuzz} clickable={false}/>
               <View style={[styles.lines, baseStyles.bottomBorder]} />
             </View>
-          : <CommentCard data={item} likeAction={this._likeComment} />
+          : <CommentCard data={item} likeAction={this._likeComment} navigation={this.props.navigation}/>
         )}
       />
     );
