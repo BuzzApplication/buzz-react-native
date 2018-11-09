@@ -10,7 +10,7 @@ import CardDetailScreen from '../screens/CardDetailScreen';
 const SearchNavigator = createStackNavigator(
   {
     Search: { screen: SearchScreen },
-    CardTrendingDetail: { screen: CardDetailScreen },
+    CardDetail: { screen: CardDetailScreen },
   },
   {
     initialRouteName: 'Search',

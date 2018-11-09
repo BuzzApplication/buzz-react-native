@@ -13,6 +13,7 @@ import profileImageHelper from '../screens/profileImageHelper';
 import { OpenSansText, OpenSansLightText, OpenSansItalicText, OpenSansLightItalicText, OpenSansBoldText } from '../components/StyledText'
 
 import { getUserEmail, getUser, updateAlias } from '../api/user';
+import { errorExist, getErrorDescription } from '../api/errorParser';
 
 class ProfileScreen extends React.Component {
   static navigationOptions = ({navigation}) => ({
@@ -26,6 +27,7 @@ class ProfileScreen extends React.Component {
       companyNames: [],
       editAliasOverlay: false,
       alias: '',
+      aliasExistError: '',
     }
   }
 
@@ -39,6 +41,7 @@ class ProfileScreen extends React.Component {
       this.setState({
         user: response,
         alias: response.alias,
+        aliasExistError: '',
       });
     })
   }
@@ -63,17 +66,36 @@ class ProfileScreen extends React.Component {
   }
 
   _onChangeText(alias) {
-    this.setState({alias: alias});
+    this.setState({
+      alias: alias
+    });
   }
 
   _updateAlias() {
     updateAlias(this.state.alias).then((response) => {
-      this.setState({
-        editAliasOverlay: false,
-        alias: response.alias,
-        user: response
-      });
+      if (!errorExist(response)) {
+        this.setState({
+          editAliasOverlay: false,
+          alias: response.alias,
+          user: response,
+          aliasExistError: '',
+        });
+      } else {
+        this.setState({
+          aliasExistError: getErrorDescription(response),
+        })
+      }
     })
+  }
+
+  _getError() {
+    if (this.state.aliasExistError !== '') {
+      return (
+        <View style={{alignItems: 'center'}}>
+          <OpenSansText style={{color: 'red'}}>{this.state.aliasExistError}</OpenSansText>
+        </View>
+      )
+    }
   }
 
   render() {
@@ -96,9 +118,10 @@ class ProfileScreen extends React.Component {
             <View>
               <View style={styles.editAliasDescription}>
                 <OpenSansText style={styles.editAliasDescriptionText}> Changing your alias will not change the alias displayed on previously posted Buzz and comments.
-                However, you still can view them on profile page.</OpenSansText>
+                However, you can still view them on your profile page.</OpenSansText>
                 <OpenSansLightText style={styles.editAliasDescriptionText}>Please refrain from using profanity.</OpenSansLightText>
               </View>
+              {this._getError()}
               <View style={styles.editAliasTextInputContainer}>
                 <TextInput
                   onChangeText={(alias) => this._onChangeText(alias)}
@@ -159,7 +182,7 @@ class ProfileScreen extends React.Component {
             // Cards
             <View style={styles.cardsSection}>
               <View style={styles.cardSection}>
-                <TouchableOpacity onPress={()=>{this.props.navigation.navigate('Favorite')}}>
+                <TouchableOpacity activeOpacity={0.7} onPress={()=>{this.props.navigation.navigate('Favorite')}}>
                   <View style={[{backgroundColor: colors.yellow}, styles.cardContainer]}>
                     <View style={styles.cardImageContainer}>
                       <Image source={require('../assets/images/favorite.png')} style={styles.cardImage} />
@@ -170,7 +193,7 @@ class ProfileScreen extends React.Component {
               </View>
               <View style={styles.cardSection}>
                 <View style={[{backgroundColor: colors.pink}, styles.cardContainer]}>
-                  <TouchableOpacity onPress={()=>{this.props.navigation.navigate('Posted')}}>
+                  <TouchableOpacity activeOpacity={0.7} onPress={()=>{this.props.navigation.navigate('Posted')}}>
                     <View style={styles.cardImageContainer}>
                       <Image source={require('../assets/images/pencil.png')} style={styles.cardImage} />
                     </View>
@@ -211,17 +234,24 @@ const styles = StyleSheet.create({
     alignItems: "center",
     zIndex: 1000,
     borderRadius: 10,
-    borderWidth: 0.5,
-    borderColor: 'grey',
+    // borderWidth: 0.5,
+    // borderColor: 'grey',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowColor: 'black',
+    shadowOpacity: 0.8,
     flexDirection: 'column',
   },
   editAliasDescription: {
-    padding: 20,
+    padding: 10,
+    paddingTop: 0,
   },
   editAliasDescriptionText: {
     fontSize: 16,
-    padding: 10,
     color: 'black',
+    paddingTop: 20,
     textAlign: 'center',
   },
   editAliasTextInputContainer: {

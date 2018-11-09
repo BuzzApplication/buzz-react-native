@@ -82,8 +82,8 @@ class FavoriteScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    borderWidth: 0,
     backgroundColor: 'white',
+    borderWidth: 0,
   },
 });
 

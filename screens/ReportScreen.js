@@ -34,7 +34,7 @@ export class ReportScreen extends React.Component {
       });
     });
     this.props.navigation.setParams({
-      reportCategoryId: -1,
+      reportCategoryId: 1,
     });
   }
 
@@ -47,8 +47,6 @@ export class ReportScreen extends React.Component {
   }
 
   _onSelect(value, type, itemId) {
-    console.log('this.props.type', type);
-    console.log('this.props.itemId', itemId);
     this.props.navigation.setParams({
       reportCategoryId: value,
       type: type,
@@ -64,7 +62,7 @@ export class ReportScreen extends React.Component {
         <View style={styles.switchContainer}>
           <RadioForm
             radio_props={this._getReportCategories()}
-            initial={-1}
+            initial={0}
             animation={true}
             buttonSize={14}
             buttonOuterSize={24}

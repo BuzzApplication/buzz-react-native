@@ -40,8 +40,8 @@ const styles = StyleSheet.create({
   },
   notificationRoundedContainer: {
     borderRadius: 15,
-    borderColor: 'white',
-    backgroundColor: 'white',
+    borderColor: colors.lightBlue,
+    backgroundColor: colors.lightBlue,
     borderWidth: 1,
     shadowOffset: {
       width: 0,

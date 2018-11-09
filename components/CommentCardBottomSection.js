@@ -5,7 +5,7 @@ import { colors } from '../constants/Colors'
 
 import UserContainerVerticalAligned from '../components/UserContainerVerticalAligned';
 import EngagementData from '../components/EngagementData';
-import { ShareButton, LikeButton } from '../components/EngagementButton';
+import { ShareButton, LikeButton, ReportButton } from '../components/EngagementButton';
 
 
 class CommentCardBottomSection extends React.Component {
@@ -14,11 +14,13 @@ class CommentCardBottomSection extends React.Component {
     const liked = this.props.liked;
     const likesCount = this.props.likesCount;
     const likeAction = this.props.likeAction;
+    const navigation = this.props.navigation;
 
     return (
       <View style={styles.commentCardBottomSectionContainer}>
         <EngagementData type='likes' styles={styles.engagementData} count={likesCount} />
         <View style={styles.engagementButtonsContainer}>
+          <ReportButton style={styles.button} commentId={commentId} navigation={navigation}/>
           <ShareButton style={styles.button}/>
           <LikeButton style={styles.button} liked={liked} id={commentId} likeAction={likeAction} />
         </View>

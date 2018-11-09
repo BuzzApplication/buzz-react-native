@@ -10,7 +10,7 @@ import CardDetailScreen from '../screens/CardDetailScreen';
 const NotificationNavigator = createStackNavigator(
   {
     Notification: { screen: NotificationScreen },
-    CardNotificationDetail: { screen: CardDetailScreen },
+    CardDetail: { screen: CardDetailScreen },
   },
   {
     initialRouteName: 'Notification',
