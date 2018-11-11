@@ -67,6 +67,8 @@ export class BuzzScreen extends React.Component {
           onChangeText={(text) => this._onChangeText(text)}
           value={this.props.navigation.getParam('text')}
           style={styles.textInput}
+          autoCorrect={false}
+          autoCapitalize={false}
           multiline={true}
           // only for android
           // numberOfLines={2}

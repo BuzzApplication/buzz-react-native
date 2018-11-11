@@ -163,6 +163,8 @@ export class CardDetailScreen extends React.Component {
             placeholder={'Type a comment...'}
             enablesReturnKeyAutomatically = {true}
             multiline={true}
+            autoCorrect={false}
+            autoCapitalize={false}
             numberOfLines={4}
           />
           <View style={styles.buttonContainer}>
