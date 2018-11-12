@@ -13,13 +13,19 @@ class CardTextField extends React.Component {
     super(props);
     this.state = {
       linkPreview: '',
+      text: '',
     };
     this._parseText = this._parseText.bind(this);
-
   };
 
   componentDidMount() {
     this._parseText(this.props.text);
+  }
+
+  componentWillReceiveProps(prevProps) {
+    if (prevProps !== this.props) {
+      this._parseText(prevProps.text);
+    }
   }
 
   _parseText(text) {
@@ -27,7 +33,10 @@ class CardTextField extends React.Component {
       if (REGEX_VALID_URL.test(token)) {
         OpenGraphParser.extractMeta(token)
           .then((data) => {
-            this.setState({ linkPreview: data[0] });
+            this.setState({
+              linkPreview: data[0],
+              text: text.replace(token, '')
+             });
             return;
           })
           .catch((error) => {
@@ -55,7 +64,6 @@ class CardTextField extends React.Component {
     if (!this.state.linkPreview) {
       return;
     }
-
     return (
       <TouchableOpacity style={styles.linkPreviewSection}
         activeOpacity={1}
@@ -72,9 +80,9 @@ class CardTextField extends React.Component {
     return (
       <View style={styles.cardTextFieldContainer}>
         <OpenSansText style={styles.cardTextFieldText}>
-          {this.props.text}
+          {this.state.text}
         </OpenSansText>
-          {this._getLinkPreview()}
+          {this._getLinkPreview(this.props.text)}
       </View>
     );
   }
@@ -107,7 +115,7 @@ const styles = StyleSheet.create({
     borderColor: 'grey',
   },
   image: {
-    height: 150,
+    height: 180,
     width: null,
   },
   title: {
