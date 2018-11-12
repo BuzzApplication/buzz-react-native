@@ -31,7 +31,9 @@ export class ShareButton extends React.Component {
   _shareMessage=()=> {
     Share.share(
     {
-      message: 'Love mahun!'
+      message: 'This is the message',
+      title: 'This is the title',
+      url: '',
     }).then(result => console.log(result)).catch(errorMsg => console.log(errorMsg));
   }
   render() {
