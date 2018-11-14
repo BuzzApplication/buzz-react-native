@@ -9,6 +9,7 @@ import PostedScreen from '../screens/PostedScreen';
 import CardDetailScreen from '../screens/CardDetailScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import PushNotificationSettingsScreen from '../screens/PushNotificationSettingsScreen';
+import FeedbackScreen from '../screens/FeedbackScreen';
 
 
 const ProfileNavigator = createStackNavigator(
@@ -19,6 +20,7 @@ const ProfileNavigator = createStackNavigator(
     CardDetail: { screen: CardDetailScreen },
     Settings: { screen: SettingsScreen },
     PushNotificationSettings: { screen: PushNotificationSettingsScreen },
+    Feedback: { screen: FeedbackScreen },
   },
   {
     initialRouteName: 'Profile',

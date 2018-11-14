@@ -55,16 +55,12 @@ class CommunityScreen extends React.Component {
 
   _likeBuzz(buzzId, liked) {
     likeBuzz(buzzId, !liked).then((response) => {
-      console.log('response', response)
-
       this._updateBuzz(response);
     }).catch((e) => console.log('ERROR', e));
   }
 
   _favoriteBuzz(buzzId, favorited) {
     favoriteBuzz(buzzId, !favorited).then((response) => {
-      console.log('response', response)
-
       this._updateBuzz(response);
     }).catch((e) => console.log('ERROR', e));
   }

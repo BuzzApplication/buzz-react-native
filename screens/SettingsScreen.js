@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, TouchableOpacity, Image, TextInput } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, Image, TextInput, Linking } from 'react-native';
 
 import { colors } from '../constants/Colors';
 import baseStyles from '../constants/Styles';
@@ -13,9 +13,20 @@ import { removeToken } from '../api/tokenHelper';
 
 
 class SettingsScreen extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      alias: '',
+    }
+  }
+
   static navigationOptions = ({navigation}) => ({
     header: <SettingsHeader navigation={navigation} />
   });
+
+  componentDidMount() {
+
+  }
 
   _signOut() {
     removeToken().then(() => {
@@ -28,7 +39,7 @@ class SettingsScreen extends React.Component {
       <View style={styles.container}>
 
         <View style={[styles.settings, baseStyles.bottomBorder]}>
-          <TouchableOpacity style={baseStyles.button} onPress={()=>{this.props.navigation.navigate('PushNotificationSettings')}}>
+          <TouchableOpacity style={baseStyles.button} onPress={()=>{this.props.navigation.navigate('Profile')}}>
             <OpenSansText>
               Push Notifications
             </OpenSansText>
@@ -44,7 +55,7 @@ class SettingsScreen extends React.Component {
         </View>
 
         <View style={[styles.settings, baseStyles.bottomBorder]}>
-          <TouchableOpacity style={baseStyles.button} onPress={()=>{this.props.navigation.navigate('Profile')}}>
+          <TouchableOpacity style={baseStyles.button} onPress={() => this.props.navigation.navigate('Feedback')} >
             <OpenSansText>
               Send Feedback
             </OpenSansText>

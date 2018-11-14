@@ -43,6 +43,7 @@ class ProfileScreen extends React.Component {
         alias: response.alias,
         aliasExistError: '',
       });
+      this.props.navigation.setParams({userId: response.id});
     })
   }
 
