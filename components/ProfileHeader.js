@@ -19,7 +19,9 @@ class ProfileHeader extends React.Component {
           <View style={styles.headerLeft} />
           <OpenSansBoldText style={styles.headerText}></OpenSansBoldText>
           <View style={styles.headerRight}>
-            <TouchableOpacity style={baseStyles.button} onPress={()=>{this.props.navigation.navigate('Settings')}}>
+            <TouchableOpacity style={baseStyles.button} onPress={() => this.props.navigation.navigate('Settings', {
+              userId: this.props.navigation.getParam('userId'),
+            })} >
               <Ionicons name="ios-settings" size={25} color='white' />
             </TouchableOpacity>
           </View>
