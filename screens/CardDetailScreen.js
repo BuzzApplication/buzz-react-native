@@ -164,7 +164,7 @@ export class CardDetailScreen extends React.Component {
             enablesReturnKeyAutomatically = {true}
             multiline={true}
             autoCorrect={false}
-            autoCapitalize={false}
+            autoCapitalize='none'
             numberOfLines={4}
           />
           <View style={styles.buttonContainer}>

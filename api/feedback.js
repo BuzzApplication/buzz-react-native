@@ -8,13 +8,13 @@ import { get, post } from '../api/apiHelper';
 export const submitFeedback = (text) => {
   const requestBody = {
     text: text,
-    version: DeviceInfo.getVersion(),
-    userAgent: DeviceInfo.getUserAgent(),
-    systemName: DeviceInfo.getSystemName(),
-    systemVersion: DeviceInfo.getSystemVersion(),
-    carrier: DeviceInfo.getCarrier(),
-    ipAddr: DeviceInfo.getIPAddress(),
-    locale: DeviceInfo.getDeviceLocale(),
+    // version: DeviceInfo.getVersion(),
+    // userAgent: DeviceInfo.getUserAgent(),
+    // systemName: DeviceInfo.getSystemName(),
+    // systemVersion: DeviceInfo.getSystemVersion(),
+    // carrier: DeviceInfo.getCarrier(),
+    // ipAddr: DeviceInfo.getIPAddress(),
+    // locale: DeviceInfo.getDeviceLocale(),
   }
   return post('/user/feedback', requestBody);
 }

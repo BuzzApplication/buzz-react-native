@@ -54,7 +54,9 @@ class Card extends React.Component {
   }
 
   _navigateToCardDetail(clickable) {
-    if (!clickable) return;
+    if (!clickable) {
+      return;
+    }
     this.props.navigation.navigate('CardDetail', {
           buzzId: this.state.buzz.id,
           userEmailId: this.state.userEmailId,
@@ -80,6 +82,7 @@ class Card extends React.Component {
             company={data.userCompany.name}
             liked={data.liked}
             buzzId={data.id}
+            clickable={clickable}
             navigate={this._navigateToCardDetail} />
         </TouchableOpacity>
       </View>
