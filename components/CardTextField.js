@@ -22,9 +22,9 @@ class CardTextField extends React.Component {
     this._parseText(this.props.text);
   }
 
-  componentWillReceiveProps(prevProps) {
-    if (prevProps !== this.props) {
-      this._parseText(prevProps.text);
+  componentWillReceiveProps(nextProps) {
+    if (nextProps !== this.props) {
+      this._parseText(nextProps.text);
     }
   }
 
@@ -44,6 +44,10 @@ class CardTextField extends React.Component {
           });
       }
     });
+    this.setState({
+      linkPreview: '',
+      text: text,
+    });
   }
 
   _openLink(url) {
@@ -60,9 +64,8 @@ class CardTextField extends React.Component {
   }
 
   _getLinkPreview() {
-    const linkPreview = [];
     if (!this.state.linkPreview) {
-      return;
+      return null;
     }
     return (
       <TouchableOpacity style={styles.linkPreviewSection}
@@ -82,7 +85,7 @@ class CardTextField extends React.Component {
         <OpenSansText style={styles.cardTextFieldText}>
           {this.state.text}
         </OpenSansText>
-          {this._getLinkPreview(this.props.text)}
+          {this._getLinkPreview()}
       </View>
     );
   }

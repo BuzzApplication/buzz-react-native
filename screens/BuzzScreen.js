@@ -68,7 +68,7 @@ export class BuzzScreen extends React.Component {
           value={this.props.navigation.getParam('text')}
           style={styles.textInput}
           autoCorrect={false}
-          autoCapitalize={false}
+          autoCapitalize='none'
           multiline={true}
           // only for android
           // numberOfLines={2}

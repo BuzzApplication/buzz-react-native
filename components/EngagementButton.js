@@ -51,7 +51,7 @@ export class CommentButton extends React.Component {
   render() {
     return (
       <View style={styles.engagementButtonContainer}>
-        <TouchableOpacity style={baseStyles.button} onPress={() =>  this.props.navigate()} >
+        <TouchableOpacity style={baseStyles.button} onPress={() => this.props.navigate(this.props.clickable)} >
           <Image source={require('../assets/images/comment.png')} style={[styles.engagementButtonImage, this.props.style]} />
         </TouchableOpacity>
       </View>
