@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Image, TouchableOpacity } from 'react-native';
 import _ from 'lodash';
 
 import { colors } from '../constants/Colors'
@@ -9,6 +9,7 @@ import CardTopSection from '../components/CardTopSection'
 import CardTextField from '../components/CardTextField'
 import EngagementDataGroup from '../components/EngagementDataGroup'
 import CardBottomSection from '../components/CardBottomSection'
+import Poll from '../components/Poll'
 
 import { likeBuzz } from "../api/buzz.js";
 
@@ -27,6 +28,12 @@ class Card extends React.Component {
 
   componentDidMount() {
     this._getUserEmailId(this.props.userEmails, this.props.data);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps !== this.props) {
+      this._getUserEmailId(nextProps.userEmails, nextProps.data);
+    }
   }
 
   // pick the next userEmail if name is `Everyone`
@@ -58,11 +65,11 @@ class Card extends React.Component {
       return;
     }
     this.props.navigation.navigate('CardDetail', {
-          buzzId: this.state.buzz.id,
-          userEmailId: this.state.userEmailId,
-          likeAction: this.props.likeAction,
-          favoriteAction: this.props.favoriteAction,
-        });
+      buzzId: this.state.buzz.id,
+      userEmailId: this.state.userEmailId,
+      likeAction: this.props.likeAction,
+      favoriteAction: this.props.favoriteAction,
+    });
   }
 
   render() {
@@ -75,6 +82,7 @@ class Card extends React.Component {
         <TouchableOpacity style={baseStyles.button} activeOpacity={1} onPress={() => this._navigateToCardDetail(clickable)} >
           <CardTopSection timePassed={data.timePassed} favorited={data.favorited} buzzId={data.id} favoriteAction={this.props.favoriteAction} />
           <CardTextField text={data.text} />
+          <Poll data={data.polls} />
           <EngagementDataGroup likesCount={data.likesCount} commentsCount={data.commentsCount} />
           <CardBottomSection
             likeAction={this.props.likeAction}
