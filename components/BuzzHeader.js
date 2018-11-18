@@ -20,13 +20,15 @@ class BuzzHeader extends React.Component {
   };
 
   _postBuzz(communitiesByCompanyName) {
+    const filteredPolls = this.props.navigation.getParam('polls').filter((text) => text.length > 0);
     postBuzz(this.props.navigation.getParam('text'),
              this._getCompanyId(this.state.community, communitiesByCompanyName),
              this._getUserEmailId(this.state.community, communitiesByCompanyName),
-             this.props.navigation.getParam('anonymous'))
+             this.props.navigation.getParam('anonymous'),
+             filteredPolls)
       .then((response) => {
-        this.props.navigation.navigate('Community', {posted: true});
         this.props.refetch();
+        this.props.navigation.navigate('Community', {posted: true});
       })
   }
 
@@ -51,6 +53,11 @@ class BuzzHeader extends React.Component {
       }
     }
     return communitiesByCompanyName[name].id;
+  }
+
+  _buzzButtonDisabled() {
+    return this.props.navigation.getParam('text') == '' ||
+      (this.props.navigation.getParam('polls') && this.props.navigation.getParam('polls').filter((text) => text.length > 0).length === 1);
   }
 
   render() {
@@ -89,7 +96,7 @@ class BuzzHeader extends React.Component {
               <Button
                 title="Buzz"
                 color='white'
-                disabled={this.props.navigation.getParam('text') == ''}
+                disabled={this._buzzButtonDisabled()}
                 onPress={() => this._postBuzz(communitiesByCompanyName)} />
             </View>
           </View>

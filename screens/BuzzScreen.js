@@ -1,14 +1,14 @@
 import React from 'react';
-import { StyleSheet, View, Text, TextInput, Switch } from 'react-native';
+import { StyleSheet, View, Text, TextInput, Switch, TouchableOpacity, Image } from 'react-native';
 import { HeaderBackButton } from 'react-navigation';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons, Feather } from '@expo/vector-icons';
 import ModalDropdown from 'react-native-modal-dropdown';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 
 import baseStyles from '../constants/Styles';
 import { colors } from '../constants/Colors';
 
-import { OpenSansLightText } from '../components/StyledText';
+import { OpenSansBoldText } from '../components/StyledText';
 import CloseButton from '../components/CloseButton';
 import BuzzButton from '../components/BuzzButton';
 import Card from '../components/Card';
@@ -26,7 +26,7 @@ export class BuzzScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      text: '',
+
     };
   };
 
@@ -36,6 +36,7 @@ export class BuzzScreen extends React.Component {
         userEmails: response.userEmails,
         text: '',
         anonymous: false,
+        polls: [],
       });
     });
   }
@@ -52,16 +53,121 @@ export class BuzzScreen extends React.Component {
     });
   }
 
+  _addPoll() {
+    this.props.navigation.setParams({
+      polls: ['', ''],
+    });
+  }
+
+  _addMorePoll() {
+    this.props.navigation.setParams({
+      polls: [...this.props.navigation.getParam('polls'), ''],
+    });
+  }
+
+  _removePollByIndex(index) {
+    const newPolls = this.props.navigation.getParam('polls').filter((_, i) => i !== index);
+    this.props.navigation.setParams({
+      polls: newPolls,
+    });
+  }
+
+  _removeAllPoll() {
+    this.props.navigation.setParams({
+      polls: [],
+    });
+  }
+
+  _onChangePollText(text, index) {
+    let newPolls = this.props.navigation.getParam('polls').map((pollText, pollIndex) => {
+      return pollIndex === index ? text : pollText
+    })
+    this.props.navigation.setParams({
+      polls: newPolls,
+    });
+  }
+
+  _getPollPlaceholder(index) {
+    const printIndex = index + 1;
+    return index > 1 ? 'Choice ' + printIndex + ' (Optional)': 'Choice ' + printIndex;
+  }
+
+  _getPollAction(index, length) {
+    if (index === 0 && length === 2) {
+      return (
+        <View style={styles.removePoll}>
+          <MaterialCommunityIcons
+            name="window-close"
+            size={18}
+            color='black'
+            onPress={() => this._removeAllPoll()} />
+        </View>
+      )
+    } else if (index === length - 1 && length < 4) {
+      return (
+        <View style={styles.removePoll}>
+          <Feather
+            name="plus"
+            size={18}
+            color='black'
+            onPress={() => this._addMorePoll()} />
+        </View>
+      )
+    } else {
+      return (
+        <View style={styles.removePoll}>
+          <MaterialCommunityIcons
+            name="window-close"
+            size={18}
+            color='black'
+            onPress={() => this._removePollByIndex(index)} />
+        </View>
+      )
+    }
+  }
+
+  _getPolls() {
+    const polls = this.props.navigation.getParam('polls');
+    if (!polls || polls.length === 0) return null;
+
+    return polls.map((text, index) => (
+      <View style={styles.pollContainer}>
+        <TextInput
+          placeholder={this._getPollPlaceholder(index)}
+          onChangeText={(text) => this._onChangePollText(text, index)}
+          value={text}
+          style={styles.pollText}
+          autoCorrect={false}
+          autoCapitalize='none'
+          multiline={true}
+          // only for android
+          // numberOfLines={2}
+          maxLength={25}
+          enablesReturnKeyAutomatically={true}
+        />
+        {this._getPollAction(index, polls.length)}
+      </View>
+    )
+  )}
+
   render() {
+    const inputAccessoryViewID = "inputAccessoryViewID";
+
     return (
       <View style={styles.screenContainer}>
-        <View style={styles.switchContainer}>
-          <Switch
-            style={styles.switchButton}
-            onValueChange={(value) => this._onChangeSwitch(value)}
-            value={ !this.props.navigation.getParam('anonymous') } />
-          <OpenSansLightText style={styles.switchText}>Post with alias</OpenSansLightText>
+        <View style={styles.topContainer}>
+          <View style={styles.anonymousContainer}>
+            <Switch
+              style={styles.switchButton}
+              onValueChange={(value) => this._onChangeSwitch(value)}
+              value={ !this.props.navigation.getParam('anonymous') } />
+            <OpenSansBoldText style={styles.switchText}>Post With Alias</OpenSansBoldText>
+          </View>
+          <TouchableOpacity style={[styles.pollButton, baseStyles.button]} onPress={() => this._addPoll()} >
+            <Image source={require('../assets/images/poll.png')} style={styles.pollButtonImage} />
+          </TouchableOpacity>
         </View>
+        {this._getPolls()}
         <TextInput
           placeholder={'What\'s Buzzing?'}
           onChangeText={(text) => this._onChangeText(text)}
@@ -87,20 +193,41 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
   },
-  switchContainer: {
+  topContainer: {
     padding: 10,
     flexDirection: 'row',
-    justifyContent: 'flex-start',
+  },
+  anonymousContainer: {
+    flex: 1,
+    flexDirection: 'row',
     alignItems: 'center',
-    // backgroundColor: 'green',
   },
   switchButton: {
-    // backgroundColor: 'yellow',
   },
   switchText: {
-    // backgroundColor: 'blue',
     paddingLeft: 10,
     paddingRight: 10,
+    color: colors.skyBlue,
+  },
+  pollButton: {
+  },
+  pollContainer: {
+    paddingLeft: 20,
+    paddingRight: 20,
+    paddingBottom: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  pollText: {
+    fontSize: 16,
+  },
+  removePoll: {
+    justifyContent: 'flex-end',
+    opacity: 0.2,
+  },
+  pollButtonImage: {
+    width: 18,
+    height: 18,
   },
   textInput: {
     fontFamily: 'open-sans',

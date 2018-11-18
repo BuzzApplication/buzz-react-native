@@ -29,12 +29,13 @@ export const getSearchedBuzz = (text, start=0, limit=10) => {
   return get('/user/buzz/search' + '?' + searchParams);
 }
 
-export const postBuzz = (text, companyId, userEmailId, anonymous) => {
+export const postBuzz = (text, companyId, userEmailId, anonymous, polls) => {
   const requestBody = {
     text: text,
     companyId: companyId,
     userEmailId: userEmailId,
     anonymous: anonymous,
+    polls: polls,
   }
   return post('/user/buzz', requestBody);
 }
