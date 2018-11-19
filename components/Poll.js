@@ -60,8 +60,8 @@ class Poll extends React.Component {
           yMax={120}
           svg={{ fill: '#e6e6e6' }}
           contentInset={{
-            top: 10,
-            bottom: 10,
+            top: 5,
+            bottom: 5,
           }}
           spacing={0.2}
           gridMin={0}
@@ -180,7 +180,6 @@ const styles = StyleSheet.create({
   polledTitleContainer: {
     marginLeft: 8,
     marginRight: 8,
-    paddingTop: 5,
   },
   polledTitle: {
     color: 'black',
@@ -190,7 +189,6 @@ const styles = StyleSheet.create({
     flex: 1,
     marginLeft: 8,
     marginRight: 8,
-    borderRadius: 10,
   },
 });
 
