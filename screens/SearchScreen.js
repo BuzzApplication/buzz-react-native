@@ -2,6 +2,7 @@ import React from 'react';
 import { View, StyleSheet, Image, FlatList, Platform } from 'react-native';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { SearchBar } from 'react-native-elements';
+import _ from 'lodash';
 
 import { colors } from '../constants/Colors';
 import baseStyles from '../constants/Styles';
@@ -12,7 +13,7 @@ import CardTrending from '../components/CardTrending';
 
 import { OpenSansBoldText } from '../components/StyledText'
 
-import { getTrendingBuzz, getSearchedBuzz } from "../api/buzz.js";
+import { getTrendingBuzz, getSearchedBuzz, likeBuzz, favoriteBuzz, submitPoll } from "../api/buzz.js";
 
 
 class SearchScreen extends React.Component {
@@ -32,6 +33,12 @@ class SearchScreen extends React.Component {
     }
 
     this._getTrendingBuzz = this._getTrendingBuzz.bind(this);
+    this._getSearchedBuzz = this._getSearchedBuzz.bind(this);
+    this._loadMoreSearchedBuzz = this._loadMoreSearchedBuzz.bind(this);
+    this._likeBuzz = this._likeBuzz.bind(this);
+    this._favoriteBuzz = this._favoriteBuzz.bind(this);
+    this._pollBuzz = this._pollBuzz.bind(this);
+    this._updateBuzz = this._updateBuzz.bind(this);
     this._getTrendingOrSearchedBuzz = this._getTrendingOrSearchedBuzz.bind(this);
   }
 
@@ -81,6 +88,40 @@ class SearchScreen extends React.Component {
     });
   }
 
+  _likeBuzz(buzzId, liked) {
+    likeBuzz(buzzId, !liked).then((response) => {
+      this._updateBuzz(response);
+    }).catch((e) => console.log('ERROR', e));
+  }
+
+  _favoriteBuzz(buzzId, favorited) {
+    favoriteBuzz(buzzId, !favorited).then((response) => {
+      this._updateBuzz(response);
+    }).catch((e) => console.log('ERROR', e));
+  }
+
+  _pollBuzz(pollId) {
+    submitPoll(pollId).then((response) => {
+      this._updateBuzz(response);
+    }).catch((e) => console.log('ERROR', e));
+  }
+
+  _updateBuzz(updatedBuzz) {
+    const trendingBuzzList = this.state.trendingBuzzList;
+    const updatedTrendingBuzzList = _.map(trendingBuzzList, function(buzz, index) {
+      return buzz.id === updatedBuzz.id ? updatedBuzz : buzz;
+    });
+    const searchedBuzzList = this.state.searchedBuzzList;
+    const updatedSearchedBuzzList = _.map(searchedBuzzList, function(buzz, index) {
+      return buzz.id === updatedBuzz.id ? updatedBuzz : buzz;
+    });
+
+    this.setState({
+      trendingBuzzList: updatedTrendingBuzzList,
+      searchedBuzzList: updatedSearchedBuzzList,
+    });
+  }
+
   _getTrendingOrSearchedBuzz() {
     if (this.state.searchMode) {
       return (
@@ -94,7 +135,14 @@ class SearchScreen extends React.Component {
           onEndReachedThreshold={1}
           keyExtractor={(item) => {item.id}}
           renderItem={(item) => (
-            <CardTrending data={item} navigation={this.props.navigation} style={baseStyles.bottomBorder}/>
+            <CardTrending
+              data={item}
+              navigation={this.props.navigation}
+              style={baseStyles.bottomBorder}
+              likeAction={this._likeBuzz}
+              favoriteAction={this._favoriteBuzz}
+              pollAction={this._pollBuzz}
+            />
           )}
         />
       )
@@ -113,7 +161,14 @@ class SearchScreen extends React.Component {
             data={this.state.trendingBuzzList}
             keyExtractor={(item) => {item.id}}
             renderItem={(item) => (
-              <CardTrending data={item} navigation={this.props.navigation} style={baseStyles.bottomBorder}/>
+              <CardTrending
+                data={item}
+                navigation={this.props.navigation}
+                style={baseStyles.bottomBorder}
+                likeAction={this._likeBuzz}
+                favoriteAction={this._favoriteBuzz}
+                pollAction={this._pollBuzz}
+              />
             )}
           />
         </View>
@@ -135,7 +190,7 @@ class SearchScreen extends React.Component {
           placeholder='Search Buzz...' />
         {this._getTrendingOrSearchedBuzz()}
 
-        <BuzzPlusButton />
+        <BuzzPlusButton navigation={this.props.navigation} />
       </View>
     );
   }

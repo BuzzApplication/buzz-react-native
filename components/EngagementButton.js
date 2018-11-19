@@ -60,6 +60,12 @@ export class CommentButton extends React.Component {
 }
 
 export class LikeButton extends React.Component {
+  componentWillReceiveProps(nextProps) {
+    if (nextProps !== this.props) {
+      this.setState({...this.state})
+    }
+  }
+
   render() {
     const id = this.props.id;
     const likeAction = this.props.likeAction;

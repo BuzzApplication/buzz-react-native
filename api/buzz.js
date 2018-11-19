@@ -65,3 +65,10 @@ export const favoriteBuzz = (buzzIds, favorited) => {
 export const getTrendingBuzz = () => {
   return get('/user/buzz/trending');
 }
+
+export const submitPoll = (pollId) => {
+  const requestBody = {
+    pollId: pollId,
+  }
+  return post('/user/buzz/poll', requestBody);
+}

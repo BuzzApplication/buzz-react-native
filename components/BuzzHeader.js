@@ -27,7 +27,6 @@ class BuzzHeader extends React.Component {
              this.props.navigation.getParam('anonymous'),
              filteredPolls)
       .then((response) => {
-        this.props.refetch();
         this.props.navigation.navigate('Community', {posted: true});
       })
   }

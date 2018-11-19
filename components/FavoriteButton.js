@@ -26,12 +26,8 @@ class FavoriteButton extends React.Component {
 
 const styles = StyleSheet.create({
   favoriteButtonContainer: {
-
-    // backgroundColor: colors.lightPeriwinkle,
   },
   favoriteButtonImage: {
-    // backgroundColor: colors.paleTurquoise,
-    // position: 'absolute',
     width: 20,
     height: 20,
   },

@@ -13,7 +13,7 @@ class BuzzPlusButton extends React.Component {
           activeOpacity={0.8}
           style={baseStyles.button}
           onPress={() => {
-            this.props.navigation.navigate('Buzz', {refetch: this.props.refetch})}} >
+            this.props.navigation.navigate('Buzz')}} >
           <Ionicons name="ios-add" size={90} color='white' style={styles.plusToMakeItNotTransparent} />
           <Ionicons name="ios-add-circle" size={70} color={colors.skyBlue} />
         </TouchableOpacity>
