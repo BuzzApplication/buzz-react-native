@@ -69,6 +69,7 @@ class Card extends React.Component {
       userEmailId: this.state.userEmailId,
       likeAction: this.props.likeAction,
       favoriteAction: this.props.favoriteAction,
+      pollAction: this.props.pollAction,
     });
   }
 
@@ -82,7 +83,7 @@ class Card extends React.Component {
         <TouchableOpacity style={baseStyles.button} activeOpacity={1} onPress={() => this._navigateToCardDetail(clickable)} >
           <CardTopSection timePassed={data.timePassed} favorited={data.favorited} buzzId={data.id} favoriteAction={this.props.favoriteAction} />
           <CardTextField text={data.text} />
-          <Poll data={data.polls} />
+          <Poll data={data.polls} polled={data.polled} pollAction={this.props.pollAction} />
           <EngagementDataGroup likesCount={data.likesCount} commentsCount={data.commentsCount} />
           <CardBottomSection
             likeAction={this.props.likeAction}
@@ -101,7 +102,7 @@ class Card extends React.Component {
 const styles = StyleSheet.create({
   cardContainer: {
     paddingLeft: 15,
-    paddingRight: 5,
+    paddingRight: 15,
     paddingBottom: 5,
     flexDirection: 'column',
   },

@@ -10,12 +10,21 @@ import { ShareButton, CommentButton, LikeButton } from '../components/Engagement
 
 
 class CardTrendingBottomSection extends React.Component {
+  componentWillReceiveProps(nextProps) {
+    if (nextProps !== this.props) {
+      this.setState({...this.state});
+    }
+  }
+
   render() {
     const buzzId = this.props.buzzId;
     const likesCount = this.props.likesCount;
     const commentsCount = this.props.commentsCount;
     const liked = this.props.liked;
     const favorited = this.props.favorited;
+    const likeAction = this.props.likeAction;
+    const favoriteAction = this.props.favoriteAction;
+
     return (
       <View style={styles.cardTrendingBottomSectionContainer}>
         <View style={styles.engagementDataGroup}>
@@ -23,10 +32,10 @@ class CardTrendingBottomSection extends React.Component {
           <EngagementData type='comments' count={commentsCount} styles={styles.engagementData}/>
         </View>
         <View style={styles.engagementButtonsContainer}>
-          <FavoriteButton favorited={favorited} id={buzzId} imageStyle={styles.favoriteButtonImage} />
+          <FavoriteButton favorited={favorited} id={buzzId} imageStyle={styles.favoriteButtonImage} favoriteAction={favoriteAction}/>
           <ShareButton style={styles.button} />
           <CommentButton style={styles.button} />
-          <LikeButton liked={liked} style={styles.button} id={buzzId}/>
+          <LikeButton liked={liked} style={styles.button} id={buzzId} likeAction={likeAction} />
         </View>
       </View>
     );

@@ -1,29 +1,85 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import { BarChart, Grid, YAxis } from 'react-native-svg-charts';
 import { Text, Svg, Image } from 'react-native-svg'
 import * as scale from 'd3-scale';
 import { Ionicons } from '@expo/vector-icons';
+import _ from 'lodash';
+
+import { OpenSansText, OpenSansBoldText, OpenSansLightText, OpenSansLightItalicText } from '../components/StyledText'
 
 import { colors } from '../constants/Colors';
 
+
 class Poll extends React.Component {
-  _getVoted(x, y, bandwidth, poll, index) {
-    return poll.polled ?
-      <Image
-        x={ x(2) }
-        y={ y(index) + (bandwidth / 2) }
-        width="50%"
-        height="50%"
-        preserveAspectRatio="xMidYMid slice"
-        opacity='1'
-        href={require('../assets/images/tick.png')}
-        clipPath="url(#clip)"
-      /> : null;
+  constructor(props) {
+    super(props);
+
+    this._submitPoll = this._submitPoll.bind(this);
+    this._getPoll = this._getPoll.bind(this);
+    this._getPolling = this._getPolling.bind(this);
+    this._getPolledData = this._getPolledData.bind(this);
+  }
+
+  _submitPoll(pollId) {
+    this.props.pollAction(pollId);
+  }
+
+  _getPoll(data, polled, totalPollsCount, ValueLabels, TextLabels) {
+    return polled ? this._getPolledData(data, totalPollsCount, ValueLabels, TextLabels ) : this._getPolling(data)
+  }
+
+  _getPolling(data) {
+    const pollList = data.map((poll) => {
+      return (
+        <TouchableOpacity style={styles.pollList} activeOpacity={0.7} onPress={() =>  this._submitPoll(poll.id)}>
+          <View style={styles.pollListContainer}>
+            <OpenSansBoldText style={styles.pollText}>{poll.text}</OpenSansBoldText>
+          </View>
+        </TouchableOpacity>
+      )
+    });
+    return (
+      <View style={styles.pollingContainer}>
+        {pollList}
+        <View style={styles.pollTitleContainer}>
+          <OpenSansLightItalicText style={styles.pollTitle}>Poll to see results</OpenSansLightItalicText>
+        </View>
+      </View>
+    )
+  }
+
+  _getPolledData(data, totalPollsCount, ValueLabels, TextLabels) {
+    return (
+      <View style={styles.pollContainer}>
+        <BarChart
+          style={[styles.barChart, {height: this.props.data.length * 40}]}
+          data={data}
+          horizontal={true}
+          yAccessor={({ item }) => item.percentage}
+          yMax={120}
+          svg={{ fill: '#e6e6e6' }}
+          contentInset={{
+            top: 10,
+            bottom: 10,
+          }}
+          spacing={0.2}
+          gridMin={0}
+        >
+          <ValueLabels />
+          <TextLabels />
+        </BarChart>
+        <View style={styles.polledTitleContainer}>
+          <OpenSansLightText style={styles.polledTitle}>{totalPollsCount} votes</OpenSansLightText>
+        </View>
+      </View>
+    )
   }
 
   render() {
     const data = this.props.data;
+    const polled = this.props.polled;
+    const totalPollsCount = _.sumBy(this.props.data, 'count');
     if (this.props.data.length === 0) {
       return null;
     }
@@ -69,37 +125,72 @@ class Poll extends React.Component {
       ))
     )
 
-    const height = this.props.data.length * 40;
-
     return (
-      <View style={{ flexDirection: 'row', height: height }}>
-        <BarChart
-          style={{ flex: 1, marginLeft: 8, marginRight: 8 }}
-          data={data}
-          horizontal={true}
-          yAccessor={({ item }) => item.percentage}
-          yMax={120}
-          svg={{ fill: '#e6e6e6' }}
-          contentInset={{ top: 10, bottom: 10 }}
-          spacing={0.2}
-          gridMin={0}
-        >
-          <ValueLabels />
-          <TextLabels />
-        </BarChart>
-      </View>
+      this._getPoll(data, polled, totalPollsCount, ValueLabels, TextLabels)
     );
   }
 }
 
 const styles = StyleSheet.create({
-  userNameContainer: {
-    padding: 1,
+  pollContainer: {
+    flexDirection: 'column',
+    paddingTop: 5,
   },
-  userNameText: {
-    // backgroundColor: colors.cloudyBlue,
+  pollingContainer: {
+    paddingTop: 5,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  pollListContainer: {
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: colors.skyBlue,
+    borderRadius: 10,
+    paddingBottom: 10,
+    paddingTop: 10,
+  },
+  pollList: {
+    paddingBottom: 4,
+    paddingTop: 4,
+    width: '100%',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowColor: 'black',
+    shadowOpacity: 0.3,
+  },
+  pollTitleContainer: {
+    flex: 1,
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+  },
+  pollTitle: {
+    color: colors.skyBlue,
     fontSize: 12,
-    fontWeight: "300",
+  },
+  pollText: {
+    color: colors.skyBlue,
+  },
+  polledTitleContainer: {
+    marginLeft: 8,
+    marginRight: 8,
+    paddingTop: 5,
+  },
+  polledTitle: {
+    color: 'black',
+    fontSize: 13,
+  },
+  barChart: {
+    flex: 1,
+    marginLeft: 8,
+    marginRight: 8,
+    borderRadius: 10,
   },
 });
 

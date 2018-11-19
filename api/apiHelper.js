@@ -37,7 +37,6 @@ export const post = (path, requestBody) => {
     })
     .then((response) => response.json())
     .then((responseJson) => {
-      console.log(responseJson)
       return responseJson
     })
     .catch(function(error) {
@@ -47,7 +46,6 @@ export const post = (path, requestBody) => {
 };
 
 export const postWithoutToken = (path, requestBody) => {
-  console.log('requestBody: ', requestBody);
   const url = URL + path;
   return fetch(url, {
     method: 'POST',

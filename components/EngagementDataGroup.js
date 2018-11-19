@@ -6,6 +6,12 @@ import EngagementData from '../components/EngagementData'
 
 
 class EngagementDataGroup extends React.Component {
+  componentWillReceiveProps(nextProps) {
+    if (nextProps !== this.props) {
+      this.setState({...this.state})
+    }
+  }
+  
   render() {
     const likesCount = this.props.likesCount;
     const commentsCount = this.props.commentsCount;

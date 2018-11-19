@@ -6,6 +6,11 @@ import { ShareButton, CommentButton, LikeButton } from '../components/Engagement
 
 
 class CardBottomSection extends React.Component {
+  componentWillReceiveProps(nextProps) {
+    if (nextProps !== this.props) {
+      this.setState({...this.state})
+    }
+  }
 
   render() {
     const buzzId = this.props.buzzId;
@@ -29,9 +34,9 @@ class CardBottomSection extends React.Component {
 
 const styles = StyleSheet.create({
   cardBottomSectionContainer: {
-    // backgroundColor: colors.brownGrey,
     flexDirection: 'row',
     justifyContent: 'space-between',
+    marginRight: -10,
   },
   engagementButtonsContainer: {
     flexDirection: 'row',

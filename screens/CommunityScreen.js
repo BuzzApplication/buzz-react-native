@@ -16,7 +16,7 @@ import BuzzPlusButton from '../components/BuzzPlusButton';
 import EmptyFeed from '../components/EmptyFeed';
 
 import { getUserEmail } from "../api/user.js";
-import { getBuzzList, likeBuzz, favoriteBuzz } from "../api/buzz.js";
+import { getBuzzList, likeBuzz, favoriteBuzz, submitPoll } from "../api/buzz.js";
 
 
 class CommunityScreen extends React.Component {
@@ -36,11 +36,18 @@ class CommunityScreen extends React.Component {
     this._getAllBuzz = this._getAllBuzz.bind(this);
     this._likeBuzz = this._likeBuzz.bind(this);
     this._favoriteBuzz = this._favoriteBuzz.bind(this);
+    this._pollBuzz = this._pollBuzz.bind(this);
     this._updateBuzz = this._updateBuzz.bind(this);
   }
 
   componentDidMount() {
     this._getAllBuzz();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps !== this.props) {
+      this._getAllBuzz();
+    }
   }
 
   _updateBuzz(updatedBuzz) {
@@ -61,6 +68,12 @@ class CommunityScreen extends React.Component {
 
   _favoriteBuzz(buzzId, favorited) {
     favoriteBuzz(buzzId, !favorited).then((response) => {
+      this._updateBuzz(response);
+    }).catch((e) => console.log('ERROR', e));
+  }
+
+  _pollBuzz(pollId) {
+    submitPoll(pollId).then((response) => {
       this._updateBuzz(response);
     }).catch((e) => console.log('ERROR', e));
   }
@@ -134,7 +147,9 @@ class CommunityScreen extends React.Component {
                 userEmails={this.state.userEmails}
                 navigation={this.props.navigation}
                 likeAction={this._likeBuzz}
-                favoriteAction={this._favoriteBuzz} />
+                favoriteAction={this._favoriteBuzz}
+                pollAction={this._pollBuzz}
+              />
             }}
           />
         );

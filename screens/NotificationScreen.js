@@ -27,7 +27,7 @@ class NotificationScreen extends React.Component {
             <Notification text={item.key} type={item.type} navigation={this.props.navigation} />
           )}
         />
-        <BuzzPlusButton />
+        <BuzzPlusButton navigation={this.props.navigation} />
       </View>
     );
   }

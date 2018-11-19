@@ -36,15 +36,18 @@ export class CardDetailScreen extends React.Component {
     this._likeBuzz = this._likeBuzz.bind(this);
     this._favoriteBuzz = this._favoriteBuzz.bind(this);
     this._likeComment = this._likeComment.bind(this);
+    this._pollBuzz = this._pollBuzz.bind(this);
     this._updateComment = this._updateComment.bind(this);
   }
 
   componentDidMount() {
-    this.setState({
-      userEmailId: this.props.navigation.getParam('userEmailId'),
-    });
-    const buzzId = this.props.navigation.getParam('buzzId');
-    this._getCommentList(buzzId);
+    this._getCommentList();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps !== this.props) {
+      this._getCommentList();
+    }
   }
 
   _updateComment(updatedComment) {
@@ -59,13 +62,21 @@ export class CardDetailScreen extends React.Component {
   _likeBuzz(buzzId, liked) {
     const likeAction = this.props.navigation.getParam('likeAction');
     likeAction(buzzId, liked);
-    this._getCommentList(buzzId);
+    const buzz = this.state.buzz;
+    buzz.liked = !liked;
+    this.setState({
+      buzz: buzz,
+    });
   }
 
   _favoriteBuzz(buzzId, favorited) {
     const favoriteAction = this.props.navigation.getParam('favoriteAction');
     favoriteAction(buzzId, favorited);
-    this._getCommentList(buzzId);
+    const buzz = this.state.buzz;
+    buzz.favorited = !favorited;
+    this.setState({
+      buzz: buzz,
+    });
   }
 
   _likeComment(commentId, liked, _toggleLiked) {
@@ -74,20 +85,27 @@ export class CardDetailScreen extends React.Component {
     }).catch((e) => console.log('ERROR', e));
   }
 
-  _getCommentList(buzzId) {
+  _pollBuzz(pollId) {
+    const pollAction = this.props.navigation.getParam('pollAction');
+    pollAction(pollId);
+    this._getCommentList();
+  }
+
+  _getCommentList() {
+    const buzzId = this.props.navigation.getParam('buzzId');
     getCommentList(buzzId).then((response) => {
-      const commentList = [];
-      commentList.push(response.buzz);
       this.setState({
+        userEmailId: this.props.navigation.getParam('userEmailId'),
         buzz: response.buzz,
-        commentList: commentList.concat(response.commentList),
+        commentList: response.commentList,
         isFetching: false,
         startPagination: 10,
       });
     });
   }
 
-  _loadMoreComments(buzzId) {
+  _loadMoreComments() {
+    const buzzId = this.props.navigation.getParam('buzzId');
     getCommentList(buzzId).then((responseCommentList) => {
       if (responseCommentList.length > 0) {
         this.setState({
@@ -108,21 +126,24 @@ export class CardDetailScreen extends React.Component {
           text: '',
           posted: true,
         });
-        this._getCommentList(buzzId);
+        this._getCommentList();
         Keyboard.dismiss();
       })
   }
 
+  _getBuzzAndComments() {
+    return this.state.buzz && Object.keys(this.state.buzz).length > 0 ? [this.state.buzz, ...this.state.commentList] : this.state.commentList;
+  }
+
   _getCards() {
-    const buzzId = this.props.navigation.getParam('buzzId');
 
     return (
       <FlatList
         style={{backgroundColor:'white'}}
         showsVerticalScrollIndicator={false}
         keyboardDismissMode="interactive"
-        data={this.state.commentList}
-        onRefresh={() => this._getCommentList(buzzId)}
+        data={this._getBuzzAndComments()}
+        onRefresh={() => this._getCommentList()}
         refreshing={this.state.isFetching}
         keyExtractor={(item) => {item.id}}
         // scroll to end only after posted a comment
@@ -134,13 +155,18 @@ export class CardDetailScreen extends React.Component {
           if (this.state.posted) this.flatList.scrollToEnd({animated: true})
         }}
         onEndReached={({ distanceFromEnd }) => {
-          this._loadMoreComments(buzzId);
+          this._loadMoreComments();
         }}
         onEndReachedThreshold={1}
         renderItem={(item) => (
           item.index == '0' ?
             <View >
-              <Card data={item} likeAction={this._likeBuzz} favoriteAction={this._favoriteBuzz} clickable={false}/>
+              <Card
+                data={item}
+                likeAction={this._likeBuzz}
+                favoriteAction={this._favoriteBuzz}
+                pollAction={this._pollBuzz}
+                clickable={false}/>
               <View style={[styles.lines, baseStyles.bottomBorder]} />
             </View>
           : <CommentCard data={item} likeAction={this._likeComment} navigation={this.props.navigation}/>

@@ -20,7 +20,7 @@ import { postBuzz } from "../api/buzz.js";
 
 export class BuzzScreen extends React.Component {
   static navigationOptions = ({navigation}) => ({
-    header: <BuzzHeader navigation={navigation} refetch={navigation.state.params.refetch}/>
+    header: <BuzzHeader navigation={navigation}/>
   });
 
   constructor(props) {
