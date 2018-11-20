@@ -138,7 +138,6 @@ export class BuzzScreen extends React.Component {
           value={text}
           style={styles.pollText}
           autoCorrect={false}
-          autoCapitalize='none'
           multiline={true}
           // only for android
           // numberOfLines={2}
