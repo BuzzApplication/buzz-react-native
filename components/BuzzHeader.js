@@ -81,6 +81,7 @@ class BuzzHeader extends React.Component {
               pickerStyle={styles.pickerContainer}
               itemTextStyle={styles.itemText}
               fontSize={16}
+              rippleOpacity={0}
               dropdownPosition={0}
               dropdownOffset={{top: 10, left: 0}}
               data={this._toObject(communities)}

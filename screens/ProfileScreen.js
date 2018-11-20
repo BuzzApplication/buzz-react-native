@@ -59,9 +59,19 @@ class ProfileScreen extends React.Component {
       return (
         <View style={styles.communityCardContainer} key={index}>
           <View style={styles.communityCard}>
-            <OpenSansText style={styles.communityText}>{companyName}</OpenSansText>
+            <TouchableOpacity activeOpacity={0.7} onPress={()=>{this.props.navigation.navigate('Community')}}>
+              <OpenSansText style={styles.communityText}>{companyName}</OpenSansText>
+            </TouchableOpacity>
           </View>
         </View>
+        // <View style={styles.communityCardContainer} key={index}>
+        //   <TouchableOpacity activeOpacity={0.7} onPress={()=>{this.props.navigation.navigate('Favorite')}}>
+        //     <View style={styles.communityCard}>
+        //       <OpenSansText style={styles.communityText}>{companyName}</OpenSansText>
+        //     </View>
+        //
+        //   </TouchableOpacity>
+        // </View>
       )
     });
   }
@@ -155,7 +165,7 @@ class ProfileScreen extends React.Component {
                   activeOpacity={0.8}
                   style={baseStyles.button}
                   onPress={() => this.setState({editAliasOverlay: true})} >
-                  <MaterialIcons name="edit" size={14} />
+                  <MaterialIcons color={colors.skyBlue} name="edit" size={14} />
                 </TouchableOpacity>
               </View>
               <View style={styles.aliasLegend}>
@@ -184,7 +194,7 @@ class ProfileScreen extends React.Component {
             <View style={styles.cardsSection}>
               <View style={styles.cardSection}>
                 <TouchableOpacity activeOpacity={0.7} onPress={()=>{this.props.navigation.navigate('Favorite')}}>
-                  <View style={[{backgroundColor: colors.yellow}, styles.cardContainer]}>
+                  <View style={styles.cardContainer}>
                     <View style={styles.cardImageContainer}>
                       <Image source={require('../assets/images/favorite.png')} style={styles.cardImage} />
                     </View>
@@ -193,7 +203,7 @@ class ProfileScreen extends React.Component {
                 </TouchableOpacity>
               </View>
               <View style={styles.cardSection}>
-                <View style={[{backgroundColor: colors.pink}, styles.cardContainer]}>
+                <View style={styles.cardContainer}>
                   <TouchableOpacity activeOpacity={0.7} onPress={()=>{this.props.navigation.navigate('Posted')}}>
                     <View style={styles.cardImageContainer}>
                       <Image source={require('../assets/images/pencil.png')} style={styles.cardImage} />
@@ -235,8 +245,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     zIndex: 1000,
     borderRadius: 10,
-    // borderWidth: 0.5,
-    // borderColor: 'grey',
     shadowOffset: {
       width: 0,
       height: 2,
@@ -288,7 +296,7 @@ const styles = StyleSheet.create({
     borderRadius: 42,
     // padding: 10,
     borderWidth: 5,
-    borderColor: colors.lightBlue,
+    borderColor: 'white',
     alignItems: 'center',
   },
   profileImage: {
@@ -319,24 +327,14 @@ const styles = StyleSheet.create({
   },
   communitySection: {
     flexDirection: 'column',
-    paddingTop: 20,
+    paddingTop: 10,
     paddingLeft: 15,
     paddingRight: 15,
   },
   communityContainer: {
-    padding: 5,
     paddingLeft: 10,
     paddingRight: 10,
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowRadius: 1,
-    shadowColor: 'black',
-    shadowOpacity: 0.5,
-    borderRadius: 10,
-    backgroundColor: colors.lightBlue,
-    padding: 10,
+    backgroundColor: 'white',
   },
   communityLegendContainer: {
     flexDirection: 'row',
@@ -368,12 +366,19 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   communityCard: {
-    flexDirection: 'row',
+    padding: 10,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowRadius: 1,
+    shadowColor: 'black',
+    shadowOpacity: 0.5,
+    borderRadius: 10,
+    backgroundColor: 'white',
     borderRadius: 5,
-    // backgroundColor: colors.lightBlue,
     borderColor: 'black',
     borderWidth: StyleSheet.hairlineWidth,
-    padding: 10,
   },
   communityText: {
   },
@@ -389,18 +394,19 @@ const styles = StyleSheet.create({
   },
   cardContainer: {
     padding: 5,
-    paddingLeft: 5,
-    paddingRight: 5,
     shadowOffset: {
       width: 0,
-      height: 1,
+      height: 2,
     },
     shadowRadius: 1,
     shadowColor: 'black',
     shadowOpacity: 0.5,
     borderRadius: 10,
-    padding: 10,
     flexDirection: 'column',
+    backgroundColor: 'white',
+    borderRadius: 5,
+    borderColor: 'black',
+    borderWidth: StyleSheet.hairlineWidth,
   },
   cardImageContainer: {
     padding: 10,

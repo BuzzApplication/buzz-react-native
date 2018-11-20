@@ -166,7 +166,8 @@ export class CardDetailScreen extends React.Component {
                 likeAction={this._likeBuzz}
                 favoriteAction={this._favoriteBuzz}
                 pollAction={this._pollBuzz}
-                clickable={false}/>
+                clickable={false}
+                writeComment={this.writeComment} />
               <View style={[styles.lines, baseStyles.bottomBorder]} />
             </View>
           : <CommentCard data={item} likeAction={this._likeComment} navigation={this.props.navigation}/>
@@ -192,6 +193,7 @@ export class CardDetailScreen extends React.Component {
             autoCorrect={false}
             autoCapitalize='none'
             numberOfLines={4}
+            ref={(ref)=>{this.writeComment = ref}}
           />
           <View style={styles.buttonContainer}>
             <Button title="Buzz"
