@@ -10,6 +10,7 @@ import baseStyles from '../constants/Styles';
 import StatusBarHeader from '../components/StatusBarHeader';
 import BuzzPlusButton from '../components/BuzzPlusButton';
 import CardTrending from '../components/CardTrending';
+import EmptySearch from '../components/EmptySearch';
 
 import { OpenSansBoldText } from '../components/StyledText'
 
@@ -124,28 +125,40 @@ class SearchScreen extends React.Component {
 
   _getTrendingOrSearchedBuzz() {
     if (this.state.searchMode) {
-      return (
-        <FlatList
-          showsVerticalScrollIndicator={false}
-          keyboardDismissMode="interactive"
-          data={this.state.searchedBuzzList}
-          onEndReached={({ distanceFromEnd }) => {
-            this._loadMoreSearchedBuzz();
-          }}
-          onEndReachedThreshold={1}
-          keyExtractor={(item) => {item.id}}
-          renderItem={(item) => (
-            <CardTrending
-              data={item}
-              navigation={this.props.navigation}
-              style={baseStyles.bottomBorder}
-              likeAction={this._likeBuzz}
-              favoriteAction={this._favoriteBuzz}
-              pollAction={this._pollBuzz}
-            />
-          )}
-        />
-      )
+      if (this.state.searchedBuzzList.length > 0) {
+        return (
+          <FlatList
+            showsVerticalScrollIndicator={false}
+            keyboardDismissMode="interactive"
+            data={this.state.searchedBuzzList}
+            onEndReached={({ distanceFromEnd }) => {
+              this._loadMoreSearchedBuzz();
+            }}
+            onEndReachedThreshold={1}
+            keyExtractor={(item) => {item.id}}
+            renderItem={(item) => (
+              <CardTrending
+                data={item}
+                navigation={this.props.navigation}
+                style={baseStyles.bottomBorder}
+                likeAction={this._likeBuzz}
+                favoriteAction={this._favoriteBuzz}
+                pollAction={this._pollBuzz}
+              />
+            )}
+          />
+        )
+      } else {
+        return (
+          <FlatList
+            showsVerticalScrollIndicator={false}
+            keyboardDismissMode="interactive"
+            data={[{key: 'emptyScreen'}]}
+            renderItem={(item) => <EmptySearch />}
+          />
+        )
+      }
+
     } else {
       return (
         <View>

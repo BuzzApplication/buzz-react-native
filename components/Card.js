@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Image, TouchableOpacity, Keyboard } from 'react-native';
 import _ from 'lodash';
 
 import { colors } from '../constants/Colors'
@@ -62,6 +62,7 @@ class Card extends React.Component {
 
   _navigateToCardDetail(clickable) {
     if (!clickable) {
+      this.props.writeComment.focus();
       return;
     }
     this.props.navigation.navigate('CardDetail', {

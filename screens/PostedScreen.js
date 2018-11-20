@@ -10,6 +10,7 @@ import { colors } from '../constants/Colors';
 import PostedHeader from '../components/PostedHeader';
 import BuzzPlusButton from '../components/BuzzPlusButton';
 import CardTrending from '../components/CardTrending';
+import EmptyPosted from '../components/EmptyPosted';
 
 import { OpenSansBoldText } from '../components/StyledText'
 
@@ -90,9 +91,9 @@ class PostedScreen extends React.Component {
     });
   }
 
-  render() {
-    return (
-      <View style={styles.container}>
+  _renderPostedBuzz() {
+    if (this.state.buzzList.length > 0) {
+      return (
         <FlatList
           showsVerticalScrollIndicator={false}
           keyboardDismissMode="interactive"
@@ -115,6 +116,26 @@ class PostedScreen extends React.Component {
               />
           )}
         />
+      );
+    } else {
+      return (
+        <FlatList
+          showsVerticalScrollIndicator={false}
+          keyboardDismissMode="interactive"
+          onRefresh={() => this._getPostedBuzz()}
+          refreshing={this.state.isFetching}
+          data={[{key: 'emptyScreen'}]}
+          renderItem={(item) => <EmptyPosted />}
+        />
+      );
+    }
+  }
+
+
+  render() {
+    return (
+      <View style={styles.container}>
+        {this._renderPostedBuzz()}
         <BuzzPlusButton navigation={this.props.navigation} />
       </View>
     );

@@ -49,6 +49,8 @@ export class ShareButton extends React.Component {
 
 export class CommentButton extends React.Component {
   render() {
+    console.log('this.props.navigate', this.props.navigate);
+    console.log('this.props.clickable', this.props.clickable);
     return (
       <View style={styles.engagementButtonContainer}>
         <TouchableOpacity style={baseStyles.button} onPress={() => this.props.navigate(this.props.clickable)} >

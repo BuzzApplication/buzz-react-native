@@ -23,6 +23,7 @@ class CardTrending extends React.Component {
       buzzId: this.props.data.item.id,
       userEmailId: this.props.data.item.userEmailId,
     });
+    this._navigateToCardDetail = this._navigateToCardDetail.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -31,7 +32,10 @@ class CardTrending extends React.Component {
     }
   }
 
-  _navigateToCardDetail() {
+  _navigateToCardDetail(clickable) {
+    if (!clickable) {
+      return;
+    }
     this.props.navigation.navigate('CardDetail', {
       buzzId: this.state.buzzId,
       userEmailId: this.state.userEmailId,
@@ -46,10 +50,11 @@ class CardTrending extends React.Component {
     const likeAction = this.props.likeAction;
     const favoriteAction = this.props.favoriteAction;
     const pollAction = this.props.pollAction;
+    const clickable = this.props.clickable == undefined ? true : this.props.clickable;
 
     return (
       <View style={[styles.cardContainer, this.props.style]}>
-        <TouchableOpacity style={baseStyles.button} activeOpacity={1} onPress={()=> this._navigateToCardDetail()}>
+        <TouchableOpacity style={baseStyles.button} activeOpacity={1} onPress={()=> this._navigateToCardDetail(clickable)}>
           <CardTrendingTopSection timePassed={data.timePassed} alias={data.alias} company={data.userCompany.name} />
           <CardTextField text={data.text} />
           <Poll data={data.polls} polled={data.polled} pollAction={pollAction} />
@@ -60,7 +65,9 @@ class CardTrending extends React.Component {
             favorited={data.favorited}
             buzzId={data.id}
             likesCount={data.likesCount}
-            commentsCount={data.commentsCount} />
+            commentsCount={data.commentsCount}
+            clickable={clickable}
+            navigate={this._navigateToCardDetail}/>
         </TouchableOpacity>
       </View>
     );

@@ -63,7 +63,7 @@ export class ReportScreen extends React.Component {
           <RadioForm
             radio_props={this._getReportCategories()}
             initial={0}
-            animation={true}
+            animation={false}
             buttonSize={14}
             buttonOuterSize={24}
             style={styles.radioForm}

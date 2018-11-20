@@ -164,7 +164,7 @@ class CommunityScreen extends React.Component {
             refreshing={this.state.isFetching}
             data={[{key: 'emptyScreen'}]}
             renderItem={(item) => {
-              return (<EmptyFeed/ >)
+              return (<EmptyFeed />)
             }}
           />
         );

@@ -34,7 +34,7 @@ class CardTrendingBottomSection extends React.Component {
         <View style={styles.engagementButtonsContainer}>
           <FavoriteButton favorited={favorited} id={buzzId} imageStyle={styles.favoriteButtonImage} favoriteAction={favoriteAction}/>
           <ShareButton style={styles.button} />
-          <CommentButton style={styles.button} />
+          <CommentButton style={styles.button} navigate={this.props.navigate} clickable={this.props.clickable} />
           <LikeButton liked={liked} style={styles.button} id={buzzId} likeAction={likeAction} />
         </View>
       </View>

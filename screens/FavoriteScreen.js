@@ -10,6 +10,7 @@ import { colors } from '../constants/Colors';
 import FavoriteHeader from '../components/FavoriteHeader';
 import BuzzPlusButton from '../components/BuzzPlusButton';
 import CardTrending from '../components/CardTrending';
+import EmptyFavorite from '../components/EmptyFavorite';
 
 import { OpenSansBoldText } from '../components/StyledText'
 
@@ -90,9 +91,9 @@ class FavoriteScreen extends React.Component {
     });
   }
 
-  render() {
-    return (
-      <View style={styles.container}>
+  _renderFavoriteBuzz() {
+    if (this.state.buzzList.length > 0) {
+      return (
         <FlatList
           showsVerticalScrollIndicator={false}
           keyboardDismissMode="interactive"
@@ -115,6 +116,25 @@ class FavoriteScreen extends React.Component {
               />
           )}
         />
+      );
+    } else {
+      return (
+        <FlatList
+          showsVerticalScrollIndicator={false}
+          keyboardDismissMode="interactive"
+          onRefresh={() => this._getFavoriteBuzz()}
+          refreshing={this.state.isFetching}
+          data={[{key: 'emptyScreen'}]}
+          renderItem={(item) => <EmptyFavorite />}
+        />
+      );
+    }
+  }
+
+  render() {
+    return (
+      <View style={styles.container}>
+        {this._renderFavoriteBuzz()}
         <BuzzPlusButton navigation={this.props.navigation} />
       </View>
     );

@@ -24,7 +24,7 @@ class CardBottomSection extends React.Component {
         <UserContainerVerticalAligned alias={alias} company={company} />
         <View style={styles.engagementButtonsContainer}>
           <ShareButton />
-          <CommentButton navigate={this.props.navigate} clickable={this.props.clickable}/>
+          <CommentButton navigate={this.props.navigate} clickable={this.props.clickable} />
           <LikeButton liked={liked} id={buzzId} likeAction={likeAction} />
         </View>
       </View>
