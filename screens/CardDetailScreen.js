@@ -195,12 +195,14 @@ export class CardDetailScreen extends React.Component {
             numberOfLines={4}
             ref={(ref)=>{this.writeComment = ref}}
           />
-          <View style={styles.buttonContainer}>
-            <Button title="Buzz"
-              style={styles.button}
-              color='white'
-              disabled={this.state.text == ''}
-              onPress={() => this._postComment()} />
+          <View style={styles.buttonOuterContainer}>
+            <View style={styles.buttonContainer}>
+              <Button title="Buzz"
+                style={styles.button}
+                color='white'
+                disabled={this.state.text == ''}
+                onPress={() => this._postComment()} />
+            </View>
           </View>
         </View>
         <KeyboardSpacer topSpacing={-50} />
@@ -213,9 +215,6 @@ const styles = StyleSheet.create({
   screenContainer: {
     flexDirection: 'column',
     flex: 1,
-    borderStyle: "solid",
-    borderBottomWidth: 0.2,
-    borderColor: baseStyles.grey,
   },
   lines: {
     height:0.5,
@@ -230,7 +229,10 @@ const styles = StyleSheet.create({
   textInputContainer: {
     flexDirection: 'row',
     backgroundColor: 'white',
-    padding: 5,
+    paddingLeft: 5,
+    paddingRight: 5,
+    paddingTop: 2,
+    paddingBottom: 0,
     shadowOffset: {
       width: 0,
       height: -1,
@@ -241,18 +243,23 @@ const styles = StyleSheet.create({
   textInput: {
     flex: 5,
     padding: 10,
-    paddingTop: 10,
+    paddingTop: 15,
     height: 45,
     left: 0,
     right: 0,
     backgroundColor: 'white',
+  },
+  buttonOuterContainer: {
+    paddingLeft: 3,
+    paddingRight: 3,
+    paddingTop: 5,
+    paddingBottom: 5,
   },
   buttonContainer: {
     backgroundColor: colors.skyBlue,
     borderRadius: 20,
     alignItems: 'center',
     width: 70,
-    padding: 3,
   },
 });
 

@@ -92,7 +92,7 @@ class BuzzHeader extends React.Component {
             />
           </View>
           <View style={styles.headerRight}>
-            <View style={[styles.buzzButtonContainer, baseStyles.buttonShadow]}>
+            <View style={styles.buzzButtonContainer}>
               <Button
                 title="Buzz"
                 color='white'
@@ -108,9 +108,9 @@ class BuzzHeader extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    borderStyle: "solid",
-    borderBottomWidth: 0.2,
-    borderColor: baseStyles.grey,
+    // borderStyle: "solid",
+    // borderBottomWidth: 0.2,
+    // borderColor: baseStyles.grey,
   },
   statusHeader: {
     backgroundColor: 'white',
