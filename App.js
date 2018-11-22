@@ -1,7 +1,9 @@
 import React from 'react';
-import { Platform, StatusBar, StyleSheet, View, AsyncStorage } from 'react-native';
-import { AppLoading, Asset, Font, Icon } from 'expo';
+import { Platform, StatusBar, StyleSheet, View, AsyncStorage, Image } from 'react-native';
+import { AppLoading, Asset, Font, Icon, SplashScreen } from 'expo';
 import { createRootNavigator } from './navigation/AppNavigator';
+
+import { colors } from './constants/Colors';
 
 import { isSignedIn } from './auth';
 
@@ -14,6 +16,7 @@ export default class App extends React.Component {
       signedIn: false,
       checkedSignIn: false,
       isLoadingComplete: false,
+      isAppReady: false,
     };
   }
 
@@ -26,37 +29,43 @@ export default class App extends React.Component {
   render() {
     const { checkedSignIn, signedIn } = this.state;
 
-    if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
-      return (
-        <AppLoading
-          startAsync={this._loadResourcesAsync}
-          onError={this._handleLoadingError}
-          onFinish={this._handleFinishLoading}
-        />
-      );
-    } else {
-      // If we haven't checked AsyncStorage yet, don't render anything (better ways to do this)
-      if (!checkedSignIn) {
-        return null;
-      }
+    // if (!this.state.isLoadingComplete) {
+    //   console.log('rendering isLoadingComplete')
+    //
+    //   return (
+    //     <AppLoading
+    //       startAsync={this._cacheSplashResourcesAsync}
+    //       onError={this._handleLoadingError}
+    //       onFinish={this._handleFinishLoading}
+    //     />
+    //   );
+    // }
 
-      const Layout = createRootNavigator(signedIn);
-      return <Layout />;
+    if (!this.state.isLoadingComplete || !checkedSignIn) {
+      return (
+        <View style={styles.container}>
+          {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
+          <Image
+            source={require('./assets/images/megaphone.png')}
+            onLoad={this._loadResourcesAsync}
+            style={styles.icon}
+          />
+        </View>
+      );
     }
+
+    const Layout = createRootNavigator(signedIn);
+    return <Layout />;
   }
 
-
-  //         <View style={styles.container}>
-  //           {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-  //           {navigator}
-  //         </View>
-  //
-  //     });
-  //   }
-  // }
+  _cacheSplashResourcesAsync = async () => {
+    const icon = require('./assets/images/megaphone-white.png');
+    return Asset.fromModule(icon).downloadAsync()
+  }
 
   _loadResourcesAsync = async () => {
-    return Promise.all([
+    SplashScreen.hide();
+    await Promise.all([
       Asset.loadAsync([
         require('./assets/images/robot-dev.png'),
         require('./assets/images/robot-prod.png'),
@@ -77,6 +86,7 @@ export default class App extends React.Component {
         'open-sans-extra-bold': require('./assets/fonts/OpenSans-ExtraBold.ttf'),
       }),
     ]);
+    this.setState({ isLoadingComplete: true });
   };
 
   _handleLoadingError = error => {
@@ -93,6 +103,13 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: colors.lightBlue,
+    // backgroundColor: 'white',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+  },
+  icon: {
+    height: 100,
+    width: 100,
   },
 });
