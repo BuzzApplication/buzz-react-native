@@ -58,10 +58,10 @@ export default class App extends React.Component {
     return <Layout />;
   }
 
-  _cacheSplashResourcesAsync = async () => {
-    const icon = require('./assets/images/megaphone-white.png');
-    return Asset.fromModule(icon).downloadAsync()
-  }
+  // _cacheSplashResourcesAsync = async () => {
+  //   const icon = require('./assets/images/megaphone-white.png');
+  //   return Asset.fromModule(icon).downloadAsync()
+  // }
 
   _loadResourcesAsync = async () => {
     SplashScreen.hide();

@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Text, Button, ScrollView, FlatList, TouchableOpacity, TouchableHighlight, Dimensions, List, ListItem, Image } from 'react-native';
+import { StyleSheet, View, Text, Button, ScrollView, FlatList, TouchableOpacity, TouchableHighlight, Dimensions, List, ListItem, Image, AppState } from 'react-native';
 import { ScrollableTabView, DefaultTabBar, ScrollableTabBar, } from '@valdio/react-native-scrollable-tabview';
 import { Constants } from 'expo';
 import _ from 'lodash';
@@ -28,9 +28,11 @@ class CommunityScreen extends React.Component {
     super(props);
     this.state = {
       userEmails: [],
+      companyIds: [],
       buzzListByCompanyId: [],
       isFetching: false,
       startPagination: 0,
+      appState: AppState.currentState,
     }
 
     this._getAllBuzz = this._getAllBuzz.bind(this);
@@ -38,10 +40,31 @@ class CommunityScreen extends React.Component {
     this._favoriteBuzz = this._favoriteBuzz.bind(this);
     this._pollBuzz = this._pollBuzz.bind(this);
     this._updateBuzz = this._updateBuzz.bind(this);
+    this._refreshBuzz = this._refreshBuzz.bind(this);
   }
 
   componentDidMount() {
     this._getAllBuzz();
+    this.timer = setInterval(() => this._getAllBuzz(), 30000);
+    AppState.addEventListener('change', this._handleAppStateChange);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timer);
+    this.timer = null;
+    AppState.removeEventListener('change', this._handleAppStateChange);
+  }
+
+  _handleAppStateChange = (nextAppState) => {
+    if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
+      this._getAllBuzz();
+      this.timer = setInterval(() => this._getAllBuzz(), 30000);
+    } else if (this.state.appState === 'active' && nextAppState.match(/inactive|background/)) {
+      clearInterval(this.timer);
+      this.timer = null;
+
+    }
+    this.setState({appState: nextAppState});
   }
 
   componentWillReceiveProps(nextProps) {
@@ -79,20 +102,26 @@ class CommunityScreen extends React.Component {
   }
 
   _getAllBuzz() {
-    this.setState({ isFetching: true });
     getUserEmail().then((response) => {
       const companyIds = response.userEmails.map((userEmail) => {
         return userEmail.company.id
       });
-      getBuzzList(companyIds).then((responseBuzzList) => {
-        const buzzListByCompanyId = _.keyBy(responseBuzzList, r => r.companyId);
+      this.setState({
+        userEmails: response.userEmails,
+        companyIds: companyIds,
+      });
+      this._refreshBuzz(companyIds);
+    });
+  }
 
-        this.setState({
-          buzzListByCompanyId: buzzListByCompanyId,
-          isFetching: false,
-          userEmails: response.userEmails,
-          startPagination: 10,
-        });
+  _refreshBuzz() {
+    getBuzzList(this.state.companyIds).then((responseBuzzList) => {
+      const buzzListByCompanyId = _.keyBy(responseBuzzList, r => r.companyId);
+
+      this.setState({
+        buzzListByCompanyId: buzzListByCompanyId,
+        isFetching: false,
+        startPagination: 10,
       });
     });
   }
@@ -124,7 +153,10 @@ class CommunityScreen extends React.Component {
             tabLabel={userEmail.company.name}
             style={{backgroundColor:'white'}}
             showsVerticalScrollIndicator={false}
-            onRefresh={() => this._getAllBuzz()}
+            onRefresh={() => {
+              this.setState({ isFetching: true });
+              this._refreshBuzz();
+            }}
             refreshing={this.state.isFetching}
             // scroll to top only after posted a comment
             ref={ref => this.flatList = ref}

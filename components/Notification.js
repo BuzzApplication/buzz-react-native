@@ -8,22 +8,29 @@ import { OpenSansText, OpenSansLightText, OpenSansItalicText, OpenSansLightItali
 
 
 class Notification extends React.Component {
+  _navigateToCardDetail() {
+    this.props.navigation.navigate('CardDetail', {
+      buzzId: this.props.item.itemId,
+    });
+  }
+
   render() {
+    const data = this.props.item;
 
     let notification;
-    if (this.props.type == 'COMMENT') {
+    if (data.action == 'LIKE_ACTION') {
       notification = <Image source={require('../assets/images/liked.png')} style={styles.image} />
-    } else if (this.props.type == 'LIKE'){
+    } else if (data.action == 'COMMENT_ACTION') {
       notification = <Image source={require('../assets/images/commented.png')} style={styles.image} />
     }
 
     return (
       <View style={styles.notificationContainer}>
         <View style={styles.notificationRoundedContainer}>
-          <TouchableOpacity style={baseStyles.button} onPress={()=>{this.props.navigation.navigate('CardNotificationDetail')}}>
+          <TouchableOpacity style={baseStyles.button} onPress={() => this._navigateToCardDetail()}>
             <View style={styles.row}>
               {notification}
-              <OpenSansText style={styles.text}>{this.props.text}</OpenSansText>
+              <OpenSansText style={styles.text}>{data.message}</OpenSansText>
             </View>
           </TouchableOpacity>
         </View>
