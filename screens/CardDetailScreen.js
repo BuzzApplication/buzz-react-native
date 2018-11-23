@@ -93,9 +93,10 @@ export class CardDetailScreen extends React.Component {
 
   _getCommentList() {
     const buzzId = this.props.navigation.getParam('buzzId');
+    const userEmailId = this.props.navigation.getParam('userEmailId');
     getCommentList(buzzId).then((response) => {
       this.setState({
-        userEmailId: this.props.navigation.getParam('userEmailId'),
+        userEmailId: userEmailId,
         buzz: response.buzz,
         commentList: response.commentList,
         isFetching: false,

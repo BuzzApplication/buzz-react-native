@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, FlatList } from 'react-native';
+import { StyleSheet, View, FlatList, AppState } from 'react-native';
 
 import { colors } from '../constants/Colors';
 
@@ -7,10 +7,52 @@ import NotificationHeader from '../components/NotificationHeader';
 import Notification from '../components/Notification';
 import BuzzPlusButton from '../components/BuzzPlusButton';
 
+import { getNotification } from "../api/notification.js";
+
+
 class NotificationScreen extends React.Component {
   static navigationOptions = ({navigation}) => ({
-    header: <NotificationHeader navigation={navigation}/>,
+    header: <NotificationHeader navigation={navigation} />,
   })
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      notification: [],
+      appState: AppState.currentState,
+    }
+  }
+
+  componentDidMount() {
+    this._getNotification();
+    this.timer = setInterval(() => this._getNotification(), 30000);
+    AppState.addEventListener('change', this._handleAppStateChange);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timer);
+    this.timer = null;
+    AppState.removeEventListener('change', this._handleAppStateChange);
+  }
+
+  _handleAppStateChange = (nextAppState) => {
+    if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
+      this._getNotification();
+      this.timer = setInterval(() => this._getNotification(), 30000);
+    } else if (this.state.appState === 'active' && nextAppState.match(/inactive|background/)) {
+      clearInterval(this.timer);
+      this.timer = null;
+    }
+    this.setState({appState: nextAppState});
+  }
+
+  _getNotification() {
+    getNotification().then((response) => {
+      this.setState({
+        notification: response,
+      })
+    })
+  }
 
   render() {
     return (
@@ -18,13 +60,9 @@ class NotificationScreen extends React.Component {
         <FlatList
           style={{backgroundColor:'white'}}
           showsVerticalScrollIndicator={false}
-          data={[
-            {key: '7 people commented on your Buzz \"Ini app apa ya?\"', type: 'COMMENT'},
-            {key: '5 people also liked \"Bagaimana cara menabung yg benar? kata bla bla bla bla blahhh\" Buzz', type: 'LIKE'},
-            {key: '3 people commented on your Buzz \"Ini app apa ya? Ini app apa ya?Ini app apa ya?Ini app apa ya?Ini app apa ya?Ini app apa ya?\"', type: 'COMMENT'},
-          ]}
+          data={this.state.notification}
           renderItem={({ item }) => (
-            <Notification text={item.key} type={item.type} navigation={this.props.navigation} />
+            <Notification item={item} navigation={this.props.navigation} />
           )}
         />
         <BuzzPlusButton navigation={this.props.navigation} />
