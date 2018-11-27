@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Button, Dimensions, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { Feather } from '@expo/vector-icons';
 import { HeaderBackButton } from 'react-navigation';
@@ -7,7 +7,7 @@ import { HeaderBackButton } from 'react-navigation';
 import { colors } from '../constants/Colors'
 import baseStyles from '../constants/Styles'
 
-import { OpenSansText, OpenSansLightText, OpenSansItalicText, OpenSansLightItalicText, OpenSansBoldText } from '../components/StyledText'
+import { OpenSansBoldText } from '../components/StyledText'
 
 
 class CardDetailHeader extends React.Component {

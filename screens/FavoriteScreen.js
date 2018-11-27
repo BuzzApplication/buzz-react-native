@@ -1,18 +1,13 @@
 import React from 'react';
-import { View, StyleSheet, Image, FlatList } from 'react-native';
-import { getStatusBarHeight } from 'react-native-status-bar-height';
-import { SearchBar } from 'react-native-elements';
+import { View, StyleSheet, FlatList } from 'react-native';
 import _ from 'lodash';
 
 import baseStyles from '../constants/Styles';
-import { colors } from '../constants/Colors';
 
 import FavoriteHeader from '../components/FavoriteHeader';
 import BuzzPlusButton from '../components/BuzzPlusButton';
 import CardTrending from '../components/CardTrending';
 import EmptyFavorite from '../components/EmptyFavorite';
-
-import { OpenSansBoldText } from '../components/StyledText'
 
 import { getFavoriteBuzz, likeBuzz, favoriteBuzz, submitPoll } from "../api/buzz.js";
 
@@ -104,7 +99,7 @@ class FavoriteScreen extends React.Component {
             this._loadMoreBuzz();
           }}
           onEndReachedThreshold={1}
-          keyExtractor={(item) => {item.id}}
+          keyExtractor={(item) => item.id.toString()}
           renderItem={(item) => (
               <CardTrending
                 data={item}

@@ -23,7 +23,7 @@ class BuzzHeader extends React.Component {
     const filteredPolls = this.props.navigation.getParam('polls').filter((text) => text.length > 0);
     postBuzz(this.props.navigation.getParam('text'),
              this._getCompanyId(this.state.community, communitiesByCompanyName),
-             this._getUserEmailId(this.state.community, communitiesByCompanyName),
+             this.props.navigation.getParam('userEmailId'),
              this.props.navigation.getParam('anonymous'),
              filteredPolls)
       .then((response) => {
@@ -42,26 +42,14 @@ class BuzzHeader extends React.Component {
     return communitiesByCompanyName[name].company.id;
   }
 
-  // pick the next userEmail if name is `Everyone`
-  // assuming everyone has other company than `Everyone`
-  _getUserEmailId(name, communitiesByCompanyName) {
-    if (name == 'Everyone') {
-      for(var companyName in communitiesByCompanyName) {
-        if(companyName !== name)
-          return communitiesByCompanyName[companyName].id;
-      }
-    }
-    return communitiesByCompanyName[name].id;
-  }
-
   _buzzButtonDisabled() {
-    return this.props.navigation.getParam('text') == '' ||
+    return this.props.navigation.getParam('text') === '' ||
       (this.props.navigation.getParam('polls') && this.props.navigation.getParam('polls').filter((text) => text.length > 0).length === 1);
   }
 
   render() {
     const userEmails = this.props.navigation.getParam('userEmails');
-    const communities = _.map(userEmails, 'company.name')
+    const communities = _.map(userEmails, 'company.name');
     const communitiesByCompanyName = _.keyBy(userEmails, 'company.name');
 
     return (

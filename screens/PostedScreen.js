@@ -1,18 +1,14 @@
 import React from 'react';
-import { View, StyleSheet, Image, FlatList } from 'react-native';
-import { getStatusBarHeight } from 'react-native-status-bar-height';
-import { SearchBar } from 'react-native-elements';
+import { View, StyleSheet, FlatList } from 'react-native';
 import _ from 'lodash';
 
 import baseStyles from '../constants/Styles';
-import { colors } from '../constants/Colors';
 
 import PostedHeader from '../components/PostedHeader';
 import BuzzPlusButton from '../components/BuzzPlusButton';
 import CardTrending from '../components/CardTrending';
 import EmptyPosted from '../components/EmptyPosted';
 
-import { OpenSansBoldText } from '../components/StyledText'
 
 import { getPostedBuzz, likeBuzz, favoriteBuzz, submitPoll } from "../api/buzz.js";
 
@@ -28,7 +24,7 @@ class PostedScreen extends React.Component {
       buzzList: [],
       isFetching: false,
       startPagination: 0,
-    }
+    };
 
     this._getPostedBuzz = this._getPostedBuzz.bind(this);
     this._loadMoreBuzz = this._loadMoreBuzz.bind(this);
@@ -104,7 +100,7 @@ class PostedScreen extends React.Component {
             this._loadMoreBuzz();
           }}
           onEndReachedThreshold={1}
-          keyExtractor={(item) => {item.id}}
+          keyExtractor={(item) => item.id.toString()}
           renderItem={(item) => (
               <CardTrending
                 data={item}

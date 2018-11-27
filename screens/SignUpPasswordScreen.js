@@ -34,9 +34,6 @@ export class SignUpPasswordScreen extends React.Component {
   _submitPassword() {
     if (this.state.password !== '' && this.state.passwordConfirmation !== '' &&
       this.state.password === this.state.passwordConfirmation) {
-        console.log("email: ", this.state.email)
-        console.log("password: ", this.state.password)
-        console.log("passwordConfirmation: ", this.state.passwordConfirmation)
         signUp(this.state.email, this.state.passwordConfirmation).then((response) => {
           this.props.navigation.navigate('SignUpEmailVerification',
             {'email': this.state.email,

@@ -1,6 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, Image, FlatList, Platform } from 'react-native';
-import { getStatusBarHeight } from 'react-native-status-bar-height';
+import { View, StyleSheet, Image, FlatList } from 'react-native';
 import { SearchBar } from 'react-native-elements';
 import _ from 'lodash';
 
@@ -31,7 +30,8 @@ class SearchScreen extends React.Component {
       searchedBuzzList: [],
       searchedText: '',
       startPagination: 0,
-    }
+    };
+    this.timeout =  0;
 
     this._getTrendingBuzz = this._getTrendingBuzz.bind(this);
     this._getSearchedBuzz = this._getSearchedBuzz.bind(this);
@@ -60,7 +60,7 @@ class SearchScreen extends React.Component {
   }
 
   _getSearchedBuzz(text) {
-    if (text == '') {
+    if (text === '') {
       this.setState({
         searchMode: false,
       });
@@ -68,13 +68,16 @@ class SearchScreen extends React.Component {
       this.setState({
         searchMode: true,
       });
-      getSearchedBuzz(text).then((response) => {
-        this.setState({
-          searchedText: text,
-          searchedBuzzList: response,
-          startPagination: 10,
-        });
-      });
+      if(this.timeout) clearTimeout(this.timeout);
+      this.timeout = setTimeout(() => {
+          getSearchedBuzz(text).then((response) => {
+              this.setState({
+                  searchedText: text,
+                  searchedBuzzList: response,
+                  startPagination: 10,
+              });
+          });
+      }, 300);
     }
   }
 
@@ -135,7 +138,7 @@ class SearchScreen extends React.Component {
               this._loadMoreSearchedBuzz();
             }}
             onEndReachedThreshold={1}
-            keyExtractor={(item) => {item.id}}
+            keyExtractor={(item) => item.id.toString()}
             renderItem={(item) => (
               <CardTrending
                 data={item}
@@ -172,7 +175,7 @@ class SearchScreen extends React.Component {
             onRefresh={() => this._getTrendingBuzz()}
             refreshing={this.state.isFetching}
             data={this.state.trendingBuzzList}
-            keyExtractor={(item) => {item.id}}
+            keyExtractor={(item) => item.id.toString()}
             renderItem={(item) => (
               <CardTrending
                 data={item}
@@ -195,8 +198,7 @@ class SearchScreen extends React.Component {
         <SearchBar
           lightTheme
           round
-          clearIcon
-          value={this.state.searchedText}
+          // value={this.state.searchedText}
           containerStyle={styles.searchContainer}
           inputStyle={styles.inputSearchContainer}
           onChangeText={(text) => this._getSearchedBuzz(text)}

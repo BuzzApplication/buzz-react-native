@@ -11,11 +11,6 @@ import { colors } from '../constants/Colors'
 
 import TabBarIcon from '../components/TabBarIcon';
 
-import NotificationScreen from '../screens/NotificationScreen';
-import ProfileScreen from '../screens/ProfileScreen';
-import CommunityScreen from '../screens/CommunityScreen';
-import CardDetailScreen from '../screens/CardDetailScreen';
-
 
 const HomeStack = createStackNavigator({
   Home: CardNavigator,

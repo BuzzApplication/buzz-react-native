@@ -11,6 +11,7 @@ class Notification extends React.Component {
   _navigateToCardDetail() {
     this.props.navigation.navigate('CardDetail', {
       buzzId: this.props.item.itemId,
+      userEmailId: this.props.navigation.getParam('userEmailId'),
     });
   }
 
@@ -18,9 +19,9 @@ class Notification extends React.Component {
     const data = this.props.item;
 
     let notification;
-    if (data.action == 'LIKE_ACTION') {
+    if (data.action === 'LIKE_ACTION') {
       notification = <Image source={require('../assets/images/liked.png')} style={styles.image} />
-    } else if (data.action == 'COMMENT_ACTION') {
+    } else if (data.action === 'COMMENT_ACTION') {
       notification = <Image source={require('../assets/images/commented.png')} style={styles.image} />
     }
 

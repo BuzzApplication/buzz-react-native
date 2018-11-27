@@ -1,19 +1,19 @@
 import React from 'react';
 import { StyleSheet, View, FlatList, AppState } from 'react-native';
 
-import { colors } from '../constants/Colors';
-
 import NotificationHeader from '../components/NotificationHeader';
 import Notification from '../components/Notification';
 import BuzzPlusButton from '../components/BuzzPlusButton';
 
 import { getNotification } from "../api/notification.js";
+import _ from "lodash";
+import {getUserEmail} from "../api/user";
 
 
 class NotificationScreen extends React.Component {
   static navigationOptions = ({navigation}) => ({
     header: <NotificationHeader navigation={navigation} />,
-  })
+  });
 
   constructor(props) {
     super(props);
@@ -25,6 +25,7 @@ class NotificationScreen extends React.Component {
 
   componentDidMount() {
     this._getNotification();
+    this._setUserEmailId();
     this.timer = setInterval(() => this._getNotification(), 30000);
     AppState.addEventListener('change', this._handleAppStateChange);
   }
@@ -44,7 +45,7 @@ class NotificationScreen extends React.Component {
       this.timer = null;
     }
     this.setState({appState: nextAppState});
-  }
+  };
 
   _getNotification() {
     getNotification().then((response) => {
@@ -54,6 +55,18 @@ class NotificationScreen extends React.Component {
     })
   }
 
+  _setUserEmailId() {
+    getUserEmail().then((response) => {
+      const userEmailId = this._getUserEmailId(response.userEmails);
+      this.props.navigation.setParams({userEmailId: userEmailId});
+    });
+  }
+
+  _getUserEmailId(userEmails) {
+    const userEmailsFiltered = _.filter(userEmails, function(userEmail) { return userEmail.company.id !== 1; });
+    return userEmailsFiltered[0].id;
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -61,6 +74,7 @@ class NotificationScreen extends React.Component {
           style={{backgroundColor:'white'}}
           showsVerticalScrollIndicator={false}
           data={this.state.notification}
+          keyExtractor={(item, index) => index.toString()}
           renderItem={({ item }) => (
             <Notification item={item} navigation={this.props.navigation} />
           )}
