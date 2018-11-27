@@ -1,8 +1,6 @@
 import React from 'react';
-import { StyleSheet, View, Text, Button, ScrollView , Share, FlatList, TextInput, Keyboard} from 'react-native';
+import { StyleSheet, View, Text, Button, FlatList, TextInput, Keyboard} from 'react-native';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { MenuProvider, Menu, MenuTrigger, MenuOptions, MenuOption } from 'react-native-popup-menu';
 import _ from 'lodash';
 
 import baseStyles from '../constants/Styles';
@@ -11,15 +9,16 @@ import { colors } from '../constants/Colors';
 import CardDetailHeader from '../components/CardDetailHeader';
 import Card from '../components/Card';
 import CommentCard from '../components/CommentCard';
-// import Keyboard from '../components/Keyboard';
 
 import { getCommentList, postComment, likeComment } from "../api/comment.js";
+import { favoriteBuzz, likeBuzz, submitPoll} from "../api/buzz";
+import { getUserEmail } from "../api/user";
 
 
 export class CardDetailScreen extends React.Component {
   static navigationOptions = ({navigation}) => ({
     header: <CardDetailHeader navigation={navigation} />
-  })
+  });
 
   constructor(props) {
     super(props);
@@ -31,23 +30,32 @@ export class CardDetailScreen extends React.Component {
       isFetching: false,
       posted: false,
       startPagination: 0,
-    }
+    };
 
     this._likeBuzz = this._likeBuzz.bind(this);
+    this._likeBuzzFetch = this._likeBuzzFetch.bind(this);
     this._favoriteBuzz = this._favoriteBuzz.bind(this);
+    this._favoriteBuzzFetch = this._favoriteBuzzFetch.bind(this);
     this._likeComment = this._likeComment.bind(this);
     this._pollBuzz = this._pollBuzz.bind(this);
+    this._pollBuzzFetch = this._pollBuzzFetch.bind(this);
     this._updateComment = this._updateComment.bind(this);
   }
 
   componentDidMount() {
     this._getCommentList();
+    const userEmailId = this.props.navigation.getParam('userEmailId') ?
+        this.props.navigation.getParam('userEmailId') : this._getUserEmailId();
+    this.setState({userEmailId: userEmailId});
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps !== this.props) {
       this._getCommentList();
     }
+    const userEmailId = this.props.navigation.getParam('userEmailId') ?
+        this.props.navigation.getParam('userEmailId') : this._getUserEmailId();
+    this.setState({userEmailId: userEmailId});
   }
 
   _updateComment(updatedComment) {
@@ -61,22 +69,30 @@ export class CardDetailScreen extends React.Component {
 
   _likeBuzz(buzzId, liked) {
     const likeAction = this.props.navigation.getParam('likeAction');
-    likeAction(buzzId, liked);
-    const buzz = this.state.buzz;
-    buzz.liked = !liked;
-    this.setState({
-      buzz: buzz,
-    });
+    if (likeAction) {
+      likeAction(buzzId, liked);
+        const buzz = this.state.buzz;
+        buzz.liked = !liked;
+        this.setState({
+            buzz: buzz,
+        });
+    } else {
+      this._likeBuzzFetch(buzzId, liked);
+    }
   }
 
   _favoriteBuzz(buzzId, favorited) {
     const favoriteAction = this.props.navigation.getParam('favoriteAction');
-    favoriteAction(buzzId, favorited);
-    const buzz = this.state.buzz;
-    buzz.favorited = !favorited;
-    this.setState({
-      buzz: buzz,
-    });
+    if (favoriteAction) {
+        favoriteAction(buzzId, favorited);
+        const buzz = this.state.buzz;
+        buzz.favorited = !favorited;
+        this.setState({
+            buzz: buzz,
+        });
+    } else {
+        this._favoriteBuzzFetch(buzzId, favorited);
+    }
   }
 
   _likeComment(commentId, liked, _toggleLiked) {
@@ -87,16 +103,47 @@ export class CardDetailScreen extends React.Component {
 
   _pollBuzz(pollId) {
     const pollAction = this.props.navigation.getParam('pollAction');
-    pollAction(pollId);
-    this._getCommentList();
+    if (pollAction) {
+      pollAction(pollId);
+      this._getCommentList();
+    } else {
+      this._pollBuzzFetch(pollId);
+    }
+  }
+
+  _likeBuzzFetch(buzzId, liked) {
+      likeBuzz(buzzId, !liked).then((response) => {
+          const buzz = this.state.buzz;
+          buzz.liked = !liked;
+          this.setState({
+              buzz: buzz,
+          });
+      }).catch((e) => console.log('ERROR', e));
+  }
+
+  _favoriteBuzzFetch(buzzId, favorited) {
+      favoriteBuzz(buzzId, !favorited).then((response) => {
+          const buzz = this.state.buzz;
+          buzz.favorited = !favorited;
+          this.setState({
+              buzz: buzz,
+          });
+      }).catch((e) => console.log('ERROR', e));
+  }
+
+  _pollBuzzFetch(pollId) {
+      submitPoll(pollId).then((response) => {
+          this.setState({
+              buzz: response,
+          });
+      }).catch((e) => console.log('ERROR', e));
   }
 
   _getCommentList() {
     const buzzId = this.props.navigation.getParam('buzzId');
-    const userEmailId = this.props.navigation.getParam('userEmailId');
+
     getCommentList(buzzId).then((response) => {
       this.setState({
-        userEmailId: userEmailId,
         buzz: response.buzz,
         commentList: response.commentList,
         isFetching: false,
@@ -105,10 +152,22 @@ export class CardDetailScreen extends React.Component {
     });
   }
 
+  _getUserEmailId() {
+      getUserEmail().then((response) => {
+          const userEmailId = this._getUserEmailIdHelper(response.userEmails);
+          this.setState({userEmailId: userEmailId});
+      });
+  }
+
+  _getUserEmailIdHelper() {
+      const userEmailsFiltered = _.filter(userEmails, function(userEmail) { return userEmail.company.id !== 1; });
+      return userEmailsFiltered[0].id;
+  }
+
   _loadMoreComments() {
     const buzzId = this.props.navigation.getParam('buzzId');
-    getCommentList(buzzId).then((responseCommentList) => {
-      if (responseCommentList.length > 0) {
+    getCommentList(buzzId, this.state.startPagination).then((responseCommentList) => {
+      if (responseCommentList.commentList.length > 0) {
         this.setState({
           commentList: [...this.state.commentList, ...responseCommentList.commentList],
           startPagination: this.state.startPagination + 10,
@@ -123,11 +182,12 @@ export class CardDetailScreen extends React.Component {
                 buzzId,
                 this.state.userEmailId)
       .then((response) => {
+        const commentList = [...this.state.commentList, response];
         this.setState({
           text: '',
           posted: true,
+          commentList: commentList,
         });
-        this._getCommentList();
         Keyboard.dismiss();
       })
   }
@@ -146,7 +206,7 @@ export class CardDetailScreen extends React.Component {
         data={this._getBuzzAndComments()}
         onRefresh={() => this._getCommentList()}
         refreshing={this.state.isFetching}
-        keyExtractor={(item) => {item.id}}
+        keyExtractor={(item) => item.id.toString()}
         // scroll to end only after posted a comment
         ref={ref => this.flatList = ref}
         onContentSizeChange={() => {
@@ -160,7 +220,7 @@ export class CardDetailScreen extends React.Component {
         }}
         onEndReachedThreshold={1}
         renderItem={(item) => (
-          item.index == '0' ?
+          item.index === 0 ?
             <View >
               <Card
                 data={item}
@@ -200,7 +260,7 @@ export class CardDetailScreen extends React.Component {
               <Button title="Buzz"
                 style={styles.button}
                 color='white'
-                disabled={this.state.text == ''}
+                disabled={this.state.text === ''}
                 onPress={() => this._postComment()} />
             </View>
           </View>

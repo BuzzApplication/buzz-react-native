@@ -1,15 +1,18 @@
 import React from 'react';
-import { StyleSheet, View, Text, Button, ScrollView, FlatList, TouchableOpacity, TouchableHighlight, Dimensions, List, ListItem, Image, AppState } from 'react-native';
-import { ScrollableTabView, DefaultTabBar, ScrollableTabBar, } from '@valdio/react-native-scrollable-tabview';
-import { Constants } from 'expo';
+import {
+    StyleSheet,
+    View,
+    FlatList,
+    List,
+    ListItem,
+    AppState,
+} from 'react-native';
+import { ScrollableTabView, DefaultTabBar, } from '@valdio/react-native-scrollable-tabview';
 import _ from 'lodash';
 
-import CardNavigator from '../navigation/CardNavigator';
 
-import baseStyles from '../constants/Styles';
 import { colors } from '../constants/Colors'
 
-import { OpenSansText } from '../components/StyledText'
 import StatusBarHeader from '../components/StatusBarHeader';
 import Card from '../components/Card';
 import BuzzPlusButton from '../components/BuzzPlusButton';
@@ -22,20 +25,20 @@ import { getBuzzList, likeBuzz, favoriteBuzz, submitPoll } from "../api/buzz.js"
 class CommunityScreen extends React.Component {
   static navigationOptions = {
     header: <StatusBarHeader />,
-  }
+  };
 
   constructor(props) {
     super(props);
     this.state = {
+      userEmailId: '',
       userEmails: [],
       companyIds: [],
       buzzListByCompanyId: [],
       isFetching: false,
       startPagination: 0,
       appState: AppState.currentState,
-    }
+    };
 
-    this._getAllBuzz = this._getAllBuzz.bind(this);
     this._likeBuzz = this._likeBuzz.bind(this);
     this._favoriteBuzz = this._favoriteBuzz.bind(this);
     this._pollBuzz = this._pollBuzz.bind(this);
@@ -44,8 +47,9 @@ class CommunityScreen extends React.Component {
   }
 
   componentDidMount() {
-    this._getAllBuzz();
-    this.timer = setInterval(() => this._getAllBuzz(), 30000);
+    this._setUserEmailId();
+    this._refreshBuzz();
+    this.timer = setInterval(() => this._refreshBuzz(), 30000);
     AppState.addEventListener('change', this._handleAppStateChange);
   }
 
@@ -57,19 +61,19 @@ class CommunityScreen extends React.Component {
 
   _handleAppStateChange = (nextAppState) => {
     if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
-      this._getAllBuzz();
-      this.timer = setInterval(() => this._getAllBuzz(), 30000);
+      this._refreshBuzz();
+      this.timer = setInterval(() => this._refreshBuzz(), 30000);
     } else if (this.state.appState === 'active' && nextAppState.match(/inactive|background/)) {
       clearInterval(this.timer);
       this.timer = null;
 
     }
     this.setState({appState: nextAppState});
-  }
+  };
 
   componentWillReceiveProps(nextProps) {
     if (nextProps !== this.props) {
-      this._getAllBuzz();
+      this._refreshBuzz();
     }
   }
 
@@ -101,17 +105,14 @@ class CommunityScreen extends React.Component {
     }).catch((e) => console.log('ERROR', e));
   }
 
-  _getAllBuzz() {
-    getUserEmail().then((response) => {
-      const companyIds = response.userEmails.map((userEmail) => {
-        return userEmail.company.id
+  _setUserEmailId() {
+      getUserEmail().then((response) => {
+          const companyIds = response.userEmails.map((userEmail) => userEmail.company.id);
+          this.setState({
+              userEmails: response.userEmails,
+              companyIds: companyIds,
+          });
       });
-      this.setState({
-        userEmails: response.userEmails,
-        companyIds: companyIds,
-      });
-      this._refreshBuzz(companyIds);
-    });
   }
 
   _refreshBuzz() {
@@ -171,7 +172,7 @@ class CommunityScreen extends React.Component {
             }}
             onEndReachedThreshold={1}
             data={buzzList}
-            keyExtractor={(item) => {item.id}}
+            keyExtractor={(item) => item.id.toString()}
             renderItem={(item) => {
               return <Card
                 data={item}
@@ -192,7 +193,7 @@ class CommunityScreen extends React.Component {
             tabLabel={userEmail.company.name}
             style={{backgroundColor:'white'}}
             showsVerticalScrollIndicator={false}
-            onRefresh={() => this._getAllBuzz()}
+            onRefresh={() => this._refreshBuzz()}
             refreshing={this.state.isFetching}
             data={[{key: 'emptyScreen'}]}
             renderItem={(item) => {
@@ -223,7 +224,7 @@ class CommunityScreen extends React.Component {
         >
           {this._getCommunities()}
         </ScrollableTabView>
-        <BuzzPlusButton navigation={this.props.navigation} refetch={this._getAllBuzz}/>
+        <BuzzPlusButton navigation={this.props.navigation} refetch={this._refreshBuzz()}/>
       </View>
     );
   }
