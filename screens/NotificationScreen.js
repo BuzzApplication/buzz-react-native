@@ -8,6 +8,7 @@ import BuzzPlusButton from '../components/BuzzPlusButton';
 import { getNotification } from "../api/notification.js";
 import _ from "lodash";
 import {getUserEmail} from "../api/user";
+import EmptyNotification from '../components/EmptyNotification'
 
 
 class NotificationScreen extends React.Component {
@@ -68,20 +69,35 @@ class NotificationScreen extends React.Component {
   }
 
   render() {
-    return (
-      <View style={styles.container}>
-        <FlatList
-          style={{backgroundColor:'white'}}
-          showsVerticalScrollIndicator={false}
-          data={this.state.notification}
-          keyExtractor={(item, index) => index.toString()}
-          renderItem={({ item }) => (
-            <Notification item={item} navigation={this.props.navigation} />
-          )}
-        />
-        <BuzzPlusButton navigation={this.props.navigation} />
-      </View>
-    );
+    if (this.state.notification.length > 0) {
+      return (
+        <View style={styles.container}>
+          <FlatList
+            style={{backgroundColor:'white'}}
+            showsVerticalScrollIndicator={false}
+            data={this.state.notification}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={({ item }) => (
+              <Notification item={item} navigation={this.props.navigation} />
+            )}
+          />
+          <BuzzPlusButton navigation={this.props.navigation} />
+        </View>
+      );
+    } else {
+      return (
+        <View style={styles.container}>
+          <FlatList
+            style={{backgroundColor:'white'}}
+            showsVerticalScrollIndicator={false}
+            data={[{key: 'emptyScreen'}]}
+            renderItem={(item) => {
+              return (<EmptyNotification />)
+            }}
+          />
+        </View>
+      );
+    }
   }
 }
 
