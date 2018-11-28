@@ -23,12 +23,19 @@ class BuzzHeader extends React.Component {
     const filteredPolls = this.props.navigation.getParam('polls').filter((text) => text.length > 0);
     postBuzz(this.props.navigation.getParam('text'),
              this._getCompanyId(this.state.community, communitiesByCompanyName),
-             this.props.navigation.getParam('userEmailId'),
+             this._getUserEmailId(),
              this.props.navigation.getParam('anonymous'),
              filteredPolls)
       .then((response) => {
         this.props.navigation.navigate('Community', {posted: true});
       })
+  }
+
+  _getUserEmailId() {
+    const userEmailsFiltered = _.filter(this.props.navigation.getParam('userEmails'), function(userEmail) {
+      return userEmail.company.id !== 1;
+    });
+    return userEmailsFiltered[0].id;
   }
 
   _toObject(arr) {

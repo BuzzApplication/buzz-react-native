@@ -1,21 +1,15 @@
 import React from 'react';
-import { StyleSheet, View, Text, TextInput, Switch, TouchableOpacity, Image } from 'react-native';
-import { HeaderBackButton } from 'react-navigation';
+import { StyleSheet, View, TextInput, Switch, TouchableOpacity, Image } from 'react-native';
 import { MaterialCommunityIcons, Feather } from '@expo/vector-icons';
-import ModalDropdown from 'react-native-modal-dropdown';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 
 import baseStyles from '../constants/Styles';
 import { colors } from '../constants/Colors';
 
 import { OpenSansBoldText } from '../components/StyledText';
-import CloseButton from '../components/CloseButton';
-import BuzzButton from '../components/BuzzButton';
-import Card from '../components/Card';
 import BuzzHeader from '../components/BuzzHeader';
 
 import { getUserEmail } from "../api/user.js";
-import { postBuzz } from "../api/buzz.js";
 
 
 export class BuzzScreen extends React.Component {
@@ -131,14 +125,14 @@ export class BuzzScreen extends React.Component {
     if (!polls || polls.length === 0) return null;
 
     return polls.map((text, index) => (
-      <View style={styles.pollContainer}>
+      <View style={styles.pollContainer} key={index}>
         <TextInput
           placeholder={this._getPollPlaceholder(index)}
           onChangeText={(text) => this._onChangePollText(text, index)}
-          value={text}
           style={styles.pollText}
           autoCorrect={false}
           multiline={true}
+          autoCapitalize='sentences'
           // only for android
           // numberOfLines={2}
           maxLength={25}
@@ -150,8 +144,6 @@ export class BuzzScreen extends React.Component {
   )}
 
   render() {
-    const inputAccessoryViewID = "inputAccessoryViewID";
-
     return (
       <View style={styles.screenContainer}>
         <View style={styles.topContainer}>
@@ -173,7 +165,7 @@ export class BuzzScreen extends React.Component {
           value={this.props.navigation.getParam('text')}
           style={styles.textInput}
           autoCorrect={false}
-          autoCapitalize='none'
+          autoCapitalize='sentences'
           multiline={true}
           // only for android
           // numberOfLines={2}

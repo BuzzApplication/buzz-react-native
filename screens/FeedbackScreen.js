@@ -48,7 +48,7 @@ export class FeedbackScreen extends React.Component {
           value={this.props.navigation.getParam('text')}
           style={styles.textInput}
           autoCorrect={false}
-          autoCapitalize='none'
+          autoCapitalize='sentences'
           multiline={true}
           // only for android
           // numberOfLines={2}

@@ -1,13 +1,10 @@
 import React from 'react';
-import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, TouchableOpacity } from 'react-native';
 
-import { colors } from '../constants/Colors'
 import baseStyles from '../constants/Styles'
 
-import { OpenSansText, OpenSansLightText, OpenSansItalicText, OpenSansLightItalicText } from '../components/StyledText'
 import CommentCardTopSection from '../components/CommentCardTopSection'
 import CardTextField from '../components/CardTextField'
-import EngagementData from '../components/EngagementData'
 import CommentCardBottomSection from '../components/CommentCardBottomSection'
 
 

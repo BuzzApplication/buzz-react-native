@@ -1,12 +1,10 @@
 import React from 'react';
 import { StyleSheet, View, TouchableOpacity } from 'react-native';
-import { BarChart, Grid, YAxis } from 'react-native-svg-charts';
-import { Text, Svg, Image } from 'react-native-svg'
-import * as scale from 'd3-scale';
-import { Ionicons } from '@expo/vector-icons';
+import { BarChart } from 'react-native-svg-charts';
+import { Text } from 'react-native-svg'
 import _ from 'lodash';
 
-import { OpenSansText, OpenSansBoldText, OpenSansLightText, OpenSansLightItalicText } from '../components/StyledText'
+import { OpenSansBoldText, OpenSansLightText, OpenSansLightItalicText } from '../components/StyledText'
 
 import { colors } from '../constants/Colors';
 
@@ -32,7 +30,7 @@ class Poll extends React.Component {
   _getPolling(data) {
     const pollList = data.map((poll) => {
       return (
-        <TouchableOpacity style={styles.pollList} activeOpacity={0.7} onPress={() =>  this._submitPoll(poll.id)}>
+        <TouchableOpacity style={styles.pollList} activeOpacity={0.7} onPress={() =>  this._submitPoll(poll.id)} key={poll.id}>
           <View style={styles.pollListContainer}>
             <OpenSansBoldText style={styles.pollText}>{poll.text}</OpenSansBoldText>
           </View>

@@ -4,13 +4,13 @@ import { StyleSheet, View, Image } from 'react-native';
 import { OpenSansLightText } from '../components/StyledText'
 
 
-class EmptyPosted extends React.Component {
+class EmptyNotification extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Image source={require('../assets/images/megaphone.png')} style={styles.image} />
+        <Image source={require('../assets/images/doughnut.png')} style={styles.image} />
         <View style={styles.textContainer}>
-          <OpenSansLightText style={styles.text}>Express yourself by sharing your first Buzz!</OpenSansLightText>
+          <OpenSansLightText style={styles.text}>Stay updated here</OpenSansLightText>
         </View>
       </View>
     );
@@ -40,4 +40,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default EmptyPosted;
+export default EmptyNotification;

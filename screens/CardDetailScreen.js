@@ -252,6 +252,7 @@ export class CardDetailScreen extends React.Component {
             enablesReturnKeyAutomatically = {true}
             multiline={true}
             autoCorrect={false}
+            autoCapitalize='sentences'
             numberOfLines={4}
             ref={(ref)=>{this.writeComment = ref}}
           />
