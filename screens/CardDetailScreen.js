@@ -206,7 +206,7 @@ export class CardDetailScreen extends React.Component {
         data={this._getBuzzAndComments()}
         onRefresh={() => this._getCommentList()}
         refreshing={this.state.isFetching}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item) => item.id}
         // scroll to end only after posted a comment
         ref={ref => this.flatList = ref}
         onContentSizeChange={() => {

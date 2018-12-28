@@ -76,7 +76,7 @@ class NotificationScreen extends React.Component {
             style={{backgroundColor:'white'}}
             showsVerticalScrollIndicator={false}
             data={this.state.notification}
-            keyExtractor={(item, index) => index.toString()}
+            keyExtractor={(item, index) => index}
             renderItem={({ item }) => (
               <Notification item={item} navigation={this.props.navigation} />
             )}

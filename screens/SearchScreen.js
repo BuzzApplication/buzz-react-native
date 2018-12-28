@@ -138,7 +138,7 @@ class SearchScreen extends React.Component {
               this._loadMoreSearchedBuzz();
             }}
             onEndReachedThreshold={1}
-            keyExtractor={(item) => item.id.toString()}
+            keyExtractor={(item) => item.id}
             renderItem={(item) => (
               <CardTrending
                 data={item}
@@ -175,7 +175,7 @@ class SearchScreen extends React.Component {
             onRefresh={() => this._getTrendingBuzz()}
             refreshing={this.state.isFetching}
             data={this.state.trendingBuzzList}
-            keyExtractor={(item) => item.id.toString()}
+            keyExtractor={(item) => item.id}
             renderItem={(item) => (
               <CardTrending
                 data={item}
