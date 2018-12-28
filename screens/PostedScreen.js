@@ -100,7 +100,7 @@ class PostedScreen extends React.Component {
             this._loadMoreBuzz();
           }}
           onEndReachedThreshold={1}
-          keyExtractor={(item) => item.id.toString()}
+          keyExtractor={(item) => item.id}
           renderItem={(item) => (
               <CardTrending
                 data={item}

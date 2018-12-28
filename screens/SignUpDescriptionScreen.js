@@ -42,6 +42,9 @@ export class SignUpDescriptionScreen extends React.Component {
             <OpenSansLightText style={styles.substitleText}>We promise!!</OpenSansLightText>
             <Image source={require('../assets/images/promise.png')} style={styles.substitleImage} />
           </View>
+          <View style={{flexDirection: 'row', paddingTop: 15,}}>
+            <OpenSansLightText style={styles.substitleDarkText}>Join 1000+ other professionals from companies like Gojek, Tokopedia, and many more..</OpenSansLightText>
+          </View>
         </View>
         <View style={styles.buttonContainer}>
           <TouchableOpacity activeOpacity={0.8} style={[baseStyles.buttonShadow, styles.button]} onPress={()=>{this.props.navigation.navigate('SignUpEmail')}} >
@@ -82,11 +85,17 @@ const styles = StyleSheet.create({
     height: 30,
     width: 30,
     alignItems: 'center',
+    zIndex: 1,
+  },
+  substitleDarkText: {
+    fontSize: 18,
+    color: 'black',
+    zIndex: 1,
   },
   buttonContainer: {
     paddingTop: 30,
     alignItems: 'flex-start',
-    zIndex: 1,
+    zIndex: 2,
   },
   button: {
     justifyContent: 'center',
@@ -105,6 +114,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
     bottom: 0,
     right: 0,
+    zIndex: -1,
   },
   image: {
     height: 220,

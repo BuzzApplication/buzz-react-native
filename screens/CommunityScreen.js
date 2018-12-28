@@ -172,7 +172,7 @@ class CommunityScreen extends React.Component {
             }}
             onEndReachedThreshold={1}
             data={buzzList}
-            keyExtractor={(item) => item.id.toString()}
+            keyExtractor={(item) => item.id}
             renderItem={(item) => {
               return <Card
                 data={item}
@@ -193,7 +193,9 @@ class CommunityScreen extends React.Component {
             tabLabel={userEmail.company.name}
             style={{backgroundColor:'white'}}
             showsVerticalScrollIndicator={false}
-            onRefresh={() => this._refreshBuzz()}
+            onRefresh={() => {
+              this._refreshBuzz()
+            }}
             refreshing={this.state.isFetching}
             data={[{key: 'emptyScreen'}]}
             renderItem={(item) => {
@@ -224,7 +226,7 @@ class CommunityScreen extends React.Component {
         >
           {this._getCommunities()}
         </ScrollableTabView>
-        <BuzzPlusButton navigation={this.props.navigation} refetch={this._refreshBuzz()}/>
+        <BuzzPlusButton navigation={this.props.navigation} />
       </View>
     );
   }
