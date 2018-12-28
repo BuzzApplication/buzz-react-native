@@ -137,6 +137,8 @@ class ProfileScreen extends React.Component {
                 <TextInput
                   onChangeText={(alias) => this._onChangeText(alias)}
                   value={this.state.alias}
+                  autoCapitalize='none'
+                  autoCorrect={false}
                   enablesReturnKeyAutomatically={true}
                   style={styles.editAliasTextInput}
                   onSubmitEditing={(alias) => this._updateAlias()}

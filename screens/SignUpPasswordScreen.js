@@ -56,6 +56,8 @@ export class SignUpPasswordScreen extends React.Component {
             <TextInput
               style={styles.textInput}
               secureTextEntry={true}
+              autoCapitalize='none'
+              autoCorrect={false}
               placeholder='Create a password'
               enablesReturnKeyAutomatically={true}
               onChangeText={(password) => this.setState({'password': password})}
@@ -72,6 +74,8 @@ export class SignUpPasswordScreen extends React.Component {
             <TextInput
               style={styles.textInput}
               secureTextEntry={true}
+              autoCapitalize='none'
+              autoCorrect={false}
               placeholder='Re-enter password'
               enablesReturnKeyAutomatically={true}
               onChangeText={(password) => this.setState({'passwordConfirmation': password})}

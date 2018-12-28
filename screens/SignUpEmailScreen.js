@@ -40,6 +40,8 @@ export class SignUpEmailScreen extends React.Component {
             <TextInput
               style={styles.textInput}
               placeholder='Enter work email'
+              autoCorrect={false}
+              autoCapitalize='none'
               enablesReturnKeyAutomatically={true}
               value={this.props.navigation.getParam('email')}
               onChangeText={(text) => this._onChangeText(text)}

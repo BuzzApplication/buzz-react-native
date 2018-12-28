@@ -123,6 +123,7 @@ class SignInScreen extends React.Component {
                   onChangeText={text => {
                     this.setState({email: text});
                   }}
+                  autoCorrect={false}
                   value={this.state.email} />
               </View>
             </View>
@@ -136,6 +137,8 @@ class SignInScreen extends React.Component {
                   style={styles.textInput}
                   placeholder='password'
                   secureTextEntry={true}
+                  autoCapitalize='none'
+                  autoCorrect={false}
                   onChangeText={text => {
                     this.setState({password: text});
                   }}
